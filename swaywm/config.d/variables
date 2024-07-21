@@ -1,0 +1,44 @@
+### Variables
+#
+# Logo key. Use Mod1 for Alt.
+set $mod Mod4
+# Home row direction keys, like vim
+set $left h
+set $down j
+set $up k
+set $right l
+# Your preferred terminal emulator
+set $term foot
+# Your preferred application launcher
+# Note: pass the final command to swaymsg so that the resulting window can be opened
+# on the original workspace that the command was run on.
+#set $menu dmenu_path | dmenu | xargs swaymsg exec --
+set $menu dmenu_path | $HOME/.local/bin/my_dmenu.sh | xargs swaymsg exec --
+
+#set $browser firefox
+#set $filemanager thunar
+
+# set default windows opacity
+set $opacity 0.8
+
+# set windows inner gap
+gaps inner 2
+
+# hide cursor while inactive
+seat * hide_cursor 8000
+
+# disable windows focus on mouse
+focus_follows_mouse no
+
+# Define names for default workspaces for which we configure key bindings later on.
+# We use variables to avoid repeating the names in multiple places.
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"

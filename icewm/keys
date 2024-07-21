@@ -1,0 +1,23 @@
+# Apps Launcher Keybinds
+key "Super+t" /usr/bin/lxterminal
+key "Super+f" /usr/bin/thunar
+key "Super+r" /usr/bin/rofi -show drun
+key "Super+p" $HOME/.local/bin/power_menu.sh
+key "Print" /usr/bin/flameshot gui
+
+# Workspace Keybinds
+key "Pointer_Button4"   icesh goto prev
+key "Pointer_Button5"   icesh goto next
+
+# Pipewire Audio Volume Keybinds
+key "XF86AudioLowerVolume" $HOME/.local/bin/wpctl_audio.sh down
+key "XF86AudioRaiseVolume" $HOME/.local/bin/wpctl_audio.sh up
+key "XF86AudioMute" wpctl $HOME/.local/bin/wpctl_audio.sh mute
+key "Ctrl+Shift+Down" $HOME/.local/bin/wpctl_audio.sh down
+key "Ctrl+Shift+Up" $HOME/.local/bin/wpctl_audio.sh up
+key "Ctrl+Shift+M" $HOME/.local/bin/wpctl_audio.sh mute
+key "XF86AudioMicMute" $HOME/.local/bin/wpctl_audio.sh mic
+
+# Screen Brightness Keybinds
+key "XF86KbdBrightnessUp" $HOME/.local/bin/wpctl_audio.sh up
+key "XF86KbdBrightnessDown" $HOME/.local/bin/wpctl_audio.sh down

@@ -1,0 +1,28 @@
+# open terminal
+super + t
+	xfce4-terminal
+# open rofi drun mode
+super + r
+	rofi -show drun
+# open rofi power menu mode
+super + p
+	$HOME/.local/bin/power_menu.sh
+# open flameshot screen capture
+Print
+	flameshot gui
+
+# change audio level
+XF86AudioRaiseVolume
+	$HOME/.local/bin/wpctl_audio.sh up
+XF86AudioLowerVolume
+	$HOME/.local/bin/wpctl_audio.sh down
+XF86AudioMute
+	$HOME/.local/bin/wpctl_audio.sh mute
+XF86AudioMicMute
+	$HOME/.local/bin/wpctl_audio.sh mic
+
+# change screen brightness
+XF86KbdBrightnessDown
+	$HOME/.local/bin/screen_brightness.sh down
+XF86KbdBrightnessUp
+	$HOME/.local/bin/screen_brightness.sh up

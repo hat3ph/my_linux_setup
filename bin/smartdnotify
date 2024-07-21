@@ -1,0 +1,16 @@
+#!/bin/sh
+
+# use notify-send from libnotify-bin package or dunstify from dunst package
+if command -v notify-send >&2; then
+	notification_cmd=/usr/bin/notify-send
+else
+	notification_cmd=/usr/bin/dunstify
+fi
+
+for USER_NAME in `users`
+do
+    #echo $USER_NAME
+    USER_ID=`id -u $USER_NAME`
+    #echo $USER_ID
+    sudo -u $USER_NAME DISPLAY=:0 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$USER_ID/bus $notification_cmd "S.M.A.R.T Error ($SMARTD_FAILTYPE)" "$SMARTD_MESSAGE" --icon=dialog-warning -u critical
+done

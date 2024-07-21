@@ -1,0 +1,15 @@
+#!/bin/bash
+
+file=/var/lock/smartd.lock
+day=30
+if [[ ! -f "$file" ]]; then
+        smartctl --test=short /dev/sda
+        smartctl --test=short /dev/sdb
+        #smartctl --test=short /dev/nvme0n1
+        touch $file
+else
+        if [[ $(find "$file" -mtime +$day -print) ]]; then
+        #if `find "$file" -type f -mtime +7`; then
+        rm $file
+    fi
+fi

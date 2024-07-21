@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Action
+Name[en]=Mount ISO file
+Icon=application-x-cd-image
+Profiles=profile-zero;
+
+[X-Action-Profile profile-zero]
+MimeTypes=application/x-cd-image;application/x-raw-disk-image;application/vnd.efi.iso;
+Exec=udisksctl loop-setup -f %f
+Name=Default profile

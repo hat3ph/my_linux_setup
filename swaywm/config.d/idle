@@ -1,0 +1,18 @@
+## Idle configuration
+#
+# Example configuration:
+#
+# exec swayidle -w \
+#          timeout 300 'swaylock -f -c 000000' \
+#          timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
+#          before-sleep 'swaylock -f -c 000000'
+#
+# This will lock your screen after 300 seconds of inactivity, then turn off
+# your displays after another 300 seconds, and turn your screens back on when
+# resumed. It will also lock your screen before your computer goes to sleep.
+
+# custom swayidle setup
+# credit: https://www.reddit.com/r/swaywm/comments/gx1rbf/fancy_custom_swaylock_background_image/
+exec swayidle -w \
+    timeout 300 '$HOME/.local/bin/create_lock_img.sh; swaylock -e -f -i /tmp/lockscreen.png' \
+    timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"'

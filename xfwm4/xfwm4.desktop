@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=XFWM4
+Comment=Log in using the XFWM4 window manager
+Exec=/usr/bin/xfwm4
+TryExec=/usr/bin/xfwm4
+Icon=xfwm4-default.png
+Type=Application

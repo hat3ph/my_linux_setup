@@ -1,0 +1,3 @@
+#@reboot root smartctl --test=short /dev/sda > /dev/null 2>&1
+#@reboot root smartctl --test=short /dev/sdb > /dev/null 2>&1
+@reboot root /usr/local/bin/run_smart_test > /dev/null 2>&1

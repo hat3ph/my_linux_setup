@@ -1,0 +1,77 @@
+# Refer master preferences at /usr/share/icewm/preferences
+#
+# FOCUS AND BEHAVIOR
+#
+#Splash="/usr/share/icewm/IceWM.jpg"
+SmartPlacement=1
+MenuMouseTracking=1
+SnapMove=1
+
+#
+# QUICK SWITCH
+#
+QuickSwitch=1
+
+#
+# TASK BAR
+#
+TaskBarAtTop=1
+TaskBarShowMailboxStatus=0
+TaskBarShowWorkspaces=0
+#TaskBarShowWindows=1
+#TaskBarShowAllWindows=1
+TaskBarShowTray=1
+#TaskBarUseMouseWheel=1
+TimeFormat="%R%p"
+#NetworkStatusDevice=”eth0 wlan0”
+MenuIconSize=16
+SmallIconSize=24
+LargeIconSize=32
+HugeIconSize=48
+
+#
+# MENU
+#
+ShowProgramsMenu=0
+ShowSettingsMenu=0
+ShowThemesMenu=1
+ShowWindowList=0
+ShowHelp=0
+ShowFocusModeMenu=0
+
+#
+# WORKSPACES
+#
+WorkspaceNames=" 1 ", " 2 "
+
+#
+# PATHS
+#
+IconPath=”/usr/local/share/icons:/usr/local/share/pixmaps:/usr/share/icons:/usr/share/pixmaps:$HOME/.icons:”
+
+#
+# PROGRAMS
+#
+LockCommand="xscreensaver-command -lock"
+ShutdownCommand="test -e /run/systemd/system && systemctl poweroff || sudo -n /sbin/poweroff"
+RebootCommand="test -e /run/systemd/system && systemctl reboot || sudo -n /sbin/reboot"
+
+#
+# DESKTOP BACKGROUND
+#
+#DesktopBackgroundImage="/usr/share/icewm/IceWM.jpg"
+#DesktopBackgroundScaled=1
+#DesktopBackgroundCenter=1
+
+#
+# KEYBOARD
+#
+KeySysAddressBar="Alt+Space"
+KeySysDialog="Alt+Del"
+#KeySysHideAll="Alt+Shift+F11"
+KeySysMenu="Ctrl+Esc"
+KeySysMinimizeAll="Alt+Shift+Del"
+KeyWinClose="Alt+F4"
+KeyWinFullscreen="Alt+F11"
+KeyWinMaximize="Alt+F10"
+KeyWinMinimize="Alt+F9"

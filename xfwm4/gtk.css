@@ -1,0 +1,4 @@
+/* remove round corner in xfce4-panel */
+.xfce4-panel {
+    border-radius: 0px;
+}

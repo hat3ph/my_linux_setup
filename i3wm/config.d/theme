@@ -1,0 +1,12 @@
+# Color shemes for windows 
+set $bgcolor    #523d64
+set $in-bgcolor #363636
+set $text       #ffffff
+set $u-bgcolor  #ff0000
+set $indicator  #a8a3c1
+set $in-text    #969696
+#                       border          background      text            indicator (a line which shows where the next window will be placed)     
+client.focused          $bgcolor        $bgcolor        $text           $indicator
+client.unfocused        $in-bgcolor     $in-bgcolor     $in-text        $in-bgcolor
+client.focused_inactive $in-bgcolor     $in-bgcolor     $in-text        $in-bgcolor
+client.urgent           $u-bgcolor      $u-bgcolor      $text           $u-bgcolor

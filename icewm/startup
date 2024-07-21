@@ -1,0 +1,22 @@
+#!/bin/sh
+
+# setup wallpaper using feh
+feh --bg-fill --randomize $HOME/Pictures/wallpapers/* &
+
+# enable XDG autostart
+/usr/bin/dex -a &
+
+# enable xscreensaver and lock screen
+/usr/bin/sleep 1 && /usr/bin/xscreensaver -nosplash &
+
+# start pulseaudio audio GUI tray
+/usr/bin/sleep 1 && /usr/bin/pnmixer &
+
+# start nm-applet
+/usr/bin/sleep 1 && /usr/bin/nm-applet &
+
+# start battery applet
+/usr/bin/cbatticon -u 20 &
+
+# start thunar in daemon mode
+/usr/bin/thunar --daemon

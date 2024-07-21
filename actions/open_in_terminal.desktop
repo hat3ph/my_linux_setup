@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Action
+Name=Open in terminal
+Icon=utilities-terminal
+Profiles=profile-zero;
+
+[X-Action-Profile profile-zero]
+Exec=qterminal -w %f
+Name=Default profile

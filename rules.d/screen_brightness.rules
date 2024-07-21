@@ -1,0 +1,2 @@
+ACTION=="change", SUBSYSTEM=="power_supply", ATTR{online}=="1", RUN+="/usr/local/bin/battery.sh up"
+ACTION=="change", SUBSYSTEM=="power_supply", ATTR{online}=="0", RUN+="/usr/local/bin/battery.sh down"

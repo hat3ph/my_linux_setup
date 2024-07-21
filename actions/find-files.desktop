@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Action
+Name[en]=Find Files
+Profiles=profile-zero
+Icon=file
+
+[X-Action-Profile profile-zero]
+MimeTypes=inode/directory
+Exec=pcmanfm-qt --find-files %f
+Name[en]=Default Profile

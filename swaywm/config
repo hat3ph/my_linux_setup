@@ -1,0 +1,18 @@
+# Default config for sway
+#
+# Copy this to ~/.config/sway/config and edit it to your liking.
+#
+# Read `man 5 sway` for a complete reference.
+
+#include $HOME/.config/sway/config-vars.d/*  
+#include $HOME/.config/sway/config.d/*
+                                                                                                     
+include $HOME/.config/sway/config.d/variables
+include $HOME/.config/sway/config.d/theme
+include $HOME/.config/sway/config.d/output
+include $HOME/.config/sway/config.d/input
+include $HOME/.config/sway/config.d/keybindings*
+include $HOME/.config/sway/config.d/idle
+include $HOME/.config/sway/config.d/statusbar
+include $HOME/.config/sway/config.d/autostart
+include $HOME/.config/sway/config.d/applications
