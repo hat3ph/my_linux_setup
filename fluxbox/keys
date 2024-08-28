@@ -70,6 +70,8 @@ Mod1 F :Exec thunar
 Mod1 W :Exec firefox-esr
 # open flameshot screen capture
 Print :Exec flameshot gui
+# open RootMenu
+Mod1 M :RootMenu
 # restart fluxbox 
 Mod1 K :Restart
 
