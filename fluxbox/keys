@@ -162,3 +162,24 @@ Control Mod4 F9 :TakeToWorkspace 9
 Control Mod4 F10 :TakeToWorkspace 10
 Control Mod4 F11 :TakeToWorkspace 11
 Control Mod4 F12 :TakeToWorkspace 12
+
+### BASIC TILING WINDOWS ###
+# https://forum.mxlinux.org/viewtopic.php?t=55779
+# Make active window 1/2 of the screen
+Control Shift Left :MacroCmd {ResizeTo 50% 100%} {MoveTo 00 00 Left}
+Control Shift Right :MacroCmd {ResizeTo 50% 100%} {MoveTo 00 00 Right}
+Control Shift Up :MacroCmd {ResizeTo 100% 50%} {MoveTo 00 00 Up}
+Control Shift Down :MacroCmd {ResizeTo 100% 50%} {MoveTo 00 00 Bottom}
+# Make active window 1/4 of the screen on the upper left
+Mod4 Mod1 1 :MacroCmd {ResizeTo 50% 50%} {MoveTo 00 00 Up}
+Mod4 Mod1 2 :MacroCmd {ResizeTo 50% 50%} {MoveTo 00 00 TopRight}
+Mod4 Mod1 3 :MacroCmd {ResizeTo 50% 50%} {MoveTo 00 00 BottomLeft}
+Mod4 Mod1 4 :MacroCmd {ResizeTo 50% 50%} {MoveTo 00 00 BottomRight}
+# toggle active window: Maximized/ last size
+Mod4 Mod1 M :ToggleCmd {Maximize} {Restore}
+# arrange/tile windows
+Mod4 Home :ArrangeWindowsVertical (workspace=[current]) (iconhidden=no)
+Mod4 End  :ArrangeWindowsHorizontal (workspace=[current]) (iconhidden=no)
+# Use CTRL and mouse to move windows to tile
+Control Mouse1 :MacroCmd {ResizeTo 50% 100%} {MoveTo 00 00 Left}
+Control Mouse3 :MacroCmd {ResizeTo 50% 100%} {MoveTo 00 00 Right}

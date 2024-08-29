@@ -38,7 +38,7 @@ install () {
 		sudo apt-get update && sudo apt-get upgrade -y
 		sudo apt-get install fluxbox xorg xinit x11-utils rsyslog logrotate lxterminal lxappearance papirus-icon-theme \
 			xdg-utils xdg-user-dirs policykit-1 dunst nano less software-properties-gtk xscreensaver rofi \
-			policykit-1-gnome dex gpicview geany gv flameshot feh -y
+			policykit-1-gnome dex gpicview geany gv flameshot feh fonts-noto-cjk -y
 		echo "startfluxbox" > $HOME/.xinitrc
 		run_dunstrc
 		
