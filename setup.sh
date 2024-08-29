@@ -21,14 +21,25 @@ swapfile=no # set yes to enable swapfile
 ytdlp=yes # set yes to install yt-dlp
 
 function run_dunstrc() {
+	# install dunst
+	sudo apt-get update && sudo apt-get upgrade -y
+ 	sudo apt-get install dunst -y
 	# customize dunst config
   	mkdir -p $HOME/.config/dunst
   	if [[ -f $HOME/.config/dunst/dunstrc ]]; then 
 		cp $HOME/.bashrc $HOME/.bashrc_`date +%Y_%d_%m_%H_%M_%S`
 	fi
-    cp -r /etc/xdg/dunst $HOME/.config/
-    sed -i 's/Adwaita/"Adwaita, Papirus"/g' $HOME/.config/dunst/dunstrc
-    sed -i 's/32/22/g' $HOME/.config/dunst/dunstrc
+    	cp -r /etc/xdg/dunst $HOME/.config/
+    	sed -i 's/Adwaita/"Adwaita, Papirus"/g' $HOME/.config/dunst/dunstrc
+    	sed -i 's/32/22/g' $HOME/.config/dunst/dunstrc
+}
+
+function instal_apps() {
+	# install standard apps
+	sudo apt-get update && sudo apt-get upgrade -y
+ 	sudo apt-get install papirus-icon-theme adwaita-icon-theme xdg-utils xdg-user-dirs policykit-1 policykit-1-gnome \
+  		software-properties-gtk rsyslog logrotate nano less curl wget iputils-ping fonts-noto-color-emoji fonts-noto-cjk \
+   		fonts-font-awesome gpicview gv geany unzip -y
 }
 
 install () {
@@ -36,11 +47,10 @@ install () {
 	fluxbox)
 		# install fluxbox and other packages
 		sudo apt-get update && sudo apt-get upgrade -y
-		sudo apt-get install fluxbox xorg xinit x11-utils rsyslog logrotate lxterminal lxappearance papirus-icon-theme \
-			xdg-utils xdg-user-dirs policykit-1 dunst nano less software-properties-gtk xscreensaver rofi \
-			policykit-1-gnome dex gpicview geany gv flameshot feh fonts-noto-cjk -y
+		sudo apt-get install fluxbox xorg xinit x11-utils lxterminal lxappearance xscreensaver rofi dex flameshot feh -y
 		echo "startfluxbox" > $HOME/.xinitrc
 		run_dunstrc
+  		instal_apps
 		
 		if [[ -d $HOME/.fluxbox ]]; then mv $HOME/.fluxbox $HOME/.fluxbox_`date +%Y_%d_%m_%H_%M_%S`; fi
 		mkdir -p $HOME/.fluxbox
@@ -55,11 +65,10 @@ install () {
 	icewm)
 		# install icewm and other packages
 		sudo apt-get update && sudo apt-get upgrade -y
-		sudo apt-get install icewm xorg xinit x11-utils rsyslog logrotate lxterminal lxappearance papirus-icon-theme \
-			xdg-utils xdg-user-dirs policykit-1 unst nano less software-properties-gtk xscreensaver rofi \
-			policykit-1-gnome dex gpicview geany gv flameshot feh -y
+		sudo apt-get install icewm xorg xinit x11-utils lxterminal lxappearance xscreensaver rofi dex flameshot feh -y
 		echo "icewm-session" > $HOME/.xinitrc
 		run_dunstrc
+  		instal_apps
 		
 		# install icewm custom config
 		if [[ -d $HOME/.icewm ]]; then mv $HOME/.icewm $HOME/.icewm_`date +%Y_%d_%m_%H_%M_%S`; fi
@@ -92,11 +101,9 @@ install () {
 	i3wm)
 		# install i3wm and other packages
 		sudo apt-get update && sudo apt-get upgrade -y
-		sudo apt-get install i3 suckless-tools xorg xinit x11-utils rsyslog logrotate lxterminal feh lxappearance \
-			papirus-icon-theme fonts-font-awesome fonts-noto-color-emoji xdg-utils xdg-user-dirs policykit-1 \
-			dunst nano less iputils-ping software-properties-gtk policykit-1-gnome dex rofi \
-			gpicview geany gv flameshot curl -y
-		run_dunstrc	
+		sudo apt-get install i3 suckless-tools xorg xinit x11-utils lxterminal feh lxappearance dex rofi flameshot -y
+		run_dunstrc
+  		instal_apps
 		
 		# custom i3wm config
 		if [[ -d $HOME/.config/i3 ]]; then mv $HOME/.config/i3 $HOME/.config/i3_`date +%Y_%d_%m_%H_%M_%S`; fi
@@ -106,15 +113,15 @@ install () {
 	xfwm4)
 		# install xfwm4 and other packages
 		sudo apt-get update && sudo apt-get upgrade -y
-		sudo apt-get install xorg xinit xfce4-terminal xfwm4 xfce4-panel sxhkd feh xscreensaver \
-			lxappearance papirus-icon-theme xdg-utils xdg-user-dirs policykit-1 dunst nano \
-			less software-properties-gtk policykit-1-gnome dex gpicview geany gv flameshot unzip -y
+		sudo apt-get install xorg xinit xfce4-terminal xfwm4 xfce4-panel sxhkd feh xscreensaver lxappearance dex flameshot -y
 		echo "exec xfwm4" > $HOME/.xinitrc
-        cp ./xfwm4/xsessionrc $HOME/.xsessionrc
+        	cp ./xfwm4/xsessionrc $HOME/.xsessionrc
+	 	run_dunstrc
+   		instal_apps
         
-        # insall dracula xfce4-terminal theme
-    	mkdir -p $HOME/.local/share/xfce4/terminal/colorschemes
-      	git clone https://github.com/dracula/xfce4-terminal.git /tmp/xfce4-terminal
+        	# insall dracula xfce4-terminal theme
+    		mkdir -p $HOME/.local/share/xfce4/terminal/colorschemes
+      		git clone https://github.com/dracula/xfce4-terminal.git /tmp/xfce4-terminal
 		cp /tmp/xfce4-terminal/Dracula.theme $HOME/.local/share/xfce4/terminal/colorschemes
 		
 		# copy xfce4-panel config
@@ -138,9 +145,8 @@ install () {
 		# install swaywm and packages
 		sudo apt-get update && sudo apt-get upgrade -y
 		sudo apt-get install sway swaybg swayidle swaylock xdg-desktop-portal-wlr xwayland foot suckless-tools \
-			fonts-noto-color-emoji fonts-font-awesome mako-notifier libnotify-bin grim imagemagick nano less \
-			iputils-ping adwaita-icon-theme papirus-icon-theme qt5ct lxappearance grimshot xdg-utils \
-			curl xdg-user-dirs qtwayland5 gpicview gv geany rsyslog logrotate -y
+			mako-notifier libnotify-bin grim imagemagick grimshot qt5ct lxappearance qtwayland5 -y
+   		instal_apps
 			
 		# copy my swaywm and mako configuration
 		if [[ -d $HOME/.config/sway ]]; then mv $HOME/.config/sway $HOME/.config/sway_`date +%Y_%d_%m_%H_%M_%S`; fi
@@ -176,7 +182,7 @@ install () {
 		rm $HOME/.local/share/file-manager/actions/open_in_terminal.desktop
 		
 		# install openbox themes
-      	mkdir -p $HOME/.local/share/themes
+      		mkdir -p $HOME/.local/share/themes
 		#git clone https://github.com/dracula/openbox /tmp/openbox
   		git clone https://github.com/terroo/openbox-themes /tmp/openbox-themes
   		cp -r /tmp/openbox-themes/* $HOME/.local/share/themes/
@@ -189,8 +195,8 @@ install () {
 	
 	# install yt-dlp
 	if [[ $ytdlp == "yes" ]]; then
-    	mkdir -p $HOME/.local/bin
-    	wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -O $HOME/.local/bin/yt-dlp
+    		mkdir -p $HOME/.local/bin
+    		wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -O $HOME/.local/bin/yt-dlp
 		chmod a+rx $HOME/.local/bin/yt-dlp
 	fi
 	
@@ -202,30 +208,30 @@ install () {
 	# install qemu and virt-manager
  	if [[ $qemu == "yes" ]]; then
   		sudo apt-get install qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils virt-manager -y
-    fi
+    	fi
 	
 	# install wine and lutris
  	if [[ $gaming == "yes" ]]; then
   		sudo apt-get install wine64 -y
-    	sudo apt-get update
-      	sudo apt-get install python3-lxml python3-setproctitle python3-magic gir1.2-webkit2-4.1 cabextract \
+    		sudo apt-get update
+      		sudo apt-get install python3-lxml python3-setproctitle python3-magic gir1.2-webkit2-4.1 cabextract \
 			fluid-soundfont-gs vulkan-tools python3-protobuf python3-evdev fluidsynth gamemode -y
 		wget -P /tmp https://github.com/lutris/lutris/releases/download/v0.5.17/lutris_0.5.17_all.deb
    		sudo dpkg -i /tmp/lutris*.deb
 
 		# install MangoHud
   		wget -P /tmp https://github.com/flightlessmango/MangoHud/releases/download/v0.7.1/MangoHud-0.7.1.tar.gz
-    	tar -zxvf /tmp/MangoHud*.tar.gz -C /tmp
+    		tar -zxvf /tmp/MangoHud*.tar.gz -C /tmp
 	 	(cd /tmp/MangoHud && ./mangohud-setup.sh install)
    
    		# download winetrick https://wiki.winehq.org/Winetricks
-     	#mkdir -p $HOME/.local/bin
+     		#mkdir -p $HOME/.local/bin
 	 	#wget -P /tmp https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks
    		#cp /tmp/winetricks $HOME/.local/bin/
-     	#chmod +x $HOME/.local/bin/winetricks
+     		#chmod +x $HOME/.local/bin/winetricks
 	fi
     
-    # install and configure smartd to monitor disks
+    	# install and configure smartd to monitor disks
 	if [[ $smartd == "yes" ]]; then
 		# edit /etc/smartd.conf with DEVICESCAN -a -o on -S on -n standby,q -W 4,50,55 -m @smartdnotify -M daily
 		sudo apt-get install smartmontools -y
@@ -304,19 +310,19 @@ install () {
 
 		# install dracula themes
   		mkdir -p $HOME/.icons
-    	wget -P /tmp https://github.com/dracula/gtk/releases/download/v4.0.0/Dracula-cursors.tar.xz
-      	tar -xvf /tmp/Dracula-cursors.tar.xz -C $HOME/.icons
+    		wget -P /tmp https://github.com/dracula/gtk/releases/download/v4.0.0/Dracula-cursors.tar.xz
+      		tar -xvf /tmp/Dracula-cursors.tar.xz -C $HOME/.icons
 
 		mkdir -p $HOME/.themes
 		wget -P /tmp https://github.com/dracula/gtk/releases/download/v4.0.0/Dracula.tar.xz
   		tar -xvf /tmp/Dracula.tar.xz -C $HOME/.themes
   		
   		# install Nordic GTK theme
-      	mkdir -p $HOME/.local/share/themes
+      		mkdir -p $HOME/.local/share/themes
 		wget -P /tmp https://github.com/EliverLara/Nordic/releases/download/v2.2.0/Nordic.tar.xz
   		tar -xf /tmp/Nordic.tar.xz -C $HOME/.local/share/themes
   		wget -P /tmp https://github.com/EliverLara/Nordic/releases/download/v2.2.0/Nordic-darker.tar.xz
-    	tar -xf /tmp/Nordic-darker.tar.xz -C $HOME/.local/share/themes
+    		tar -xf /tmp/Nordic-darker.tar.xz -C $HOME/.local/share/themes
 	fi
 	
 	# configure nano with line number
