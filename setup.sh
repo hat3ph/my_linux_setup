@@ -260,7 +260,7 @@ install () {
 		# custom gtk2 and gtk3 themes
 		mkdir -p $HOME/.config/gtk-3.0
 		cp ./config/gtk2 $HOME/.gtkrc-2.0
-		sed -i "s/administrator/"$USER"/g" $HOME/.gtkrc-2.0
+		#sed -i "s/administrator/"$USER"/g" $HOME/.gtkrc-2.0
 		cp ./config/gtk3 $HOME/.config/gtk-3.0/settings.ini
 
 		# copy wallpapers
