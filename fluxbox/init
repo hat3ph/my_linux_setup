@@ -39,7 +39,7 @@ session.screen0.workspaceNames:	1,2,
 session.screen0.rowPlacementDirection:	LeftToRight
 session.screen0.colPlacementDirection:	TopToBottom
 session.screen0.focusModel:	ClickFocus
-session.screen0.windowMenu:	/home/administrator/.fluxbox/windowmenu
+session.screen0.windowMenu:	~/.fluxbox/windowmenu
 session.screen0.defaultDeco:	NORMAL
 session.screen0.maxDisableResize:	false
 session.screen0.fullMaximization:	false
@@ -60,7 +60,7 @@ session.screen0.windowPlacement:	RowMinOverlapPlacement
 session.menuSearch:	itemstart
 session.doubleClickInterval:	250
 session.forcePseudoTransparency:	false
-session.appsFile:	/home/administrator/.fluxbox/apps
+session.appsFile:	~/.fluxbox/apps
 session.menuFile:	~/.fluxbox/menu
 session.cacheLife:	5
 session.styleFile:	/usr/share/fluxbox/styles/bora_black
@@ -68,9 +68,9 @@ session.keyFile:	~/.fluxbox/keys
 session.ignoreBorder:	false
 session.colorsPerChannel:	4
 session.tabsAttachArea:	Window
-session.styleOverlay:	/home/administrator/.fluxbox/overlay
+session.styleOverlay:	~/.fluxbox/overlay
 session.cacheMax:	200
 session.configVersion:	13
 session.tabPadding:	0
-session.slitlistFile:	/home/administrator/.fluxbox/slitlist
+session.slitlistFile:	~/.fluxbox/slitlist
 session.autoRaiseDelay:	250

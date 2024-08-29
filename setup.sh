@@ -45,8 +45,8 @@ install () {
 		if [[ -d $HOME/.fluxbox ]]; then mv $HOME/.fluxbox $HOME/.fluxbox_`date +%Y_%d_%m_%H_%M_%S`; fi
 		mkdir -p $HOME/.fluxbox
 		cp -r ./fluxbox/* $HOME/.fluxbox/
-		sed -i 's/administrator/$USER/g' $HOME/.fluxbox/init
-		sed -i 's/administrator/$USER/g' $HOME/.fluxbox/startup
+		#sed -i 's/administrator/$USER/g' $HOME/.fluxbox/init
+		#sed -i 's/administrator/$USER/g' $HOME/.fluxbox/startup
 		
 		# install extra fluxbox styles
 		mkdir -p $HOME/.fluxbox/styles

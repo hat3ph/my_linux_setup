@@ -1,2 +1,19 @@
 ! The following line will prevent styles from setting the background.
-background: none
+! background: none
+
+! set wallpapers
+background: fullscreen  # or centered|tile
+background.pixmap: ~/Pictures/wallpapers/cat.jpg
+
+! fonts settings
+menu.title.font: sans-12:bold
+menu.frame.font: sans-12:bold
+toolbar.clock.font: sans-12:bold
+toolbar.workspace.font: sans-12:bold
+toolbar.iconbar.focused.font: sans-10:bold
+toolbar.iconbar.unfocused.font: sans-10
+window.font: sans-12
+
+! height settings
+toolbar.height: 25
+window.title.height: 25
