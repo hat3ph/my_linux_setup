@@ -39,7 +39,7 @@ function instal_apps() {
 	sudo apt-get update && sudo apt-get upgrade -y
  	sudo apt-get install papirus-icon-theme adwaita-icon-theme xdg-utils xdg-user-dirs policykit-1 policykit-1-gnome \
   		software-properties-gtk rsyslog logrotate nano less curl wget iputils-ping fonts-noto-color-emoji fonts-noto-cjk \
-   		fonts-font-awesome gpicview gv geany unzip -y
+   		fonts-font-awesome gpicview gv geany unzip rar -y
 }
 
 install () {
