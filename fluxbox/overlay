@@ -2,7 +2,7 @@
 ! background: none
 
 ! set wallpapers
-background: fullscreen  # or centered|tile
+background: fullscreen
 background.pixmap: ~/Pictures/wallpapers/cat.jpg
 
 ! fonts settings
