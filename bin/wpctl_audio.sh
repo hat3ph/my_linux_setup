@@ -19,12 +19,12 @@ case $1 in
 up)
 	# increase audio level and send notification
 	wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ $audio_level%+
-	send_notification $1
+	send_notification
 	;;
 down)
 	# decrease audio level and send notification
 	wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ $audio_level%-
-	send_notification $1
+	send_notification
 	;;
 mute)
 	# toggle audio to mute or unmute
@@ -33,7 +33,7 @@ mute)
 	if [[ -n $(wpctl get-volume @DEFAULT_AUDIO_SINK@ | cut -d ' ' -f 3 | sed 's/^.//;s/.$//') ]]; then
 		$notification_cmd -t $notification_interval -i audio-volume-muted "Audio Muted"
 	else
-		send_notification up
+		send_notification
 	fi
 	;;
 mic)
