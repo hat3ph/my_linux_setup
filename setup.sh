@@ -447,7 +447,7 @@ install () {
     fi	
 	
 	# copy all executable files
-	mkdir $HOME/.local/bin
+	mkdir -p $HOME/.local/bin
 	cp ./bin/* $HOME/.local/bin
 	chmod +x $HOME/.local/bin/*
 }
@@ -457,7 +457,6 @@ printf "Start installation!!!!!!!!!!!\n"
 printf "88888888888888888888888888888\n"
 printf "My WM Install           : $wm\n"
 printf "Firefox as DEB packages : $firefox_deb\n"
-printf "Extra fluxbox styles    : $fluxbox_styles\n"
 printf "Pipewire Audio          : $audio\n"
 printf "Thunar File Manager     : $thunar\n"
 printf "Custom theming          : $theming\n"
