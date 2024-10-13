@@ -5,7 +5,7 @@ Icon=package-x-generic
 Profiles=profile-zero;
 
 [X-Action-Profile profile-zero]
-MimeTypes=application/x-tar;application/x-compressed-tar;
+MimeTypes=application/x-tar;application/x-compressed-tar;application/x-xz-compressed-tar;
 Exec=lxqt-archiver --extract-to %d %U
 Name[en]=Default profile
 SelectionCount==1
