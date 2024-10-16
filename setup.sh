@@ -36,7 +36,7 @@ firefox_deb=$(prompt_yes_no "Install Firefox using the deb package?" "yes")
 theming=$(prompt_yes_no "Install custom theming?" "yes")
 audio=$(prompt_yes_no "Use PipeWire audio server?" "yes")
 thunar=$(prompt_yes_no "Install Thunar file manager?" "yes")
-login_mgr=$(prompt_yes_no "Install SDDM or lxdm login manager?" "yes")
+login_mgr=$(prompt_yes_no "Install SDDM or lxdm login manager?" "lxdm")
 nm=$(prompt_yes_no "Use NetworkManager for network interface management?" "yes")
 nano_config=$(prompt_yes_no "Configure nano text editor?" "no")
 laptop_mode=$(prompt_yes_no "Install on a laptop?" "no")
@@ -385,14 +385,10 @@ if [[ $thunar == "yes" ]]; then
 fi
 
 # optional to install SDDM or lxdm login manager
-if [[ $login_mgr == "yes" ]]; then
-	if [[ $wm != "lubuntu" ]]; then
-		if [[ -n "$(uname -a | grep Ubuntu)" ]]; then
-			sudo apt-get install sddm -y
-		else
-			sudo apt-get install lxdm -y
-		fi
-	fi
+if [[ $login_mgr == "lxdm" ]]; then
+	sudo apt-get install lxdm -y
+else
+	sudo apt-get install sddm -y
 fi
 
 # install firefox without snap
