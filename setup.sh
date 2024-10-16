@@ -2,16 +2,19 @@
 
 # ASCII Art Header
 # https://www.patorjk.com/software/taag/#p=display&f=Graffiti&t=Type%20Something%20
-echo '##########################################################################################'
-echo '  __  ____     __  _      _____ _   _ _    ___   __   _____ ______ _______ _    _ _____   '
-echo ' |  \/  \ \   / / | |    |_   _| \ | | |  | \ \ / /  / ____|  ____|__   __| |  | |  __ \  '
-echo ' | \  / |\ \_/ /  | |      | | |  \| | |  | |\ V /  | (___ | |__     | |  | |  | | |__) | '
-echo ' | |\/| | \   /   | |      | | | . ` | |  | | > <    \___ \|  __|    | |  | |  | |  ___/  '
-echo ' | |  | |  | |    | |____ _| |_| |\  | |__| |/ . \   ____) | |____   | |  | |__| | |      '
-echo ' |_|  |_|  |_|    |______|_____|_| \_|\____//_/ \_\ |_____/|______|  |_|   \____/|_|      '
-echo ''
-echo '##########################################################################################'
-echo "Welcome to the Linux Interactive Setup Script!"
+cat << "EOF"
+##########################################################################################
+  __  ____     __  _      _____ _   _ _    ___   __   _____ ______ _______ _    _ _____   
+ |  \/  \ \   / / | |    |_   _| \ | | |  | \ \ / /  / ____|  ____|__   __| |  | |  __ \  
+ | \  / |\ \_/ /  | |      | | |  \| | |  | |\ V /  | (___ | |__     | |  | |  | | |__) | 
+ | |\/| | \   /   | |      | | | . ` | |  | | > <    \___ \|  __|    | |  | |  | |  ___/  
+ | |  | |  | |    | |____ _| |_| |\  | |__| |/ . \   ____) | |____   | |  | |__| | |      
+ |_|  |_|  |_|    |______|_____|_| \_|\____//_/ \_\ |_____/|______|  |_|   \____/|_|      
+
+##########################################################################################
+EOF
+
+echo "Welcome to M Linux Interactive Setup Script!"
 echo "Please follow the prompts below to configure your environment."
 echo ""
 
@@ -30,196 +33,226 @@ function prompt_yes_no() {
     done
 }
 
-# Get interactive input for each option
-wm=$(prompt_yes_no "Choose window manager (icewm, fluxbox, i3wm, xfwm4, swaywm, lubuntu)" "icewm")
-firefox_deb=$(prompt_yes_no "Install Firefox using the deb package?" "yes")
-theming=$(prompt_yes_no "Install custom theming?" "yes")
-audio=$(prompt_yes_no "Use PipeWire audio server?" "yes")
-thunar=$(prompt_yes_no "Install Thunar file manager?" "yes")
-login_mgr=$(prompt_yes_no "Install SDDM or lxdm login manager?" "lxdm")
-nm=$(prompt_yes_no "Use NetworkManager for network interface management?" "yes")
-nano_config=$(prompt_yes_no "Configure nano text editor?" "no")
-laptop_mode=$(prompt_yes_no "Install on a laptop?" "no")
-amdgpu_config=$(prompt_yes_no "Enable amdgpu tearfree?" "yes")
-qemu=$(prompt_yes_no "Install QEMU and Virt-Manager?" "yes")
-gaming=$(prompt_yes_no "Install Wine and Lutris for gaming?" "yes")
-sensors=$(prompt_yes_no "Customize lm-sensors?" "yes")
-bashrc=$(prompt_yes_no "Customize your bashrc?" "yes")
-smartd=$(prompt_yes_no "Install and configure smartd?" "yes")
-swapfile=$(prompt_yes_no "Enable swapfile?" "no")
-ytdlp=$(prompt_yes_no "Install yt-dlp?" "yes")
+# Function to install packages
+function install_packages() {
+    sudo apt-get update && sudo apt-get upgrade -y
+    sudo apt-get install -y "$@"
+}
+
+# Function to backup and create a directory
+function backup_and_create() {
+    local dir="$1"
+    [ -d "$dir" ] && mv "$dir" "$dir"_backup_$(date +%Y_%m_%d_%H_%M_%S)
+    mkdir -p "$dir"
+}
+
+# Define options
+declare -A options
+options=(
+    ["wm"]="Choose window manager (icewm, fluxbox, i3wm, xfwm4, swaywm, lubuntu)" 
+    ["firefox_deb"]="Install Firefox using the deb package?" 
+    ["theming"]="Install custom theming?" 
+    ["audio"]="Use PipeWire audio server?" 
+    ["thunar"]="Install Thunar file manager?" 
+    ["login_mgr"]="Install SDDM or lxdm login manager?" 
+    ["nm"]="Use NetworkManager for network interface management?" 
+    ["nano_config"]="Configure nano text editor?" 
+    ["laptop_mode"]="Install on a laptop?" 
+    ["amdgpu_config"]="Enable amdgpu tearfree?" 
+    ["qemu"]="Install QEMU and Virt-Manager?" 
+    ["gaming"]="Install Wine and Lutris for gaming?" 
+    ["sensors"]="Customize lm-sensors?" 
+    ["bashrc"]="Customize your bashrc?" 
+    ["smartd"]="Install and configure smartd?" 
+    ["swapfile"]="Enable swapfile?" 
+    ["ytdlp"]="Install yt-dlp?"
+)
+
+# Collect user inputs
+for key in "${!options[@]}"; do
+    case $key in
+        "wm") default="icewm" ;;
+        "firefox_deb") default="yes" ;;
+        "theming") default="yes" ;;
+        "audio") default="yes" ;;
+        "thunar") default="yes" ;;
+        "login_mgr") default="lxdm" ;;
+        "nm") default="yes" ;;
+        "nano_config") default="no" ;;
+        "laptop_mode") default="no" ;;
+        "amdgpu_config") default="yes" ;;
+        "qemu") default="yes" ;;
+        "gaming") default="yes" ;;
+        "sensors") default="yes" ;;
+        "bashrc") default="yes" ;;
+        "smartd") default="yes" ;;
+        "swapfile") default="no" ;;
+        "ytdlp") default="yes" ;;
+    esac
+    declare "$key=$(prompt_yes_no "${options[$key]}" "$default")"
+done
 
 # Display the selected options
 echo ""
 echo "You have selected the following options:"
 echo "------------------------------------------"
-echo "Window Manager: $wm"
-echo "Install Firefox: $firefox_deb"
-echo "Custom Theming: $theming"
-echo "Use PipeWire: $audio"
-echo "Install Thunar: $thunar"
-echo "Install Login Manager: $login_mgr"
-echo "Use NetworkManager: $nm"
-echo "Configure Nano: $nano_config"
-echo "Laptop Mode: $laptop_mode"
-echo "Enable AMDGPU TearFree: $amdgpu_config"
-echo "Install QEMU: $qemu"
-echo "Install Gaming Tools: $gaming"
-echo "Customize LM-Sensors: $sensors"
-echo "Customize Bashrc: $bashrc"
-echo "Install SmartD: $smartd"
-echo "Enable Swapfile: $swapfile"
-echo "Install yt-dlp: $ytdlp"
+for key in "${!options[@]}"; do
+    echo "${options[$key]}: ${!key}"
+done
 echo "------------------------------------------"
 
-# Continue with your installation logic based on the user's selections...
+# Function for installation based on the selected window manager
+install_window_manager() {
+    local wm="$1"
+    case $wm in
+        fluxbox)
+            install_packages fluxbox xorg xinit x11-utils lxterminal lxappearance xscreensaver rofi dex flameshot feh
+            echo "startfluxbox" > "$HOME/.xinitrc"
+            
+            backup_and_create "$HOME/.fluxbox"
+			mkdir -p $HOME/.fluxbox
+			cp -r ./fluxbox/* $HOME/.fluxbox/
+			#sed -i 's/administrator/$USER/g' $HOME/.fluxbox/init
+			#sed -i 's/administrator/$USER/g' $HOME/.fluxbox/startup
 
-# install Window Manager
-case $wm in
-	fluxbox)
-		# install fluxbox and other packages
-		sudo apt-get update && sudo apt-get upgrade -y
-		sudo apt-get install fluxbox xorg xinit x11-utils lxterminal lxappearance xscreensaver rofi dex flameshot feh -y
-		echo "startfluxbox" > $HOME/.xinitrc
-		run_dunstrc
-  		instal_apps
-		
-		if [[ -d $HOME/.fluxbox ]]; then mv $HOME/.fluxbox $HOME/.fluxbox_`date +%Y_%d_%m_%H_%M_%S`; fi
-		mkdir -p $HOME/.fluxbox
-		cp -r ./fluxbox/* $HOME/.fluxbox/
-		#sed -i 's/administrator/$USER/g' $HOME/.fluxbox/init
-		#sed -i 's/administrator/$USER/g' $HOME/.fluxbox/startup
-		
-		# install extra fluxbox styles
-		mkdir -p $HOME/.fluxbox/styles
-		tar -zxvf ./styles/Retour.tgz -C $HOME/.fluxbox/styles/
-		;;
-	icewm)
-		# install icewm and other packages
-		sudo apt-get update && sudo apt-get upgrade -y
-		sudo apt-get install icewm xorg xinit x11-utils lxterminal lxappearance xscreensaver rofi dex flameshot feh -y
-		echo "icewm-session" > $HOME/.xinitrc
-		run_dunstrc
-  		instal_apps
-		
-		# install icewm custom config
-		if [[ -d $HOME/.icewm ]]; then mv $HOME/.icewm $HOME/.icewm_`date +%Y_%d_%m_%H_%M_%S`; fi
-		mkdir -p $HOME/.icewm
-		cp -r ./icewm/* $HOME/.icewm/
-		chmod +x $HOME/.icewm/startup
-		
-		# install icewm custom themes
-		mkdir -p $HOME/.icewm/themes
+			# install extra fluxbox styles
+			mkdir -p $HOME/.fluxbox/styles
+			tar -zxvf ./styles/Retour.tgz -C $HOME/.fluxbox/styles/
+            ;;
+        icewm)
+            install_packages icewm xorg xinit x11-utils lxterminal lxappearance xscreensaver rofi dex flameshot feh
+            echo "icewm-session" > "$HOME/.xinitrc"
+            
+            # install icewm custom config
+            backup_and_create "$HOME/.icewm"
+            cp -r ./icewm/* "$HOME/.icewm/"
+            chmod +x $HOME/.icewm/startup
 
-		git clone https://github.com/Brottweiler/win95-dark.git /tmp/win95-dark
-		cp -r /tmp/win95-dark $HOME/.icewm/themes 
-		rm $HOME/.icewm/themes/win95-dark/.gitignore
-		sudo rm -r $HOME/.icewm/themes/win95-dark/.git
-  
-		git clone https://github.com/Vimux/icewm-theme-icepick.git /tmp/icewm-theme-icepick
-		cp -r /tmp/icewm-theme-icepick/IcePick $HOME/.icewm/themes
-  
-		git clone https://github.com/Brottweiler/Arc-Dark.git /tmp/Arc-Dark
-		cp -r /tmp/Arc-Dark $HOME/.icewm/themes
-		sudo rm -r $HOME/.icewm/themes/Arc-Dark/.git
+			# install icewm custom themes
+			mkdir -p $HOME/.icewm/themes
 
-		tar -xvf ./styles/DraculIce.tar.gz -C $HOME/.icewm/themes
-		if [[ -n "$(uname -a | grep Ubuntu)" ]]; then
-			cp $HOME./icewm/themes/DraculIce/taskbar/start_ubuntu.svg $HOME./icewm/themes/DraculIce/taskbar/start.xpm
-		else
-			cp ./styles/debian.xpm $HOME./icewm/themes/DraculIce/taskbar/start.xpm
-		fi
-		;;
-	i3wm)
-		# install i3wm and other packages
-		sudo apt-get update && sudo apt-get upgrade -y
-		sudo apt-get install i3 suckless-tools xorg xinit x11-utils lxterminal feh lxappearance dex rofi flameshot -y
-		run_dunstrc
-  		instal_apps
-		
-		# custom i3wm config
-		if [[ -d $HOME/.config/i3 ]]; then mv $HOME/.config/i3 $HOME/.config/i3_`date +%Y_%d_%m_%H_%M_%S`; fi
-		mkdir -p $HOME/.config/i3
-		cp -r ./i3wm/* $HOME/.config/i3/
-		;;
-	xfwm4)
-		# install xfwm4 and other packages
-		sudo apt-get update && sudo apt-get upgrade -y
-		sudo apt-get install xorg xinit xfce4-terminal xfwm4 xfce4-panel sxhkd feh xscreensaver lxappearance dex flameshot -y
-		echo "exec xfwm4" > $HOME/.xinitrc
+			git clone https://github.com/Brottweiler/win95-dark.git /tmp/win95-dark
+			cp -r /tmp/win95-dark $HOME/.icewm/themes 
+			rm $HOME/.icewm/themes/win95-dark/.gitignore
+			sudo rm -r $HOME/.icewm/themes/win95-dark/.git
+	  
+			git clone https://github.com/Vimux/icewm-theme-icepick.git /tmp/icewm-theme-icepick
+			cp -r /tmp/icewm-theme-icepick/IcePick $HOME/.icewm/themes
+	  
+			git clone https://github.com/Brottweiler/Arc-Dark.git /tmp/Arc-Dark
+			cp -r /tmp/Arc-Dark $HOME/.icewm/themes
+			sudo rm -r $HOME/.icewm/themes/Arc-Dark/.git
+
+			tar -xvf ./styles/DraculIce.tar.gz -C $HOME/.icewm/themes
+			if [[ -n "$(uname -a | grep Ubuntu)" ]]; then
+				cp $HOME./icewm/themes/DraculIce/taskbar/start_ubuntu.svg $HOME./icewm/themes/DraculIce/taskbar/start.xpm
+			else
+				cp ./styles/debian.xpm $HOME./icewm/themes/DraculIce/taskbar/start.xpm
+			fi
+            ;;
+        i3wm)
+			# install i3wm and other packages
+			install_packages i3 suckless-tools xorg xinit x11-utils lxterminal feh lxappearance dex rofi flameshot
+			
+			# custom i3wm config
+			backup_and_create "$HOME/.config/i3"
+			mkdir -p $HOME/.config/i3
+			cp -r ./i3wm/* $HOME/.config/i3/
+			;;
+		xfwm4)
+			# install xfwm4 and other packages
+			install_packages xorg xinit xfce4-terminal xfwm4 xfce4-panel sxhkd feh xscreensaver lxappearance dex flameshot
+			echo "exec xfwm4" > $HOME/.xinitrc
         	cp ./xfwm4/xsessionrc $HOME/.xsessionrc
-	 	run_dunstrc
-   		instal_apps
         
         	# insall dracula xfce4-terminal theme
     		mkdir -p $HOME/.local/share/xfce4/terminal/colorschemes
       		git clone https://github.com/dracula/xfce4-terminal.git /tmp/xfce4-terminal
-		cp /tmp/xfce4-terminal/Dracula.theme $HOME/.local/share/xfce4/terminal/colorschemes
-		
-		# copy xfce4-panel config
-		mkdir -p $HOME/.config/xfce4/panel/launcher-{8,10,14,15}
-		mkdir -p $HOME/.config/xfce4/xfconf/xfce-perchannel-xml
-		cp ./config/xfce4-panel.xml $HOME/.config/xfce4/xfconf/xfce-perchannel-xml/
-		cp ./config/17140153922.desktop $HOME/.config/xfce4/panel/launcher-8/
-		cp ./config/17140154333.desktop $HOME/.config/xfce4/panel/launcher-10/
-		cp ./config/17140154514.desktop $HOME/.config/xfce4/panel/launcher-14/
-		cp ./config/17140154635.desktop $HOME/.config/xfce4/panel/launcher-15/
-		
-		#configure sxhkd config
-		mkdir -p $HOME/.config/sxhkd
-   		cp ./config/sxhkdrc $HOME/.config/sxhkd/sxhkdrc
-
-		# remove round corner in xfce4-panel
-		mkdir -p $HOME/.config/gtk-3.0
-		cp ./xfwm4/gtk.css $HOME/.config/gtk-3.0/gtk.css
-		;;
-	swaywm)
-		# install swaywm and packages
-		sudo apt-get update && sudo apt-get upgrade -y
-		sudo apt-get install sway swaybg swayidle swaylock xdg-desktop-portal-wlr xwayland foot suckless-tools \
-			mako-notifier libnotify-bin grim imagemagick grimshot qt5ct lxappearance qtwayland5 -y
-   		instal_apps
+			cp /tmp/xfce4-terminal/Dracula.theme $HOME/.local/share/xfce4/terminal/colorschemes
 			
-		# copy my swaywm and mako configuration
-		if [[ -d $HOME/.config/sway ]]; then mv $HOME/.config/sway $HOME/.config/sway_`date +%Y_%d_%m_%H_%M_%S`; fi
-		if [[ -d $HOME/.config/mako ]]; then mv $HOME/.config/mako $HOME/.config/mako`date +%Y_%d_%m_%H_%M_%S`; fi
-		mkdir -p $HOME/.config/{sway,mako}
-		cp -r ./swaywm/* $HOME/.config/sway/
-		cp ./mako/config $HOME/.config/mako/
-		
-		# enable autostart swaywm after TUI login
-		sudo cp ./config/start_swaywm.sh /usr/local/bin/start_swaywm.sh
-		sudo chmod +x /usr/local/bin/start_swaywm.sh
-		#sudo mkdir -p /etc/profile.d
-		#sudo cp ./config/sway_env.sh /etc/profile.d/sway_env.sh
+			# copy xfce4-panel config
+			mkdir -p $HOME/.config/xfce4/panel/launcher-{8,10,14,15}
+			mkdir -p $HOME/.config/xfce4/xfconf/xfce-perchannel-xml
+			cp ./config/xfce4-panel.xml $HOME/.config/xfce4/xfconf/xfce-perchannel-xml/
+			cp ./config/17140153922.desktop $HOME/.config/xfce4/panel/launcher-8/
+			cp ./config/17140154333.desktop $HOME/.config/xfce4/panel/launcher-10/
+			cp ./config/17140154514.desktop $HOME/.config/xfce4/panel/launcher-14/
+			cp ./config/17140154635.desktop $HOME/.config/xfce4/panel/launcher-15/
+			
+			#configure sxhkd config
+			mkdir -p $HOME/.config/sxhkd
+			cp ./config/sxhkdrc $HOME/.config/sxhkd/sxhkdrc
 
-		if [[ -f $HOME/.bashrc ]]; then cp $HOME/.bashrc $HOME/.bashrc_`date +%Y_%d_%m_%H_%M_%S`; fi
-		echo -e '\n#If running from tty1 start sway\n[ "$(tty)" = "/dev/tty1" ] && exec /usr/local/bin/start_swaywm.sh' >> $HOME/.bashrc
-		;;
-	lubuntu)
-		# install minimal setup on Lubuntu
-		sudo apt-get update && sudo apt-get upgrade -y
-		sudo apt-get install vlc geany transmission-qt rar -y
-		
-		# copy my LXQt and autostart configuration
-		mkdir -p $HOME/.config/{lxqt,autostart}
-		cp ./lubuntu/*.conf $HOME/.config/lxqt/
-		#cp ./autostart/*.desktop $HOME/.config/autostart/
-		
-		# create PCManFM-Qt custom actions files
-		mkdir -p $HOME/.local/share/file-manager/actions
-		cp ./actions/*.desktop $HOME/.local/share/file-manager/actions/
-		echo "Remember to change PCManFM-Qt's Archiver intergration to lxqt-archiver under Preferences > Advanced."
-		# actions to open terminal in desktop. Not needed for LXQt v1.3 and above
-		rm $HOME/.local/share/file-manager/actions/open_in_terminal.desktop
-		
-		# install openbox themes
-      		mkdir -p $HOME/.local/share/themes
-		#git clone https://github.com/dracula/openbox /tmp/openbox
-  		git clone https://github.com/terroo/openbox-themes /tmp/openbox-themes
-  		cp -r /tmp/openbox-themes/* $HOME/.local/share/themes/
-		;;
-esac
+			# remove round corner in xfce4-panel
+			mkdir -p $HOME/.config/gtk-3.0
+			cp ./xfwm4/gtk.css $HOME/.config/gtk-3.0/gtk.css
+			;;
+		swaywm)
+			# install swaywm and packages
+			install_packages install sway swaybg swayidle swaylock xdg-desktop-portal-wlr xwayland foot suckless-tools mako-notifier libnotify-bin grim imagemagick grimshot qt5ct lxappearance qtwayland5
+
+			# copy my swaywm and mako configuration
+			backup_and_create "$HOME/.config/sway"
+			backup_and_create "$HOME/.config/mako"
+			mkdir -p $HOME/.config/{sway,mako}
+			cp -r ./swaywm/* $HOME/.config/sway/
+			cp ./mako/config $HOME/.config/mako/
+			
+			# enable autostart swaywm after TUI login
+			sudo cp ./config/start_swaywm.sh /usr/local/bin/start_swaywm.sh
+			sudo chmod +x /usr/local/bin/start_swaywm.sh
+			#sudo mkdir -p /etc/profile.d
+			#sudo cp ./config/sway_env.sh /etc/profile.d/sway_env.sh
+
+			backup_and_create "$HOME/.bashrc"
+			echo -e '\n#If running from tty1 start sway\n[ "$(tty)" = "/dev/tty1" ] && exec /usr/local/bin/start_swaywm.sh' >> $HOME/.bashrc
+			;;
+		lubuntu)
+			# install minimal setup on Lubuntu
+			install_packages vlc geany transmission-qt rar
+
+			# copy my LXQt and autostart configuration
+			mkdir -p $HOME/.config/{lxqt,autostart}
+			cp ./lubuntu/*.conf $HOME/.config/lxqt/
+			#cp ./autostart/*.desktop $HOME/.config/autostart/
+			
+			# create PCManFM-Qt custom actions files
+			mkdir -p $HOME/.local/share/file-manager/actions
+			cp ./actions/*.desktop $HOME/.local/share/file-manager/actions/
+			echo "Remember to change PCManFM-Qt's Archiver intergration to lxqt-archiver under Preferences > Advanced."
+			# actions to open terminal in desktop. Not needed for LXQt v1.3 and above
+			rm $HOME/.local/share/file-manager/actions/open_in_terminal.desktop
+			
+			# install openbox themes
+			mkdir -p $HOME/.local/share/themes
+			#git clone https://github.com/dracula/openbox /tmp/openbox
+			git clone https://github.com/terroo/openbox-themes /tmp/openbox-themes
+			cp -r /tmp/openbox-themes/* $HOME/.local/share/themes/
+			;;
+    esac
+}
+
+# Run installation for the selected window manager
+install_window_manager "$wm"
+
+# Install standard packages
+install_packages papirus-icon-theme adwaita-icon-theme xdg-utils xdg-user-dirs policykit-1 policykit-1-gnome software-properties-gtk rsyslog logrotate nano less curl wget iputils-ping fonts-noto-color-emoji fonts-noto-cjk fonts-font-awesome gpicview gv geany unzip rar
+
+# Continue with further installations based on user selections...
+
+# configure dunst
+if [[ $wm != "swaywm" ]]; then
+	# install dunst
+	install_packages dunst
+	# customize dunst config
+	mkdir -p $HOME/.config/dunst
+	if [[ -f $HOME/.config/dunst/dunstrc ]]; then 
+		cp $HOME/.config/dunst/dunstrc $HOME/.config/dunst/dunstrc_`date +%Y_%d_%m_%H_%M_%S`
+	fi
+    cp -r /etc/xdg/dunst $HOME/.config/
+    sed -i 's/Adwaita/"Adwaita, Papirus"/g' $HOME/.config/dunst/dunstrc
+    sed -i 's/32/22/g' $HOME/.config/dunst/dunstrc
+fi
 
 # install yt-dlp
 if [[ $ytdlp == "yes" ]]; then
@@ -474,3 +507,14 @@ fi
 mkdir -p $HOME/.local/bin
 cp ./bin/* $HOME/.local/bin
 chmod +x $HOME/.local/bin/*
+
+# Cleanup function on exit
+cleanup() {
+    echo "Cleaning up..."
+    # Perform any necessary cleanup here
+}
+
+trap cleanup EXIT
+
+# Final echo to signify completion
+echo "Setup completed successfully!"
