@@ -521,7 +521,7 @@ menu
 # Summary of selections
 printf "\n"
 printf "Start installation!!!!!!!!!!!\n"
-printf "88888888888888888888888888888\n"
+printf "##################################\n"
 printf "My WM Install           : $wm\n"
 printf "Firefox as DEB packages : $firefox_deb\n"
 printf "Pipewire Audio          : $pipewire\n"
@@ -539,7 +539,7 @@ printf "Custom bashrc           : $bashrc\n"
 printf "Configure Smartd        : $smartd\n"
 printf "Configure swapfile      : $swapfile\n"
 printf "Install yt-dlp          : $ytdlp\n"
-printf "88888888888888888888888888888\n"
+printf "##################################\n"
  
 while true; do
 read -p "Do you want to proceed with above settings? (y/n) " yn
