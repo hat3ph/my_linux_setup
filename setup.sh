@@ -39,7 +39,7 @@ function disable_services() {
 		#echo $service
 		if (systemctl -q is-active $service); then
 			echo "Stopping running $service service."
-			#sudo systemctl disable $service
+			sudo systemctl disable --now $service
 		else 
 			echo "$service service is not running."
 		fi
