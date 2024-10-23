@@ -185,11 +185,11 @@ function install(){
 			# copy xfce4-panel config
 			mkdir -p $HOME/.config/xfce4/panel/launcher-{8,10,14,15}
 			mkdir -p $HOME/.config/xfce4/xfconf/xfce-perchannel-xml
-			cp ./config/xfce4-panel.xml $HOME/.config/xfce4/xfconf/xfce-perchannel-xml/
-			cp ./config/17140153922.desktop $HOME/.config/xfce4/panel/launcher-8/
-			cp ./config/17140154333.desktop $HOME/.config/xfce4/panel/launcher-10/
-			cp ./config/17140154514.desktop $HOME/.config/xfce4/panel/launcher-14/
-			cp ./config/17140154635.desktop $HOME/.config/xfce4/panel/launcher-15/
+			cp ./xfwm4/xfce4-panel.xml $HOME/.config/xfce4/xfconf/xfce-perchannel-xml/
+			cp ./xfwm4/17140153922.desktop $HOME/.config/xfce4/panel/launcher-8/
+			cp ./xfwm4/17140154333.desktop $HOME/.config/xfce4/panel/launcher-10/
+			cp ./xfwm4/17140154514.desktop $HOME/.config/xfce4/panel/launcher-14/
+			cp ./xfwm4/17140154635.desktop $HOME/.config/xfce4/panel/launcher-15/
 			
 			#configure sxhkd config
 			mkdir -p $HOME/.config/sxhkd
