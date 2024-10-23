@@ -198,6 +198,10 @@ function install(){
 			# remove round corner in xfce4-panel
 			mkdir -p $HOME/.config/gtk-3.0
 			cp ./xfwm4/gtk.css $HOME/.config/gtk-3.0/gtk.css
+
+			# xsession file for login manager
+   			sudo mkdir -p /usr/share/xsessions
+	 		sudo cp ./config/xfwm4.desktop /usr/share/xsessions
 		;;
 		swaywm)
 			# install swaywm and packages
