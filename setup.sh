@@ -378,11 +378,6 @@ function install(){
 		mkdir -p $HOME/.icons
 		cp -r /tmp/gruvbox-plus-icon-pack/Gruvbox-Plus-Dark $HOME/.icons
 
-		# install Nordic gtk theme
-		mkdir -p $HOME/.themes
-		wget -P /tmp https://github.com/EliverLara/Nordic/releases/download/v2.2.0/Nordic.tar.xz
-		tar -xvf /tmp/Nordic.tar.xz -C $HOME/.themes
-
 		# add additional geany colorscheme
 		mkdir -p $HOME/.config/geany/colorschemes
 		git clone https://github.com/geany/geany-themes.git /tmp/geany-themes
