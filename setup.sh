@@ -46,6 +46,19 @@ function backup_and_create() {
     mkdir -p "$dir"
 }
 
+# Function to check running service and diable it
+function check_services() {
+	for service in "${@}"; do
+		#echo $service
+		if (systemctl -q is-active $service); then
+			echo "Stopping running $service service."
+			#sudo systemctl disable $service
+		else 
+			echo "$service service is not running."
+		fi
+	done
+}
+
 # Define options
 declare -A options
 options=(
@@ -471,12 +484,7 @@ if [[ $nm == yes ]]; then
 fi
 
 # disable unwanted services
-if [[ -n "$(uname -a | grep Ubuntu)" ]]; then
-	if [[ $wm != "lubuntu" ]]; then
-		sudo systemctl disable systemd-networkd-wait-online.service
-		sudo systemctl disable multipathd.service
-	fi
-fi
+check_services systemd-networkd-wait-online.service multipathd.service
 
 # install and setup for laptop usage
 if [[ $laptop_mode == "yes" ]]; then
