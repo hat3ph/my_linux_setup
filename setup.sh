@@ -291,15 +291,14 @@ function install(){
 
 	# install qemu and virt-manager
 	if [[ $qemu == "yes" ]]; then
-		sudo apt-get install qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils virt-manager -y
+		install_packages qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils virt-manager
 	fi
 
 	# install wine and lutris
 	if [[ $gaming == "yes" ]]; then
-		sudo apt-get install wine64 -y
-		sudo apt-get update
-		sudo apt-get install python3-lxml python3-setproctitle python3-magic gir1.2-webkit2-4.1 cabextract \
- 		fluid-soundfont-gs vulkan-tools python3-protobuf python3-evdev fluidsynth gamemode -y
+		install_packages wine64
+		install_packages python3-lxml python3-setproctitle python3-magic gir1.2-webkit2-4.1 cabextract \
+  			fluid-soundfont-gs vulkan-tools python3-protobuf python3-evdev fluidsynth gamemode
 		wget -P /tmp https://github.com/lutris/lutris/releases/download/v0.5.17/lutris_0.5.17_all.deb
 		sudo dpkg -i /tmp/lutris*.deb
 	
@@ -318,7 +317,7 @@ function install(){
 	# install and configure smartd to monitor disks
 	if [[ $smartd == "yes" ]]; then
 		# edit /etc/smartd.conf with DEVICESCAN -a -o on -S on -n standby,q -W 4,50,55 -m @smartdnotify -M daily
-		sudo apt-get install smartmontools -y
+		install_packages smartmontools
 		sudo cp ./bin/smartdnotify /etc/smartmontools/smartd_warning.d/
 		sudo chmod +x /etc/smartmontools/smartd_warning.d/smartdnotify
 
@@ -330,7 +329,7 @@ function install(){
 
 	# install and configure lm-sensors
 	if [[ $sensors == "yes" ]]; then
-		sudo apt-get install lm-sensors -y
+		install_packages lm-sensors
 		# setup disk drive temp module
 		echo drivetemp | sudo tee /etc/modules-load.d/drivetemp.conf
 
@@ -416,9 +415,9 @@ function install(){
 	if [[ $pipewire == "yes" ]]; then
 		if [[ $wm != "lubuntu" ]]; then
 			if [[ $wm == "i3wm" || $wm == "swaywm" ]]; then
-				sudo apt-get install pipewire pipewire-pulse wireplumber -y
+				install_packages pipewire pipewire-pulse wireplumber
 			else
-				sudo apt-get install pipewire pipewire-pulse wireplumber pavucontrol-qt pnmixer -y
+				install_packages pipewire pipewire-pulse wireplumber pavucontrol-qt pnmixer
 				mkdir -p $HOME/.config/pnmixer
 				cp ./config/pnmixer $HOME/.config/pnmixer/config
 			fi
@@ -428,7 +427,7 @@ function install(){
 	# optional to install thunar file manager
 	if [[ $thunar == "yes" ]]; then
 		if [[ $wm != "lubuntu" ]]; then
-			sudo apt-get install thunar gvfs gvfs-backends thunar-archive-plugin thunar-media-tags-plugin avahi-daemon -y
+			install_packages thunar gvfs gvfs-backends thunar-archive-plugin thunar-media-tags-plugin avahi-daemon
 			mkdir -p $HOME/.config/xfce4
 			if [[ $wm != "xfwm4" && $wm != "swaywm" ]]; then
 				echo "TerminalEmulator=lxterminal" > $HOME/.config/xfce4/helpers.rc
@@ -438,9 +437,9 @@ function install(){
 
 	# optional to install SDDM or lxdm login manager
 	if [[ $login_mgr == "lxdm" ]]; then
-		sudo apt-get install lxdm -y
+		install_packages lxdm
 	else
-		sudo apt-get install sddm -y
+		install_packages sddm
 	fi
 
 	# install firefox without snap
@@ -454,9 +453,9 @@ function install(){
 				sudo tee -a /etc/apt/sources.list.d/mozilla.list > /dev/null
 			echo -e "Package: *\nPin: origin packages.mozilla.org\nPin-Priority: 1000" | \
 				sudo tee /etc/apt/preferences.d/mozilla
-			sudo apt-get update && sudo apt-get install firefox -y
+			install_packages firefox
 		else
-			sudo apt-get install firefox-esr -y
+			install_packages firefox-esr
 			if [[ $wm == "fluxbox" ]]; then
 				sed -i 's/firefox/firefox-esr/g' $HOME/.fluxbox/keys
 			fi
@@ -472,7 +471,7 @@ function install(){
 	# optional install NetworkManager
 	if [[ $nm == yes ]]; then
 		if [[ $wm != "lubuntu" ]]; then
-			sudo apt-get install network-manager network-manager-gnome -y
+			install_packages network-manager network-manager-gnome
 			if [[ -n "$(uname -a | grep Ubuntu)" ]] then
 				for file in `find /etc/netplan/* -maxdepth 0 -type f -name *.yaml`; do
 					sudo mv $file $file.bak
@@ -494,7 +493,7 @@ function install(){
 
 	# install and setup for laptop usage
 	if [[ $laptop_mode == "yes" ]]; then
-		sudo apt-get install brightnessctl cbatticon -y
+		install_packages brightnessctl cbatticon
 		sudo mkdir -p /etc/udev/rules.d
 		sudo mkdir -p /usr/local/bin
 		sudo cp ./rules.d/*.rules /etc/udev/rules.d/
