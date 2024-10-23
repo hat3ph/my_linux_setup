@@ -53,9 +53,7 @@ function run_dunstrc() {
  	sudo apt-get install dunst -y
 	# customize dunst config
   	mkdir -p $HOME/.config/dunst
-  	if [[ -f $HOME/.config/dunst/dunstrc ]]; then 
-		cp $HOME/.bashrc $HOME/.bashrc_`date +%Y_%d_%m_%H_%M_%S`
-	fi
+  	backup_and_create "$HOME/.config/dunst/dunstrc"
     	cp -r /etc/xdg/dunst $HOME/.config/
     	sed -i 's/Adwaita/"Adwaita, Papirus"/g' $HOME/.config/dunst/dunstrc
     	sed -i 's/32/22/g' $HOME/.config/dunst/dunstrc
