@@ -173,7 +173,7 @@ function install(){
 		;;
 		xfwm4)
 			# install xfwm4 and other packages
-			install_packages xorg xinit xfce4-terminal xfwm4 xfce4-panel sxhkd feh xscreensaver lxappearance dex flameshot
+			install_packages xorg xinit xfce4-terminal xfwm4 xfce4-panel sxhkd feh xscreensaver lxappearance dex flameshot rofi
 			echo "exec xfwm4" > $HOME/.xinitrc
         		cp ./xfwm4/xsessionrc $HOME/.xsessionrc
         
