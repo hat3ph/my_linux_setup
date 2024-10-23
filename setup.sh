@@ -151,7 +151,8 @@ function install(){
             	
 			# install icewm custom config
             		backup_and_create "$HOME/.icewm"
-            		cp -r ./icewm/* "$HOME/.icewm/"
+	      		mkdir -p $HOME/.icewm/
+            		cp -r ./icewm/* $HOME/.icewm/
             		chmod +x $HOME/.icewm/startup
 
 			# install icewm custom themes
