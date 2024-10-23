@@ -26,11 +26,27 @@ function install_packages() {
 	sudo apt-get install -y "$@"
 }
 
-# Function to backup and create a directory
+# Function to backup and create a directory or file
 function backup_and_create() {
-	local dir="$1"
-	[ -d "$dir" ] && mv "$dir" "$dir"_backup_$(date +%Y_%m_%d_%H_%M_%S)
-	mkdir -p "$dir"
+	local path="$1"
+    
+	# Check if the path is a directory
+    	if [ -d "$path" ]; then
+        	mv "$path" "${path}_backup_$(date +%Y_%m_%d_%H_%M_%S)"
+    	# Check if the path is a file
+    	elif [ -f "$path" ]; then
+        	mv "$path" "${path}_backup_$(date +%Y_%m_%d_%H_%M_%S)"
+    	else
+        	echo "Error: '$path' is neither a file nor a directory."
+        	return 1
+    	fi
+    
+    	# Create the new directory or file
+    	if [ -d "$path" ]; then
+    	    mkdir -p "$path"
+    	else
+    	    touch "$path"
+    	fi
 }
 
 # Function to check and disable running services
@@ -254,9 +270,7 @@ function install(){
 		install_packages dunst
 		# customize dunst config
 		mkdir -p $HOME/.config/dunst
-		if [[ -f $HOME/.config/dunst/dunstrc ]]; then 
-			cp $HOME/.config/dunst/dunstrc $HOME/.config/dunst/dunstrc_`date +%Y_%d_%m_%H_%M_%S`
-		fi
+		backup_and_create "$HOME/.config/dunst/dunstrc" 
     		cp -r /etc/xdg/dunst $HOME/.config/
     		sed -i 's/Adwaita/"Adwaita, Papirus"/g' $HOME/.config/dunst/dunstrc
     		sed -i 's/32/22/g' $HOME/.config/dunst/dunstrc
