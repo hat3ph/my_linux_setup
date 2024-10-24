@@ -33,19 +33,13 @@ function backup_and_create() {
 	# Check if the path is a directory
     	if [ -d "$path" ]; then
         	mv "$path" "${path}_backup_$(date +%Y_%m_%d_%H_%M_%S)"
+	 	mkdir -p "$path"
     	# Check if the path is a file
     	elif [ -f "$path" ]; then
         	mv "$path" "${path}_backup_$(date +%Y_%m_%d_%H_%M_%S)"
     	else
         	echo "Error: '$path' is neither a file nor a directory."
         	return 1
-    	fi
-    
-    	# Create the new directory or file
-    	if [ -d "$path" ]; then
-    	    mkdir -p "$path"
-    	else
-    	    touch "$path"
     	fi
 }
 
@@ -60,19 +54,6 @@ function disable_services() {
 			echo "$service service is not running."
 		fi
 	done
-}
-
-# function to configure dunst notification
-function run_dunstrc() {
-	# install dunst
-	sudo apt-get update && sudo apt-get upgrade -y
- 	sudo apt-get install dunst -y
-	# customize dunst config
-  	mkdir -p $HOME/.config/dunst
-  	backup_and_create "$HOME/.config/dunst/dunstrc"
-    	cp -r /etc/xdg/dunst $HOME/.config/
-    	sed -i 's/Adwaita/"Adwaita, Papirus"/g' $HOME/.config/dunst/dunstrc
-    	sed -i 's/32/22/g' $HOME/.config/dunst/dunstrc
 }
 
 # function for selection menu
