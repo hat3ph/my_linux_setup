@@ -216,7 +216,7 @@ function install(){
 
 			# xsession file for login manager
    			sudo mkdir -p /usr/share/xsessions
-	 		sudo cp ./config/xfwm4.desktop /usr/share/xsessions
+	 		sudo cp ./xfwm4/xfwm4.desktop /usr/share/xsessions
 		;;
 		swaywm)
 			# install swaywm and packages
