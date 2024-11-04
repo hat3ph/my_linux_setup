@@ -234,7 +234,17 @@ function install(){
 			echo "Remember to change PCManFM-Qt's Archiver intergration to lxqt-archiver under Preferences > Advanced."
 			# actions to open terminal in desktop. Not needed for LXQt v1.3 and above
 			rm $HOME/.local/share/file-manager/actions/open_in_terminal.desktop
-			
+
+   			# install Dracula theme for LXQt and QTerminal
+      			mkdir -p $HOME/.local/share/lxqt/{palettes,themes}
+    			git clone https://github.com/AzumaHazuki/lxqt-themes-dracula /tmp/lxqt-themes-dracula
+      			cp -r /tmp/lxqt-themes-dracula/palettes/* $HOME/.local/share/lxqt/palettes
+			cp -r /tmp/lxqt-themes-dracula/themes $HOME/.local/share/lxqt/themes/Dracula
+
+			sudo mkdir -p /usr/share/qtermwidget5/color-schemes
+  			git clone https://github.com/dracula/qterminal.git /tmp/qterminal
+    			sudo cp /tmp/qterminal/Dracula.colorscheme /usr/share/qtermwidget5/color-schemes
+       
 			# install openbox themes
 			mkdir -p $HOME/.local/share/themes
 			#git clone https://github.com/dracula/openbox /tmp/openbox
