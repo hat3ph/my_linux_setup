@@ -8,8 +8,8 @@ background.pixmap: ~/Pictures/wallpapers/cat.jpg
 ! fonts settings
 menu.title.font: noto sans cjk tc-12:bold
 menu.frame.font: noto sans cjk tc-12:bold
-toolbar.clock.font: noto sans cjk tc-12:bold
-toolbar.workspace.font: noto sans cjk tc-12:bold
+toolbar.clock.font: noto sans-12:bold
+toolbar.workspace.font: noto sans-12:bold
 toolbar.iconbar.focused.font: noto sans cjk tc-10:bold
 toolbar.iconbar.unfocused.font: noto sans cjk tc-10
 window.font: noto sans cjk tc-12
