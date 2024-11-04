@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # my custom dmenu power options
-#echo -e "poweroff\nreboot\nsuspend" | $HOME/.config/sway/scripts/my_dmenu.sh -p "Power Options:" | xargs systemctl
+#echo -e "poweroff\nreboot\nsuspend" | $HOME/.local/bin/my_dmenu.sh -p "Power Options:" | xargs systemctl
 
-choice=`echo -e "0: Logout\n1: Shutdown\n2: Reboot\n3: Suspend\n4: Cancel" | $HOME/.config/sway/scripts/my_dmenu.sh -p "Power Options:" | cut -d ':' -f 1`
+choice=`echo -e "0: Logout\n1: Shutdown\n2: Reboot\n3: Suspend\n4: Cancel" | $HOME/.local/bin/my_dmenu.sh -p "Power Options:" | cut -d ':' -f 1`
 
 # execute the choice in background
 case "$choice" in

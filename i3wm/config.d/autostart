@@ -23,3 +23,6 @@ exec --no-startup-id dex --autostart
 
 # autostart battery applet
 exec --no-startup-id cbatticon -u 20
+
+# setup wallpaper with feh
+exec --no-startup-id feh --bg-fill --randomize $HOME/Pictures/wallpapers/*

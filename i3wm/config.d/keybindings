@@ -141,18 +141,18 @@ bindsym XF86KbdBrightnessDown exec --no-startup-id $HOME/.local/bin/screen_brigh
 # Wireplumber Audio keybinds. Change to use XF86Audio keybind is using multimedia keyboard
 #
 # +5% increase default audio level
-bindsym $mod+Shift+Up exec --no-startup-id $HOME/.local/bin/wpctl_audio.sh up
-#bindsym $mod+Shift+Up exec --no-startup-id wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+
+bindsym $mod+control+Up exec --no-startup-id $HOME/.local/bin/wpctl_audio.sh up
+#bindsym $mod+control+Up exec --no-startup-id wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+
 #bindsym XF86AudioRaiseVolume exec --no-startup-id $HOME/.local/bin/wpctl_audio.sh up
 # -5% reduce default audio level
-bindsym $mod+Shift+Down exec --no-startup-id $HOME/.local/bin/wpctl_audio.sh down
-#bindsym $mod+Shift+Down exec --no-startup-id wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+bindsym $mod+control+Down exec --no-startup-id $HOME/.local/bin/wpctl_audio.sh down
+#bindsym $mod+control+Down exec --no-startup-id wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
 #bindsym XF86AudioLowerVolume exec --no-startup-id $HOME/.local/bin/wpctl_audio.sh down
 # toggle mute or unmute default audio
-bindsym $mod+Shift+M exec --no-startup-id $HOME/.local/bin/wpctl_audio.sh mute
-#bindsym $mod+Shift+M exec --no-startup-id wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+bindsym $mod+control+M exec --no-startup-id $HOME/.local/bin/wpctl_audio.sh mute
+#bindsym $mod+control+M exec --no-startup-id wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
 #bindsym XF86AudioMute exec --no-startup-id $HOME/.local/bin/wpctl_audio.sh mute
 # toggle mute or unmute default mic
-bindsym $mod+Shift+N exec --no-startup-id $HOME/.local/bin/wpctl_audio.sh mic
-#bindsym $mod+Shift+N exec --no-startup-id wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+bindsym $mod+control+N exec --no-startup-id $HOME/.local/bin/wpctl_audio.sh mic
+#bindsym $mod+control+N exec --no-startup-id wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
 #bindsym XF86AudioMicMute exec --no-startup-id $HOME/.local/bin/wpctl_audio.sh mic

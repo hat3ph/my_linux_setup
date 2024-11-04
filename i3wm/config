@@ -62,7 +62,7 @@ focus_follows_mouse no
 #exec_always --no-startup-id /usr/local/bin/back4.sh 0.03 $HOME/Pictures/gif/train.gif
 
 include $HOME/.config/i3/config.d/autostart
-include $HOME/.config/i3/config.d/keybindings*
+include $HOME/.config/i3/config.d/keybindings
 include $HOME/.config/i3/config.d/bar
 include $HOME/.config/i3/config.d/theme
 include $HOME/.config/i3/config.d/applications
