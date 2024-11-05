@@ -259,6 +259,8 @@ function install(){
 			#git clone https://github.com/dracula/openbox /tmp/openbox
 			git clone https://github.com/terroo/openbox-themes /tmp/openbox-themes
 			cp -r /tmp/openbox-themes/* $HOME/.local/share/themes/
+   			git clone https://github.com/catppuccin/openbox /tmp/openbox-catppuccin
+      			cp -r /tmp/openbox-catppuccin/themes/* $HOME/.local/share/themes/
 		;;
     	esac
 
