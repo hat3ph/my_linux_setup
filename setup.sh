@@ -372,6 +372,8 @@ function install(){
 		mkdir -p $HOME/.config/geany/colorschemes
 		git clone https://github.com/geany/geany-themes.git /tmp/geany-themes
 		cp -r /tmp/geany-themes/colorschemes/* $HOME/.config/geany/colorschemes/
+  		git clone https://github.com/catppuccin/geany /tmp/geany-catppuccin
+    		cp -r /tmp/geany-catppuccin/src/*.conf $HOME/.config/geany/colorschemes/
 
 		# install lxterminal dracula theme
 		git clone https://github.com/dracula/lxterminal.git /tmp/lxterminal
