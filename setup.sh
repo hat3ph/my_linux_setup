@@ -389,6 +389,11 @@ function install(){
 		mkdir -p $HOME/.config/lxterminal/
 		cp /tmp/lxterminal/lxterminal.conf $HOME/.config/lxterminal/
 
+		# install lxterminal catppuccin theme
+  		git clone https://github.com/catppuccin/lxterminal /tmp/lxterminal-catppuccin
+    		mkdir -p $HOME/.config/lxterminal/
+		cp /tmp/lxterminal-catppuccin/themes/*.conf $HOME/.config/lxterminal/
+
 		# install dracula themes
 		mkdir -p $HOME/.icons
 		wget -P /tmp https://github.com/dracula/gtk/releases/download/v4.0.0/Dracula-cursors.tar.xz
