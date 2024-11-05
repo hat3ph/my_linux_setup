@@ -244,7 +244,16 @@ function install(){
 			sudo mkdir -p /usr/share/qtermwidget5/color-schemes
   			git clone https://github.com/dracula/qterminal.git /tmp/qterminal
     			sudo cp /tmp/qterminal/Dracula.colorscheme /usr/share/qtermwidget5/color-schemes
-       
+
+       			# install Catppuccin LXQt and QTerminal theme
+	  		mkdir -p $HOME/.local/share/lxqt/themes
+	  		git clone https://github.com/catppuccin/lxqt /tmp/lxqt-catppuccin
+     			cp -r /tmp/lxqt-catppuccin/src/* $HOME/.local/share/lxqt/themes
+
+			sudo mkdir -p /usr/share/qtermwidget5/color-schemes
+ 			git clone https://github.com/catppuccin/qterminal /tmp/qterminal-catppuccin
+    			sudo cp /tmp/qterminal-catppuccin/src/*.colorscheme /usr/share/qtermwidget5/color-schemes
+     			
 			# install openbox themes
 			mkdir -p $HOME/.local/share/themes
 			#git clone https://github.com/dracula/openbox /tmp/openbox
