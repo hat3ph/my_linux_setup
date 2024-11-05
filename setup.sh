@@ -177,6 +177,11 @@ function install(){
     			mkdir -p $HOME/.local/share/xfce4/terminal/colorschemes
       			git clone https://github.com/dracula/xfce4-terminal.git /tmp/xfce4-terminal
 			cp /tmp/xfce4-terminal/Dracula.theme $HOME/.local/share/xfce4/terminal/colorschemes
+
+			# install catppuccin xfce4-terminal theme
+			mkdir -p $HOME/.local/share/xfce4/terminal/colorschemes
+   			git clone https://github.com/catppuccin/xfce4-terminal /tmp/xfce4-terminal-catppuccin
+      			cp /tmp/xfce4-terminal-catppuccin/themes/*.theme $HOME/.local/share/xfce4/terminal/colorschemes
 			
 			# copy xfce4-panel config
 			mkdir -p $HOME/.config/xfce4/panel/launcher-{8,10,14,15}
