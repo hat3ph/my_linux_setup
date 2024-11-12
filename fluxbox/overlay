@@ -17,3 +17,6 @@ window.font: noto sans cjk tc-12
 ! height settings
 toolbar.height: 25
 window.title.height: 25
+
+! clock settings
+toolbar.clock.justify: center
