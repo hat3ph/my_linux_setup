@@ -112,11 +112,11 @@ function menu (){
  
 function install(){
 	case $wm in
-        	fluxbox)
-            		install_packages fluxbox xorg xinit x11-utils lxterminal lxappearance xscreensaver rofi dex flameshot feh
-            		echo "startfluxbox" > "$HOME/.xinitrc"
+        fluxbox)
+            install_packages fluxbox xorg xinit x11-utils lxterminal lxappearance xscreensaver rofi dex flameshot feh
+            echo "startfluxbox" > "$HOME/.xinitrc"
             
-            		backup_and_create "$HOME/.fluxbox"
+            backup_and_create "$HOME/.fluxbox"
 			mkdir -p $HOME/.fluxbox
 			cp -r ./fluxbox/* $HOME/.fluxbox/
 			#sed -i 's/administrator/$USER/g' $HOME/.fluxbox/init
@@ -126,15 +126,15 @@ function install(){
 			mkdir -p $HOME/.fluxbox/styles
 			tar -zxvf ./styles/Retour.tgz -C $HOME/.fluxbox/styles/
 		;;
-        	icewm)
-            		install_packages icewm xorg xinit x11-utils lxterminal lxappearance xscreensaver rofi dex flameshot feh
+        icewm)
+            install_packages icewm xorg xinit x11-utils lxterminal lxappearance xscreensaver rofi dex flameshot feh
 			echo "icewm-session" > "$HOME/.xinitrc"
             	
 			# install icewm custom config
-            		backup_and_create "$HOME/.icewm"
-	      		mkdir -p $HOME/.icewm/
-            		cp -r ./icewm/* $HOME/.icewm/
-            		chmod +x $HOME/.icewm/startup
+            backup_and_create "$HOME/.icewm"
+	      	mkdir -p $HOME/.icewm/
+            cp -r ./icewm/* $HOME/.icewm/
+            chmod +x $HOME/.icewm/startup
 
 			# install icewm custom themes
 			mkdir -p $HOME/.icewm/themes
@@ -157,8 +157,8 @@ function install(){
 			else
 				cp ./styles/debian.xpm $HOME./icewm/themes/DraculIce/taskbar/start.xpm
 			fi
-            	;;
-        	i3wm)
+        ;;
+        i3wm)
 			# install i3wm and other packages
 			install_packages i3 suckless-tools xorg xinit x11-utils lxterminal feh lxappearance dex rofi flameshot
 			
@@ -171,17 +171,17 @@ function install(){
 			# install xfwm4 and other packages
 			install_packages xorg xinit xfce4-terminal xfwm4 xfce4-panel sxhkd feh xscreensaver lxappearance dex flameshot rofi
 			echo "exec xfwm4" > $HOME/.xinitrc
-        		cp ./xfwm4/xsessionrc $HOME/.xsessionrc
+        	cp ./xfwm4/xsessionrc $HOME/.xsessionrc
         
-        		# insall dracula xfce4-terminal theme
-    			mkdir -p $HOME/.local/share/xfce4/terminal/colorschemes
-      			git clone https://github.com/dracula/xfce4-terminal.git /tmp/xfce4-terminal
+        	# insall dracula xfce4-terminal theme
+    		mkdir -p $HOME/.local/share/xfce4/terminal/colorschemes
+      		git clone https://github.com/dracula/xfce4-terminal.git /tmp/xfce4-terminal
 			cp /tmp/xfce4-terminal/Dracula.theme $HOME/.local/share/xfce4/terminal/colorschemes
 
 			# install catppuccin xfce4-terminal theme
 			mkdir -p $HOME/.local/share/xfce4/terminal/colorschemes
    			git clone https://github.com/catppuccin/xfce4-terminal /tmp/xfce4-terminal-catppuccin
-      			cp /tmp/xfce4-terminal-catppuccin/themes/*.theme $HOME/.local/share/xfce4/terminal/colorschemes
+      		cp /tmp/xfce4-terminal-catppuccin/themes/*.theme $HOME/.local/share/xfce4/terminal/colorschemes
 			
 			# copy xfce4-panel config
 			mkdir -p $HOME/.config/xfce4/panel/launcher-{8,10,14,15}
@@ -238,26 +238,26 @@ function install(){
 			cp ./actions/*.desktop $HOME/.local/share/file-manager/actions/
 			echo "Remember to change PCManFM-Qt's Archiver intergration to lxqt-archiver under Preferences > Advanced."
 			# actions to open terminal in desktop. Not needed for LXQt v1.3 and above
-			rm $HOME/.local/share/file-manager/actions/open_in_terminal.desktop
+			rm $HOME/.local/share/file-manager/actions/open-in-terminal.desktop
 
    			# install Dracula theme for LXQt and QTerminal
-      			mkdir -p $HOME/.local/share/lxqt/{palettes,themes}
-    			git clone https://github.com/AzumaHazuki/lxqt-themes-dracula /tmp/lxqt-themes-dracula
-      			cp -r /tmp/lxqt-themes-dracula/palettes/* $HOME/.local/share/lxqt/palettes
+      		mkdir -p $HOME/.local/share/lxqt/{palettes,themes}
+    		git clone https://github.com/AzumaHazuki/lxqt-themes-dracula /tmp/lxqt-themes-dracula
+      		cp -r /tmp/lxqt-themes-dracula/palettes/* $HOME/.local/share/lxqt/palettes
 			cp -r /tmp/lxqt-themes-dracula/themes $HOME/.local/share/lxqt/themes/Dracula
 
 			sudo mkdir -p /usr/share/qtermwidget5/color-schemes
   			git clone https://github.com/dracula/qterminal.git /tmp/qterminal
-    			sudo cp /tmp/qterminal/Dracula.colorscheme /usr/share/qtermwidget5/color-schemes
+    		sudo cp /tmp/qterminal/Dracula.colorscheme /usr/share/qtermwidget5/color-schemes
 
-       			# install Catppuccin LXQt and QTerminal theme
+       		# install Catppuccin LXQt and QTerminal theme
 	  		mkdir -p $HOME/.local/share/lxqt/themes
 	  		git clone https://github.com/catppuccin/lxqt /tmp/lxqt-catppuccin
-     			cp -r /tmp/lxqt-catppuccin/src/* $HOME/.local/share/lxqt/themes
+     		cp -r /tmp/lxqt-catppuccin/src/* $HOME/.local/share/lxqt/themes
 
 			sudo mkdir -p /usr/share/qtermwidget5/color-schemes
  			git clone https://github.com/catppuccin/qterminal /tmp/qterminal-catppuccin
-    			sudo cp /tmp/qterminal-catppuccin/src/*.colorscheme /usr/share/qtermwidget5/color-schemes
+    		sudo cp /tmp/qterminal-catppuccin/src/*.colorscheme /usr/share/qtermwidget5/color-schemes
      			
 			# install openbox themes
 			mkdir -p $HOME/.local/share/themes
@@ -265,7 +265,7 @@ function install(){
 			git clone https://github.com/terroo/openbox-themes /tmp/openbox-themes
 			cp -r /tmp/openbox-themes/* $HOME/.local/share/themes/
    			git clone https://github.com/catppuccin/openbox /tmp/openbox-catppuccin
-      			cp -r /tmp/openbox-catppuccin/themes/* $HOME/.local/share/themes/
+      		cp -r /tmp/openbox-catppuccin/themes/* $HOME/.local/share/themes/
 		;;
     	esac
 
@@ -279,9 +279,9 @@ function install(){
 		# customize dunst config
 		mkdir -p $HOME/.config/dunst
 		backup_and_create "$HOME/.config/dunst/dunstrc" 
-    		cp -r /etc/xdg/dunst $HOME/.config/
-    		sed -i 's/Adwaita/"Adwaita, Papirus"/g' $HOME/.config/dunst/dunstrc
-    		sed -i 's/32/22/g' $HOME/.config/dunst/dunstrc
+    	cp -r /etc/xdg/dunst $HOME/.config/
+    	sed -i 's/Adwaita/"Adwaita, Papirus"/g' $HOME/.config/dunst/dunstrc
+    	sed -i 's/32/22/g' $HOME/.config/dunst/dunstrc
 	fi
 
 	# install yt-dlp
@@ -389,7 +389,7 @@ function install(){
 		git clone https://github.com/geany/geany-themes.git /tmp/geany-themes
 		cp -r /tmp/geany-themes/colorschemes/* $HOME/.config/geany/colorschemes/
   		git clone https://github.com/catppuccin/geany /tmp/geany-catppuccin
-    		cp -r /tmp/geany-catppuccin/src/*.conf $HOME/.config/geany/colorschemes/
+    	cp -r /tmp/geany-catppuccin/src/*.conf $HOME/.config/geany/colorschemes/
 
 		# install lxterminal dracula theme
 		git clone https://github.com/dracula/lxterminal.git /tmp/lxterminal
@@ -398,7 +398,7 @@ function install(){
 
 		# install lxterminal catppuccin theme
   		git clone https://github.com/catppuccin/lxterminal /tmp/lxterminal-catppuccin
-    		mkdir -p $HOME/.config/lxterminal/
+    	mkdir -p $HOME/.config/lxterminal/
 		cp /tmp/lxterminal-catppuccin/themes/*.conf $HOME/.config/lxterminal/
 
 		# install dracula themes

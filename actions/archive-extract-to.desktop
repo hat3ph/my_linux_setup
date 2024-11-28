@@ -1,0 +1,29 @@
+[Desktop Entry] 
+Type=Action
+Name[en]=Extract to...
+Icon=package-x-generic
+Profiles=7zip;bzip2;gzip;rar;tar;zip;
+
+[X-Action-Profile 7zip]
+MimeTypes=application/x-7z-compressed;
+Exec=lxqt-archiver --extract %U
+
+[X-Action-Profile bzip2]
+MimeTypes=application/x-bzip2;application/x-bzip2-compressed-tar;
+Exec=lxqt-archiver --extract %U
+
+[X-Action-Profile gzip]
+MimeTypes=application/gzip;
+Exec=lxqt-archiver --extract %U
+
+[X-Action-Profile rar]
+MimeTypes=application/vnd.rar;
+Exec=lxqt-archiver --extract %U
+
+[X-Action-Profile tar]
+MimeTypes=application/x-tar;application/x-compressed-tar;application/x-xz-compressed-tar;
+Exec=lxqt-archiver --extract %U
+
+[X-Action-Profile zip]
+MimeTypes=application/zip;
+Exec=lxqt-archiver --extract %U

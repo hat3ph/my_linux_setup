@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Action
+Name[en]=Permanent Delete
+Icon=emblem-remove
+Profiles=profile-zero;
+
+[X-Action-Profile profile-zero]
+MimeTypes=text/*;audio/*;image/*;application/*;video/*
+Exec=rm -f %f
+Name=Default profile
