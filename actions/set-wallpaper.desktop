@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Action
+Name[en]=Set as wallpaper
+Icon=user-desktop
+Profiles=profile-zero;
+
+[X-Action-Profile profile-zero]
+MimeTypes=image/*;
+Exec=pcmanfm-qt --wallpaper-mode=stretch -w %f
+Name[en]=Default profile
+#SelectionCount==1
