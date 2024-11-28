@@ -31,16 +31,16 @@ function backup_and_create() {
 	local path="$1"
     
 	# Check if the path is a directory
-    	if [ -d "$path" ]; then
-        	mv "$path" "${path}_backup_$(date +%Y_%m_%d_%H_%M_%S)"
-	 	mkdir -p "$path"
-    	# Check if the path is a file
-    	elif [ -f "$path" ]; then
-        	mv "$path" "${path}_backup_$(date +%Y_%m_%d_%H_%M_%S)"
-    	else
-        	echo "Error: '$path' is neither a file nor a directory."
-        	return 1
-    	fi
+    if [ -d "$path" ]; then
+       	mv "$path" "${path}_backup_$(date +%Y_%m_%d_%H_%M_%S)"
+		mkdir -p "$path"
+    # Check if the path is a file
+    elif [ -f "$path" ]; then
+       	mv "$path" "${path}_backup_$(date +%Y_%m_%d_%H_%M_%S)"
+    else
+       	echo "Error: '$path' is neither a file nor a directory."
+       	return 1
+    fi
 }
 
 # Function to check and disable running services
@@ -71,43 +71,43 @@ function menu (){
 	pipewire=${pipewire:-yes} 
  	
 	read -p "Install Thunar file manager? (yes/no) [yes]:" thunar
-    	thunar=${thunar:-yes} 
+    thunar=${thunar:-yes} 
  
-    	read -p "Choose login manager (sddm or lxdm) [lxdm]:" login_mgr
-    	login_mgr=${login_mgr:-lxdm}
+    read -p "Choose login manager (sddm or lxdm) [lxdm]:" login_mgr
+    login_mgr=${login_mgr:-lxdm}
  
    	read -p "Use NetworkManager for network interface management? (yes/no) [yes]:" nm
-    	nm=${nm:-yes} 
+    nm=${nm:-yes} 
  
-    	read -p "Configure nano text editor? (yes/no) [yes]:" nano_config
-    	nano_config=${nano_config:-yes} 
+    read -p "Configure nano text editor? (yes/no) [yes]:" nano_config
+    nano_config=${nano_config:-yes} 
  
-    	read -p "Install on a laptop? (yes/no) [yes]:" laptop_mode
-    	laptop_mode=${laptop_mode:-yes} 
+    read -p "Install on a laptop? (yes/no) [yes]:" laptop_mode
+    laptop_mode=${laptop_mode:-yes} 
  
-    	read -p "Enable amdgpu tearfree? (yes/no) [yes]:" amdgpu_config
-    	amdgpu_config=${amdgpu_config:-yes} 
+    read -p "Enable amdgpu tearfree? (yes/no) [yes]:" amdgpu_config
+    amdgpu_config=${amdgpu_config:-yes} 
  
-    	read -p "Install QEMU and Virt-Manager? (yes/no) [yes]:" qemu
-    	qemu=${qemu:-yes} 
+    read -p "Install QEMU and Virt-Manager? (yes/no) [yes]:" qemu
+    qemu=${qemu:-yes} 
  
-    	read -p "Install Wine and Lutris for gaming? (yes/no) [yes]:" gaming
-    	gaming=${gaming:-yes} 
+    read -p "Install Wine and Lutris for gaming? (yes/no) [yes]:" gaming
+    gaming=${gaming:-yes} 
  
-    	read -p "Customize lm-sensors? (yes/no) [yes]:" sensors
-    	sensors=${sensors:-yes} 
+    read -p "Customize lm-sensors? (yes/no) [yes]:" sensors
+    sensors=${sensors:-yes} 
  
-    	read -p "Customize your bashrc? (yes/no) [yes]:" bashrc
-    	bashrc=${bashrc:-yes} 
+    read -p "Customize your bashrc? (yes/no) [yes]:" bashrc
+    bashrc=${bashrc:-yes} 
  
-    	read -p "Install and configure smartd? (yes/no) [yes]:" smartd
-    	smartd=${smartd:-yes} 
+    read -p "Install and configure smartd? (yes/no) [yes]:" smartd
+    smartd=${smartd:-yes} 
  
-    	read -p "Enable swapfile? (yes/no) [yes]:" swapfile
-    	swapfile=${swapfile:-yes} 
+    read -p "Enable swapfile? (yes/no) [yes]:" swapfile
+    swapfile=${swapfile:-yes} 
  
-    	read -p "Install yt-dlp? (yes/no) [yes]:" ytdlp
-    	ytdlp=${ytdlp:-yes}
+    read -p "Install yt-dlp? (yes/no) [yes]:" ytdlp
+    ytdlp=${ytdlp:-yes}
 }
  
 function install(){
@@ -124,7 +124,19 @@ function install(){
 
 			# install extra fluxbox styles
 			mkdir -p $HOME/.fluxbox/styles
-			tar -zxvf ./styles/Retour.tgz -C $HOME/.fluxbox/styles/
+			#tar -zxvf ./styles/Retour.tgz -C $HOME/.fluxbox/styles/
+			
+			# download fluxbox style from http://tenr.de/styles/?i=16
+			wget -P /tmp http://tenr.de/styles/archives/tenr.de-styles-pkg.tar.bz2
+			tar -xvf /tmp/tenr.de-styles-pkg.tar.bz2
+			cp -r /tmp/tenr.de-styles-pkg/* $HOME/.fluxbox/styles/
+
+			wget -P /tmp http://tenr.de/styles/archives/fluxmod-styles-pkg.tar.bz2
+			tar -xvf /tmp/fluxmod-styles-pkg.tar.bz2
+			cp -r /tmp/fluxmod-styles-pkg/* $HOME/.fluxbox/styles/
+
+			# remove unwanted files
+			rm $HOME/.fluxbox/styles/*.{sh,txt}
 		;;
         icewm)
             install_packages icewm xorg xinit x11-utils lxterminal lxappearance xscreensaver rofi dex flameshot feh
@@ -310,7 +322,7 @@ function install(){
 		sudo dpkg -i /tmp/lutris*.deb
 	
 		# install MangoHud
-		wget -P /tmp https://github.com/flightlessmango/MangoHud/releases/download/v0.7.1/MangoHud-0.7.1.tar.gz
+		wget -P /tmp https://github.com/flightlessmango/MangoHud/releases/download/v0.7.2/MangoHud-0.7.2.r0.g7b80f73.tar.gz
 		tar -zxvf /tmp/MangoHud*.tar.gz -C /tmp
 		(cd /tmp/MangoHud && ./mangohud-setup.sh install)
    
