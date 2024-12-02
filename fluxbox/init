@@ -63,7 +63,7 @@ session.forcePseudoTransparency:	false
 session.appsFile:	~/.fluxbox/apps
 session.menuFile:	~/.fluxbox/menu
 session.cacheLife:	5
-session.styleFile:	/usr/share/fluxbox/styles/bora_black
+session.styleFile:	~/.fluxbox/styles/eclipse
 session.keyFile:	~/.fluxbox/keys
 session.ignoreBorder:	false
 session.colorsPerChannel:	4
