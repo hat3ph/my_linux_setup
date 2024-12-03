@@ -63,7 +63,7 @@ Mod1 T :Exec lxterminal
 # open rofi app finder
 Mod1 R :Exec rofi -show drun
 # open rofi power menu
-Mod1 P :Exec $HOME/.local/bin/power_menu.sh
+Mod1 P :Exec $HOME/.local/bin/rofi_power_menu.sh
 # open thunar file manager
 Mod1 F :Exec thunar
 # open firefox-esr web browser
