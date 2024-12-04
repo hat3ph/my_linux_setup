@@ -218,14 +218,14 @@ function install(){
 		;;
 		swaywm)
 			# install swaywm and packages
-			install_packages install sway swaybg swayidle swaylock xdg-desktop-portal-wlr xwayland foot suckless-tools mako-notifier libnotify-bin grim imagemagick grimshot qt5ct lxappearance qtwayland5
+			install_packages install sway swaybg swayidle swaylock xdg-desktop-portal-wlr xwayland foot suckless-tools grim imagemagick grimshot qt5ct lxappearance qtwayland5
 
 			# copy my swaywm and mako configuration
 			backup_and_create "$HOME/.config/sway"
-			backup_and_create "$HOME/.config/mako"
-			mkdir -p $HOME/.config/{sway,mako}
+			#backup_and_create "$HOME/.config/mako"
+			mkdir -p $HOME/.config/sway
 			cp -r ./swaywm/* $HOME/.config/sway/
-			cp ./mako/config $HOME/.config/mako/
+			#cp ./mako/config $HOME/.config/mako/
 			
 			# enable autostart swaywm after TUI login
 			sudo cp ./config/start_swaywm.sh /usr/local/bin/start_swaywm.sh
@@ -284,17 +284,16 @@ function install(){
 	# Install standard packages
 	install_packages papirus-icon-theme adwaita-icon-theme xdg-utils xdg-user-dirs policykit-1 policykit-1-gnome software-properties-gtk rsyslog logrotate nano less curl wget iputils-ping fonts-noto-color-emoji fonts-noto-cjk fonts-font-awesome gpicview gv geany unzip rar
 
-	# configure dunst
-	if [[ $wm != "swaywm" ]]; then
-		# install dunst
-		install_packages dunst
-		# customize dunst config
-		mkdir -p $HOME/.config/dunst
-		backup_and_create "$HOME/.config/dunst/dunstrc" 
-    	cp -r /etc/xdg/dunst $HOME/.config/
-    	sed -i 's/Adwaita/"Adwaita, Papirus"/g' $HOME/.config/dunst/dunstrc
-    	sed -i 's/32/22/g' $HOME/.config/dunst/dunstrc
-	fi
+	# install and configure dunst
+	#if [[ $wm != "swaywm" ]]; then
+	install_packages dunst
+	# customize dunst config
+	mkdir -p $HOME/.config/dunst
+	backup_and_create "$HOME/.config/dunst/dunstrc" 
+    cp -r /etc/xdg/dunst $HOME/.config/
+    sed -i 's/Adwaita/"Adwaita, Papirus"/g' $HOME/.config/dunst/dunstrc
+    sed -i 's/32/22/g' $HOME/.config/dunst/dunstrc
+	#fi
 
 	# install yt-dlp
 	if [[ $ytdlp == "yes" ]]; then
@@ -318,7 +317,7 @@ function install(){
 		install_packages wine64
 		install_packages python3-lxml python3-setproctitle python3-magic gir1.2-webkit2-4.1 cabextract \
   			fluid-soundfont-gs vulkan-tools python3-protobuf python3-evdev fluidsynth gamemode
-		wget -P /tmp https://github.com/lutris/lutris/releases/download/v0.5.17/lutris_0.5.17_all.deb
+		wget -P /tmp https://github.com/lutris/lutris/releases/download/v0.5.18/lutris_0.5.18_all.deb
 		sudo dpkg -i /tmp/lutris*.deb
 	
 		# install MangoHud
