@@ -73,7 +73,7 @@ function menu (){
 	read -p "Install Thunar file manager? (yes/no) [yes]:" thunar
     thunar=${thunar:-yes} 
  
-    read -p "Choose login manager (sddm or lxdm) [lxdm]:" login_mgr
+    read -p "Choose login manager (sddm or lxdm). Choose sddm for wayland backend. [lxdm]:" login_mgr
     login_mgr=${login_mgr:-lxdm}
  
    	read -p "Use NetworkManager for network interface management? (yes/no) [yes]:" nm
