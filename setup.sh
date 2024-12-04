@@ -58,7 +58,7 @@ function disable_services() {
 
 # function for selection menu
 function menu (){
-	read -p "Choose window manager (icewm, fluxbox, i3wm, xfwm4, swaywm, lubuntu) [icewm]: " wm
+	read -p "Choose window manager (icewm, fluxbox, i3wm, xfwm4, swaywm, labwc, lubuntu) [icewm]: " wm
 	wm=${wm:-icewm}
  
 	read -p "Install Firefox using the deb package? (yes/no) [yes]:" firefox_deb
@@ -235,6 +235,20 @@ function install(){
 
 			backup_and_create "$HOME/.bashrc"
 			echo -e '\n#If running from tty1 start sway\n[ "$(tty)" = "/dev/tty1" ] && exec /usr/local/bin/start_swaywm.sh' >> $HOME/.bashrc
+		;;
+		labwc)
+			# install labwc and packages
+			install_packages labwc swaybg wlr-randr sfwbar wofi
+
+			# copy labwc configs
+			mkdir -p $HOME/.config/labwc
+			cp /etc/xdg/labwc/environment $HOME/.config/labwc/
+			cp /etc/xdg/labwc/menu.xml $HOME/.config/labwc/
+			cp ./labwc/* $HOME/.config/labwc/
+
+			# copy sfwbar config
+			mkdir -p $HOME/.config/sfwbar
+			cp ./config/sfwbar.config $HOME/.config/sfwbar/
 		;;
 		lubuntu)
 			# install minimal setup on Lubuntu
@@ -439,7 +453,7 @@ function install(){
 	# use pipewire with wireplumber or pulseaudio-utils
 	if [[ $pipewire == "yes" ]]; then
 		if [[ $wm != "lubuntu" ]]; then
-			if [[ $wm == "i3wm" || $wm == "swaywm" ]]; then
+			if [[ $wm == "i3wm" || $wm == "swaywm" || $wm == "labwc" ]]; then
 				install_packages pipewire pipewire-pulse wireplumber
 			else
 				install_packages pipewire pipewire-pulse wireplumber pavucontrol-qt pnmixer
