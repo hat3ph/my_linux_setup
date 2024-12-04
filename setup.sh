@@ -467,10 +467,10 @@ function install(){
 	if [[ $thunar == "yes" ]]; then
 		if [[ $wm != "lubuntu" ]]; then
 			install_packages thunar gvfs gvfs-backends thunar-archive-plugin thunar-media-tags-plugin avahi-daemon
-			mkdir -p $HOME/.config/xfce4
-			if [[ $wm != "xfwm4" && $wm != "swaywm" ]]; then
-				echo "TerminalEmulator=lxterminal" > $HOME/.config/xfce4/helpers.rc
-			fi
+			#mkdir -p $HOME/.config/xfce4
+			#if [[ $wm != "xfwm4" && $wm != "swaywm" ]]; then
+			#	echo "TerminalEmulator=lxterminal" > $HOME/.config/xfce4/helpers.rc
+			#fi
 		fi
 	fi
 
