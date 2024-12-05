@@ -33,6 +33,6 @@ swayidle -w \
 	resume 'wlopm --on \*' \
 	before-sleep 'swaylock -f -c 000000' >/dev/null 2>&1 &
 
-xdg-user-dirs-update --daemon >/dev/null 2>&1 &
+xdg-user-dirs-update >/dev/null 2>&1 &
 thunar --daemon >/dev/null 2>&1 &
 nm-applet >/dev/null 2>&1 &
