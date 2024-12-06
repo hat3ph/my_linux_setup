@@ -229,7 +229,7 @@ function install(){
 			backup_and_create "$HOME/.config/sway"
 			#backup_and_create "$HOME/.config/mako"
 			mkdir -p $HOME/.config/sway
-			cp -r ./sway/* $HOME/.config/sway/
+			cp -r ./swaywm/* $HOME/.config/sway/
 			#cp ./mako/config $HOME/.config/mako/
 			
 			# enable autostart sway after TUI login
