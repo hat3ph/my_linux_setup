@@ -18,7 +18,7 @@ echo "Welcome to My Linux Interactive Setup Script!"
 echo "Please follow the prompts below to configure your environment."
 echo ""
  
-#wm_options=(icewm fluxbox i3wm xfwm4 swaywm lubuntu)
+#wm_options=(icewm fluxbox i3wm xfwm4 sway lubuntu)
 
 # Function to install packages
 function install_packages() {
@@ -222,25 +222,25 @@ function install(){
 	 		sudo cp ./xfwm4/xfwm4.desktop /usr/share/xsessions
 		;;
 		sway)
-			# install swaywm and packages
+			# install sway and packages
 			install_packages install sway swaybg swayidle swaylock xdg-desktop-portal-wlr xwayland foot suckless-tools grim imagemagick grimshot qt5ct lxappearance qtwayland5
 
-			# copy my swaywm and mako configuration
+			# copy my sway and mako configuration
 			backup_and_create "$HOME/.config/sway"
 			#backup_and_create "$HOME/.config/mako"
 			mkdir -p $HOME/.config/sway
-			cp -r ./swaywm/* $HOME/.config/sway/
+			cp -r ./sway/* $HOME/.config/sway/
 			#cp ./mako/config $HOME/.config/mako/
 			
-			# enable autostart swaywm after TUI login
+			# enable autostart sway after TUI login
 			#autostart_wm sway
-			#sudo cp ./config/start_swaywm.sh /usr/local/bin/start_swaywm.sh
-			#sudo chmod +x /usr/local/bin/start_swaywm.sh
+			#sudo cp ./config/start_sway.sh /usr/local/bin/start_sway.sh
+			#sudo chmod +x /usr/local/bin/start_sway.sh
 			#sudo mkdir -p /etc/profile.d
 			#sudo cp ./config/sway_env.sh /etc/profile.d/sway_env.sh
 
 			#backup_and_create "$HOME/.bashrc"
-			#echo -e '\n#If running from tty1 start sway\n[ "$(tty)" = "/dev/tty1" ] && exec /usr/local/bin/start_swaywm.sh' >> $HOME/.bashrc
+			#echo -e '\n#If running from tty1 start sway\n[ "$(tty)" = "/dev/tty1" ] && exec /usr/local/bin/start_sway.sh' >> $HOME/.bashrc
 		;;
 		labwc)
 			# install labwc and packages
@@ -309,10 +309,14 @@ function install(){
     	esac
 
 	# Install standard packages
-	install_packages papirus-icon-theme adwaita-icon-theme xdg-utils xdg-user-dirs policykit-1 policykit-1-gnome software-properties-gtk rsyslog logrotate nano less curl wget iputils-ping fonts-noto-color-emoji fonts-noto-cjk fonts-font-awesome gpicview gv geany unzip rar
-
+ 	if [[ $wm == "sway" || $wm == "labwc" ]]; then
+  		install_packages papirus-icon-theme adwaita-icon-theme xdg-utils xdg-user-dirs rsyslog logrotate nano less curl wget iputils-ping fonts-noto-color-emoji fonts-noto-cjk fonts-font-awesome gpicview gv geany unzip rar
+    	else
+		install_packages papirus-icon-theme adwaita-icon-theme xdg-utils xdg-user-dirs policykit-1 policykit-1-gnome software-properties-gtk rsyslog logrotate nano less curl wget iputils-ping fonts-noto-color-emoji fonts-noto-cjk fonts-font-awesome gpicview gv geany unzip rar
+ 	fi
+  
 	# install and configure dunst
-	#if [[ $wm != "swaywm" ]]; then
+	#if [[ $wm != "sway" ]]; then
 	install_packages dunst
 	# customize dunst config
 	mkdir -p $HOME/.config/dunst
@@ -466,7 +470,7 @@ function install(){
 	# use pipewire with wireplumber or pulseaudio-utils
 	if [[ $pipewire == "yes" ]]; then
 		if [[ $wm != "lubuntu" ]]; then
-			if [[ $wm == "i3wm" || $wm == "swaywm" || $wm == "labwc" ]]; then
+			if [[ $wm == "i3wm" || $wm == "sway" || $wm == "labwc" ]]; then
 				install_packages pipewire pipewire-pulse wireplumber
 			else
 				install_packages pipewire pipewire-pulse wireplumber pavucontrol-qt pnmixer
@@ -481,7 +485,7 @@ function install(){
 		if [[ $wm != "lubuntu" ]]; then
 			install_packages thunar gvfs gvfs-backends thunar-archive-plugin thunar-media-tags-plugin avahi-daemon
 			#mkdir -p $HOME/.config/xfce4
-			#if [[ $wm != "xfwm4" && $wm != "swaywm" ]]; then
+			#if [[ $wm != "xfwm4" && $wm != "sway" ]]; then
 			#	echo "TerminalEmulator=lxterminal" > $HOME/.config/xfce4/helpers.rc
 			#fi
 		fi
