@@ -43,6 +43,11 @@ function backup_and_create() {
     fi
 }
 
+# Function to enable autostart WM after TUI login from profile.d
+function autostart_wm() {
+	echo -e "# If running from tty1 start $1\n[ "\"'$(tty)'\"" = \"/dev/tty1\" ] && exec $1" | sudo tee /etc/profile.d/start_$1.sh
+}
+
 # Function to check and disable running services
 function disable_services() {
 	for service in "${@}"; do
@@ -228,8 +233,9 @@ function install(){
 			#cp ./mako/config $HOME/.config/mako/
 			
 			# enable autostart swaywm after TUI login
-			sudo cp ./config/start_swaywm.sh /usr/local/bin/start_swaywm.sh
-			sudo chmod +x /usr/local/bin/start_swaywm.sh
+			autostart_wm sway
+			#sudo cp ./config/start_swaywm.sh /usr/local/bin/start_swaywm.sh
+			#sudo chmod +x /usr/local/bin/start_swaywm.sh
 			#sudo mkdir -p /etc/profile.d
 			#sudo cp ./config/sway_env.sh /etc/profile.d/sway_env.sh
 
@@ -239,6 +245,9 @@ function install(){
 		labwc)
 			# install labwc and packages
 			install_packages labwc swaybg wlr-randr sfwbar wofi
+
+			# enable autostart labwc after TUI login
+			autostart_wm labwc
 
 			# copy labwc configs
 			mkdir -p $HOME/.config/labwc
