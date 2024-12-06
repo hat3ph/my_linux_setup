@@ -45,7 +45,7 @@ function backup_and_create() {
 
 # Function to enable autostart WM after TUI login from profile.d
 function autostart_wm() {
-	echo -e "# If running from tty1 start $1\n[ "\"'$(tty)'\"" = \"/dev/tty1\" ] && exec $1" | sudo tee /etc/profile.d/start_$1.sh
+	echo -e "# If running from tty1 start $1\n[ "\"'$(tty)'\"" = \"/dev/tty1\" ] && exec $1" | sudo tee /etc/profile.d/autostart-$1.sh
 }
 
 # Function to check and disable running services
@@ -63,7 +63,7 @@ function disable_services() {
 
 # function for selection menu
 function menu (){
-	read -p "Choose window manager (icewm, fluxbox, i3wm, xfwm4, swaywm, labwc, lubuntu) [icewm]: " wm
+	read -p "Choose window manager (icewm, fluxbox, i3wm, xfwm4, sway, labwc, lubuntu) [icewm]: " wm
 	wm=${wm:-icewm}
  
 	read -p "Install Firefox using the deb package? (yes/no) [yes]:" firefox_deb
@@ -78,8 +78,8 @@ function menu (){
 	read -p "Install Thunar file manager? (yes/no) [yes]:" thunar
     thunar=${thunar:-yes} 
  
-    read -p "Choose login manager (sddm or lxdm). Choose sddm for wayland backend. [lxdm]:" login_mgr
-    login_mgr=${login_mgr:-lxdm}
+    read -p "Choose login manager (sddm or lxdm or wayland or no). Choose no for no login manager. [no]:" login_mgr
+    login_mgr=${login_mgr:-no}
  
    	read -p "Use NetworkManager for network interface management? (yes/no) [yes]:" nm
     nm=${nm:-yes} 
@@ -221,7 +221,7 @@ function install(){
    			sudo mkdir -p /usr/share/xsessions
 	 		sudo cp ./xfwm4/xfwm4.desktop /usr/share/xsessions
 		;;
-		swaywm)
+		sway)
 			# install swaywm and packages
 			install_packages install sway swaybg swayidle swaylock xdg-desktop-portal-wlr xwayland foot suckless-tools grim imagemagick grimshot qt5ct lxappearance qtwayland5
 
@@ -233,7 +233,7 @@ function install(){
 			#cp ./mako/config $HOME/.config/mako/
 			
 			# enable autostart swaywm after TUI login
-			autostart_wm sway
+			#autostart_wm sway
 			#sudo cp ./config/start_swaywm.sh /usr/local/bin/start_swaywm.sh
 			#sudo chmod +x /usr/local/bin/start_swaywm.sh
 			#sudo mkdir -p /etc/profile.d
@@ -247,7 +247,7 @@ function install(){
 			install_packages labwc swaybg wlr-randr sfwbar wofi
 
 			# enable autostart labwc after TUI login
-			autostart_wm labwc
+			#autostart_wm labwc
 
 			# copy labwc configs
 			mkdir -p $HOME/.config/labwc
@@ -487,12 +487,23 @@ function install(){
 		fi
 	fi
 
-	# optional to install SDDM or lxdm login manager
-	if [[ $login_mgr == "lxdm" ]]; then
-		install_packages lxdm
-	else
-		install_packages sddm
-	fi
+	# optional to install SDDM or lxdm or no login manager
+ 	case $login_mgr in
+	lxdm)
+ 		install_packages lxdm
+ 	;;
+  	sddm)
+   		install_packages sddm
+   	;;
+    	wayland)
+     		autostart_wm $wm
+     	;;
+  	esac
+	#if [[ $login_mgr == "lxdm" ]]; then
+	#	install_packages lxdm
+	#else
+	#	install_packages sddm
+	#fi
 
 	# install firefox without snap
 	# https://www.omgubuntu.co.uk/2022/04/how-to-install-firefox-deb-apt-ubuntu-22-04
