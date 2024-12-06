@@ -251,8 +251,10 @@ function install(){
 
 			# copy labwc configs
 			mkdir -p $HOME/.config/labwc
-			cp /etc/xdg/labwc/environment $HOME/.config/labwc/
-			cp /etc/xdg/labwc/menu.xml $HOME/.config/labwc/
+			#cp /etc/xdg/labwc/environment $HOME/.config/labwc/
+			#cp /etc/xdg/labwc/menu.xml $HOME/.config/labwc/
+   			wget https://raw.githubusercontent.com/labwc/labwc/master/docs/environment -O $HOME/.config/labwc/environment
+   			wget https://raw.githubusercontent.com/labwc/labwc/master/docs/menu.xml -O $HOME/.config/labwc/menu.xml
 			cp ./labwc/* $HOME/.config/labwc/
 
 			# copy sfwbar config
