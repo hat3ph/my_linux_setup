@@ -262,6 +262,14 @@ function install(){
 			# copy sfwbar config
 			mkdir -p $HOME/.config/sfwbar
 			cp ./config/sfwbar.config $HOME/.config/sfwbar/
+
+   			# labwc/openbox themes
+      			mkdir -p $HOME/.themes
+	 		git clone https://github.com/dracula/openbox /tmp/dracula-openbox
+    			cp -r /tmp/dracula-openbox/Dracula* $HOME/.themes/
+
+       			git clone https://github.com/catppuccin/openbox /tmp/catppuccin-openbox
+	  		cp -r /tmp/catppuccin-openbox/themes/catppuccin-* $HOME/.themes/
 		;;
 		lubuntu)
 			# install minimal setup on Lubuntu
