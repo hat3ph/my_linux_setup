@@ -84,14 +84,14 @@ function menu (){
    	read -p "Use NetworkManager for network interface management? (yes/no) [yes]:" nm
     nm=${nm:-yes} 
  
-    read -p "Configure nano text editor? (yes/no) [yes]:" nano_config
-    nano_config=${nano_config:-yes} 
+    read -p "Configure nano text editor? (yes/no) [no]:" nano_config
+    nano_config=${nano_config:-no} 
  
-    read -p "Install on a laptop? (yes/no) [yes]:" laptop_mode
-    laptop_mode=${laptop_mode:-yes} 
+    read -p "Install on a laptop? (yes/no) [no]:" laptop_mode
+    laptop_mode=${laptop_mode:-no} 
  
-    read -p "Enable amdgpu xorg tearfree? (yes/no) [yes]:" amdgpu_config
-    amdgpu_config=${amdgpu_config:-yes} 
+    read -p "Enable amdgpu xorg tearfree? (yes/no) [no]:" amdgpu_config
+    amdgpu_config=${amdgpu_config:-no} 
  
     read -p "Install QEMU and Virt-Manager? (yes/no) [yes]:" qemu
     qemu=${qemu:-yes} 
@@ -102,7 +102,7 @@ function menu (){
     read -p "Customize lm-sensors? (yes/no) [yes]:" sensors
     sensors=${sensors:-yes} 
  
-    read -p "Customize your bashrc? (yes/no) [yes]:" bashrc
+    read -p "Customize your bashrc? (yes/no) [no]:" bashrc
     bashrc=${bashrc:-no} 
  
     read -p "Install and configure smartd? (yes/no) [yes]:" smartd
@@ -542,6 +542,7 @@ function install(){
 				sudo tee /etc/apt/preferences.d/mozilla
 			install_packages firefox
 		else
+  			# install firefox-esr from debian repo
 			install_packages firefox-esr
 			if [[ $wm == "fluxbox" ]]; then
 				sed -i 's/firefox/firefox-esr/g' $HOME/.fluxbox/keys
@@ -551,6 +552,9 @@ function install(){
 			fi
 			if [[ $wm == "xfwm4" ]]; then
 				sed -i 's/firefox/firefox-esr/g' $HOME/.config/xfce4/panel/launcher-10/17140154333.desktop
+			fi
+   			if [[ $wm == "labwc" ]]; then
+				sed -i 's/firefox/firefox-esr/g' $HOME/.config/labwc/menu.xml
 			fi
 		fi
 	fi
