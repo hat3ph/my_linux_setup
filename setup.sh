@@ -239,8 +239,8 @@ function install(){
 			#sudo mkdir -p /etc/profile.d
 			#sudo cp ./config/sway_env.sh /etc/profile.d/sway_env.sh
 
-			backup_and_create "$HOME/.bashrc"
-			echo -e '\n#If running from tty1 start sway\n[ "$(tty)" = "/dev/tty1" ] && exec /usr/local/bin/start_swaywm.sh' >> $HOME/.bashrc
+			#backup_and_create "$HOME/.bashrc"
+			#echo -e '\n#If running from tty1 start sway\n[ "$(tty)" = "/dev/tty1" ] && exec /usr/local/bin/start_swaywm.sh' >> $HOME/.bashrc
 		;;
 		labwc)
 			# install labwc and packages
@@ -255,6 +255,8 @@ function install(){
 			#cp /etc/xdg/labwc/menu.xml $HOME/.config/labwc/
    			wget https://raw.githubusercontent.com/labwc/labwc/master/docs/environment -O $HOME/.config/labwc/environment
    			wget https://raw.githubusercontent.com/labwc/labwc/master/docs/menu.xml -O $HOME/.config/labwc/menu.xml
+      			#wget https://raw.githubusercontent.com/labwc/labwc/master/docs/autostart -O $HOME/.config/labwc/autostart
+			#wget https://raw.githubusercontent.com/labwc/labwc/master/docs/rc.xml -O $HOME/.config/labwc/rc.xml
 			cp ./labwc/* $HOME/.config/labwc/
 
 			# copy sfwbar config
