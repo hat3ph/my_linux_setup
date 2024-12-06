@@ -90,7 +90,7 @@ function menu (){
     read -p "Install on a laptop? (yes/no) [yes]:" laptop_mode
     laptop_mode=${laptop_mode:-yes} 
  
-    read -p "Enable amdgpu tearfree? (yes/no) [yes]:" amdgpu_config
+    read -p "Enable amdgpu xorg tearfree? (yes/no) [yes]:" amdgpu_config
     amdgpu_config=${amdgpu_config:-yes} 
  
     read -p "Install QEMU and Virt-Manager? (yes/no) [yes]:" qemu
@@ -103,7 +103,7 @@ function menu (){
     sensors=${sensors:-yes} 
  
     read -p "Customize your bashrc? (yes/no) [yes]:" bashrc
-    bashrc=${bashrc:-yes} 
+    bashrc=${bashrc:-no} 
  
     read -p "Install and configure smartd? (yes/no) [yes]:" smartd
     smartd=${smartd:-yes} 
@@ -243,8 +243,20 @@ function install(){
 			#echo -e '\n#If running from tty1 start sway\n[ "$(tty)" = "/dev/tty1" ] && exec /usr/local/bin/start_sway.sh' >> $HOME/.bashrc
 		;;
 		labwc)
-			# install labwc and packages
-			install_packages labwc swaybg wlr-randr sfwbar wofi
+			# setup Ubuntu Sway Remix repo for nwg-look as Ubuntu 24.04 do not have nwg-look packaged
+   			if [[ -n "$(uname -a | grep Ubuntu)" ]]; then
+				sudo add-apt-repository ppa:ubuntusway-dev/stable -y
+      			fi
+
+  			# setup Debian Testing repo for labwc as Debian 12 do not have labwc packaged
+   			if [[ -n "$(uname -a | grep Debian)" ]]; then
+				echo "deb htp://deb.debian.org/debian/ testing main non-free-firmware\ndeb-src htp://deb.debian.org/debian/ testing main non-free-firmware" | sudo tee /etc/apt/sources.list.d/debian-testing.list
+				echo -e "Package: *\nPin: release a=stable\nPin-Priority: 900" | sudo tee /etc/apt/preferences.d/debian-stable.pref
+    				echo -e "Package: *\nPin: release a=testing\nPin-Priority: 400" | sudo tee /etc/apt/preferences.d/debian-testing.pref
+      			fi
+   			
+      			# install labwc and packages
+			install_packages labwc swaybg wlr-randr sfwbar wofi nwg-look
 
 			# enable autostart labwc after TUI login
 			#autostart_wm labwc
@@ -318,9 +330,9 @@ function install(){
 
 	# Install standard packages
  	if [[ $wm == "sway" || $wm == "labwc" ]]; then
-  		install_packages papirus-icon-theme adwaita-icon-theme xdg-utils xdg-user-dirs rsyslog logrotate nano less curl wget iputils-ping fonts-noto-color-emoji fonts-noto-cjk fonts-font-awesome gpicview gv geany unzip rar
+  		install_packages papirus-icon-theme adwaita-icon-theme xdg-utils xdg-user-dirs rsyslog logrotate nano less curl wget iputils-ping fonts-noto-color-emoji fonts-noto-cjk fonts-font-awesome gpicview geany unzip rar
     	else
-		install_packages papirus-icon-theme adwaita-icon-theme xdg-utils xdg-user-dirs policykit-1 policykit-1-gnome software-properties-gtk rsyslog logrotate nano less curl wget iputils-ping fonts-noto-color-emoji fonts-noto-cjk fonts-font-awesome gpicview gv geany unzip rar
+		install_packages papirus-icon-theme adwaita-icon-theme xdg-utils xdg-user-dirs policykit-1 policykit-1-gnome software-properties-gtk rsyslog logrotate nano less curl wget iputils-ping fonts-noto-color-emoji fonts-noto-cjk fonts-font-awesome gpicview geany unzip rar
  	fi
   
 	# install and configure dunst
