@@ -250,7 +250,7 @@ function install(){
 
   			# setup Debian Testing repo for labwc as Debian 12 do not have labwc packaged
    			if [[ -n "$(uname -a | grep Debian)" ]]; then
-				echo "deb htp://deb.debian.org/debian/ testing main non-free-firmware\ndeb-src htp://deb.debian.org/debian/ testing main non-free-firmware" | sudo tee /etc/apt/sources.list.d/debian-testing.list
+				echo -e "deb htp://deb.debian.org/debian/ testing main non-free-firmware\ndeb-src htp://deb.debian.org/debian/ testing main non-free-firmware" | sudo tee /etc/apt/sources.list.d/debian-testing.list
 				echo -e "Package: *\nPin: release a=stable\nPin-Priority: 900" | sudo tee /etc/apt/preferences.d/debian-stable.pref
     				echo -e "Package: *\nPin: release a=testing\nPin-Priority: 400" | sudo tee /etc/apt/preferences.d/debian-testing.pref
       			fi
