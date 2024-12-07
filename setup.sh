@@ -223,7 +223,7 @@ function install(){
 		;;
 		sway)
 			# install sway and packages
-			install_packages install sway swaybg swayidle swaylock xdg-desktop-portal-wlr xwayland foot suckless-tools grim imagemagick grimshot qt5ct lxappearance qtwayland5
+			install_packages install sway swaybg swayidle swaylock xdg-desktop-portal-wlr xwayland foot suckless-tools grim imagemagick grimshot qt5ct qtwayland5
 
 			# copy my sway and mako configuration
 			backup_and_create "$HOME/.config/sway"
@@ -340,15 +340,15 @@ function install(){
  	fi
   
 	# install and configure dunst
-	#if [[ $wm != "sway" ]]; then
-	install_packages dunst
-	# customize dunst config
-	mkdir -p $HOME/.config/dunst
-	backup_and_create "$HOME/.config/dunst/dunstrc" 
-    cp -r /etc/xdg/dunst $HOME/.config/
-    sed -i 's/Adwaita/"Adwaita, Papirus"/g' $HOME/.config/dunst/dunstrc
-    sed -i 's/32/22/g' $HOME/.config/dunst/dunstrc
-	#fi
+	if [[ $wm != "lubuntu" ]]; then
+		install_packages dunst
+		# customize dunst config
+		mkdir -p $HOME/.config/dunst
+		backup_and_create "$HOME/.config/dunst/dunstrc" 
+    		cp -r /etc/xdg/dunst $HOME/.config/
+    		sed -i 's/Adwaita/"Adwaita, Papirus"/g' $HOME/.config/dunst/dunstrc
+    		sed -i 's/32/22/g' $HOME/.config/dunst/dunstrc
+	fi
 
 	# install yt-dlp
 	if [[ $ytdlp == "yes" ]]; then
