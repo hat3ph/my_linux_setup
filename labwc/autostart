@@ -10,7 +10,7 @@ swaybg -i ~/Pictures/wallpapers/cat.jpg >/dev/null 2>&1 &
 #     output HDMI-A-1 position 1366,0
 #     output eDP-1 position 0,0
 #   }
-kanshi >/dev/null 2>&1 &
+#kanshi >/dev/null 2>&1 &
 
 # Launch a panel such as yambar or waybar.
 sfwbar >/dev/null 2>&1 &
@@ -35,4 +35,4 @@ swayidle -w \
 
 xdg-user-dirs-update >/dev/null 2>&1 &
 thunar --daemon >/dev/null 2>&1 &
-nm-applet >/dev/null 2>&1 &
+#nm-applet >/dev/null 2>&1 &

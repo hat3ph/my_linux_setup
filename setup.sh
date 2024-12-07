@@ -246,21 +246,21 @@ function install(){
 			# setup Ubuntu Sway Remix repo for nwg-look as Ubuntu 24.04 do not have nwg-look packaged
    			if [[ -n "$(uname -a | grep Ubuntu)" ]]; then
 				sudo add-apt-repository ppa:ubuntusway-dev/stable -y
-    				# install labwc and packages
+    			# install labwc and packages
 				install_packages labwc swaybg wlr-randr sfwbar wofi nwg-look alacritty
-      			fi
+      		fi
 
   			# setup Debian Testing repo for labwc as Debian 12 do not have labwc packaged
    			if [[ -n "$(uname -a | grep Debian)" ]]; then
 				sudo cp /etc/apt/sources.list /etc/apt/sources.list.d/debian-testing.list
-    				sudo sed -i 's/bookworm/testing/g' /etc/apt/sources.list.d/debian-testing.list
+    			sudo sed -i 's/bookworm/testing/g' /etc/apt/sources.list.d/debian-testing.list
 				echo -e "Package: *\nPin: release a=stable\nPin-Priority: 700\nPackage: *\nPin: release a=testing\nPin-Priority: -10" | sudo tee /etc/apt/preferences.d/debian-testing.pref
-    				sudo apt-get update
-				install_packages swaybg wlr-randr wofi alacritty
-				sudo DEBIAN_FRONTEND=noninteractive apt-get install -t testing labwc sfwbar nwg-look libglib2.0-bin -y
-      			fi
+    			sudo apt-get update
+				install_packages swaybg wlr-randr wofi alacritty libglib2.0-bin
+				sudo DEBIAN_FRONTEND=noninteractive apt-get install -t testing labwc sfwbar nwg-look -y
+      		fi
    			
-      			# install labwc and packages
+      		# install labwc and packages
 			#install_packages labwc swaybg wlr-randr sfwbar wofi nwg-look
 
 			# enable autostart labwc after TUI login
@@ -272,7 +272,7 @@ function install(){
 			#cp /etc/xdg/labwc/menu.xml $HOME/.config/labwc/
    			wget https://raw.githubusercontent.com/labwc/labwc/master/docs/environment -O $HOME/.config/labwc/environment
    			wget https://raw.githubusercontent.com/labwc/labwc/master/docs/menu.xml -O $HOME/.config/labwc/menu.xml
-      			#wget https://raw.githubusercontent.com/labwc/labwc/master/docs/autostart -O $HOME/.config/labwc/autostart
+      		#wget https://raw.githubusercontent.com/labwc/labwc/master/docs/autostart -O $HOME/.config/labwc/autostart
 			#wget https://raw.githubusercontent.com/labwc/labwc/master/docs/rc.xml -O $HOME/.config/labwc/rc.xml
 			cp ./labwc/* $HOME/.config/labwc/
 
@@ -281,11 +281,11 @@ function install(){
 			cp ./config/sfwbar.config $HOME/.config/sfwbar/
 
    			# labwc/openbox themes
-      			mkdir -p $HOME/.themes
+      		mkdir -p $HOME/.themes
 	 		git clone https://github.com/dracula/openbox /tmp/dracula-openbox
-    			cp -r /tmp/dracula-openbox/Dracula* $HOME/.themes/
-
-       			git clone https://github.com/catppuccin/openbox /tmp/catppuccin-openbox
+    		cp -r /tmp/dracula-openbox/Dracula* $HOME/.themes/
+			
+			git clone https://github.com/catppuccin/openbox /tmp/catppuccin-openbox
 	  		cp -r /tmp/catppuccin-openbox/themes/catppuccin-* $HOME/.themes/
 		;;
 		lubuntu)
@@ -346,9 +346,9 @@ function install(){
 		# customize dunst config
 		mkdir -p $HOME/.config/dunst
 		backup_and_create "$HOME/.config/dunst/dunstrc" 
-    		cp -r /etc/xdg/dunst $HOME/.config/
-    		sed -i 's/Adwaita/"Adwaita, Papirus"/g' $HOME/.config/dunst/dunstrc
-    		sed -i 's/32/22/g' $HOME/.config/dunst/dunstrc
+    	cp -r /etc/xdg/dunst $HOME/.config/
+    	sed -i 's/Adwaita/"Adwaita, Papirus"/g' $HOME/.config/dunst/dunstrc
+    	sed -i 's/32/22/g' $HOME/.config/dunst/dunstrc
 	fi
 
 	# install yt-dlp
@@ -524,9 +524,9 @@ function install(){
   	sddm)
    		install_packages sddm
    	;;
-    	wayland)
-     		autostart_wm $wm
-     	;;
+    wayland)
+    	autostart_wm $wm
+    ;;
   	esac
 	#if [[ $login_mgr == "lxdm" ]]; then
 	#	install_packages lxdm
@@ -570,8 +570,8 @@ function install(){
   			if [[ $wm == "labwc" ]]; then
 				install_packages network-manager
    			else
-      				install_packages network-manager network-manager-gnome
-      			fi
+      			install_packages network-manager network-manager-gnome
+      		fi
 			if [[ -n "$(uname -a | grep Ubuntu)" ]] then
 				for file in `find /etc/netplan/* -maxdepth 0 -type f -name *.yaml`; do
 					sudo mv $file $file.bak
