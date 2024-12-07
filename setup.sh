@@ -247,7 +247,7 @@ function install(){
    			if [[ -n "$(uname -a | grep Ubuntu)" ]]; then
 				sudo add-apt-repository ppa:ubuntusway-dev/stable -y
     				# install labwc and packages
-				install_packages labwc swaybg wlr-randr sfwbar wofi nwg-look
+				install_packages labwc swaybg wlr-randr sfwbar wofi nwg-look alacritty
       			fi
 
   			# setup Debian Testing repo for labwc as Debian 12 do not have labwc packaged
@@ -256,7 +256,8 @@ function install(){
     				sudo sed -i 's/bookworm/testing/g' /etc/apt/sources.list.d/debian-testing.list
 				echo -e "Package: *\nPin: release a=stable\nPin-Priority: 700\nPackage: *\nPin: release a=testing\nPin-Priority: -10" | sudo tee /etc/apt/preferences.d/debian-testing.pref
     				sudo apt-get update
-				sudo DEBIAN_FRONTEND=noninteractive apt-get install -t testing labwc swaybg wlr-randr sfwbar wofi nwg-look -y
+				install_packages swaybg wlr-randr wofi alacritty
+				sudo DEBIAN_FRONTEND=noninteractive apt-get install -t testing labwc sfwbar nwg-look libglib2.0-bin -y
       			fi
    			
       			# install labwc and packages
@@ -566,7 +567,11 @@ function install(){
 	# optional install NetworkManager
 	if [[ $nm == yes ]]; then
 		if [[ $wm != "lubuntu" ]]; then
-			install_packages network-manager network-manager-gnome
+  			if [[ $wm == "labwc" ]]; then
+				install_packages network-manager
+   			else
+      				install_packages network-manager network-manager-gnome
+      			fi
 			if [[ -n "$(uname -a | grep Ubuntu)" ]] then
 				for file in `find /etc/netplan/* -maxdepth 0 -type f -name *.yaml`; do
 					sudo mv $file $file.bak
