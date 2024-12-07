@@ -66,10 +66,10 @@ function menu (){
 	read -p "Choose window manager (icewm, fluxbox, i3wm, xfwm4, sway, labwc, lubuntu) [icewm]: " wm
 	wm=${wm:-icewm}
  
-	read -p "Install Firefox using the deb package? (yes/no) [yes]:" firefox_deb
-	firefox_deb=${firefox_deb:-yes}
+	read -p "Install (non-snap ) Firefox for Ubuntu or Firefox-ESR for Debian? (yes/no) [yes]:" firefox
+	firefox=${firefox:-yes}
  	
-	read -p "Install custom theming? (yes/no) [yes]:" theming
+	read -p "Install custom GTK theming? (yes/no) [yes]:" theming
 	theming=${theming:-yes}
 	
 	read -p "Use PipeWire audio server? (yes/no) [yes]:" pipewire
@@ -93,26 +93,26 @@ function menu (){
     read -p "Enable amdgpu xorg tearfree? (yes/no) [no]:" amdgpu_config
     amdgpu_config=${amdgpu_config:-no} 
  
-    read -p "Install QEMU and Virt-Manager? (yes/no) [yes]:" qemu
-    qemu=${qemu:-yes} 
+    read -p "Install QEMU and Virt-Manager? (yes/no) [no]:" qemu
+    qemu=${qemu:-no} 
  
-    read -p "Install Wine and Lutris for gaming? (yes/no) [yes]:" gaming
-    gaming=${gaming:-yes} 
+    read -p "Install Wine and Lutris for gaming? (yes/no) [no]:" gaming
+    gaming=${gaming:-no} 
  
-    read -p "Customize lm-sensors? (yes/no) [yes]:" sensors
-    sensors=${sensors:-yes} 
+    read -p "Customize lm-sensors? (yes/no) [no]:" sensors
+    sensors=${sensors:-no} 
  
     read -p "Customize your bashrc? (yes/no) [no]:" bashrc
     bashrc=${bashrc:-no} 
  
-    read -p "Install and configure smartd? (yes/no) [yes]:" smartd
-    smartd=${smartd:-yes} 
+    read -p "Install and configure smartd? (yes/no) [no]:" smartd
+    smartd=${smartd:-no} 
  
-    read -p "Enable swapfile? (yes/no) [yes]:" swapfile
-    swapfile=${swapfile:-yes} 
+    read -p "Enable 4GB swapfile? (yes/no) [no]:" swapfile
+    swapfile=${swapfile:-no} 
  
-    read -p "Install yt-dlp? (yes/no) [yes]:" ytdlp
-    ytdlp=${ytdlp:-yes}
+    read -p "Install yt-dlp? (yes/no) [no]:" ytdlp
+    ytdlp=${ytdlp:-no}
 }
  
 function install(){
@@ -535,7 +535,7 @@ function install(){
 
 	# install firefox without snap
 	# https://www.omgubuntu.co.uk/2022/04/how-to-install-firefox-deb-apt-ubuntu-22-04
-	if [[ $firefox_deb == "yes" ]]; then
+	if [[ $firefox == "yes" ]]; then
 		if [[ -n "$(uname -a | grep Ubuntu)" ]]; then
 			sudo install -d -m 0755 /etc/apt/keyrings
 			wget -q https://packages.mozilla.org/apt/repo-signing-key.gpg -O- | \
@@ -629,7 +629,7 @@ printf "\n"
 printf "Start installation!!!!!!!!!!!\n"
 printf "##################################\n"
 printf "My WM Install           : $wm\n"
-printf "Firefox as DEB packages : $firefox_deb\n"
+printf "Firefox as DEB packages : $firefox\n"
 printf "Pipewire Audio          : $pipewire\n"
 printf "Thunar File Manager     : $thunar\n"
 printf "Custom theming          : $theming\n"
