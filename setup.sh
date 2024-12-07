@@ -66,7 +66,7 @@ function menu (){
 	read -p "Choose window manager (icewm, fluxbox, i3wm, xfwm4, sway, labwc, lubuntu) [icewm]: " wm
 	wm=${wm:-icewm}
  
-	read -p "Install (non-snap ) Firefox for Ubuntu or Firefox-ESR for Debian? (yes/no) [yes]:" firefox
+	read -p "Install (non-snap) Firefox for Ubuntu or Firefox-ESR for Debian? (yes/no) [yes]:" firefox
 	firefox=${firefox:-yes}
  	
 	read -p "Install custom GTK theming? (yes/no) [yes]:" theming
@@ -334,9 +334,9 @@ function install(){
 
 	# Install standard packages
  	if [[ $wm == "sway" || $wm == "labwc" ]]; then
-  		install_packages papirus-icon-theme adwaita-icon-theme xdg-utils xdg-user-dirs rsyslog logrotate nano less curl wget iputils-ping fonts-noto-color-emoji fonts-noto-cjk fonts-font-awesome gpicview geany unzip rar
+  		install_packages papirus-icon-theme adwaita-icon-theme xdg-utils xdg-user-dirs rsyslog logrotate nano less curl wget iputils-ping fonts-noto-color-emoji fonts-noto-cjk fonts-font-awesome gpicview geany unzip
     	else
-		install_packages papirus-icon-theme adwaita-icon-theme xdg-utils xdg-user-dirs policykit-1 policykit-1-gnome software-properties-gtk rsyslog logrotate nano less curl wget iputils-ping fonts-noto-color-emoji fonts-noto-cjk fonts-font-awesome gpicview geany unzip rar
+		install_packages papirus-icon-theme adwaita-icon-theme xdg-utils xdg-user-dirs policykit-1 policykit-1-gnome software-properties-gtk rsyslog logrotate nano less curl wget iputils-ping fonts-noto-color-emoji fonts-noto-cjk fonts-font-awesome gpicview geany unzip
  	fi
   
 	# install and configure dunst
