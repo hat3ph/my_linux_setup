@@ -246,9 +246,10 @@ function install(){
 			# setup Ubuntu Sway Remix repo for nwg-look as Ubuntu 24.04 do not have nwg-look packaged
    			if [[ -n "$(uname -a | grep Ubuntu)" ]]; then
 				sudo add-apt-repository ppa:ubuntusway-dev/stable -y
-    			# install labwc and packages
+    				echo -e "Package: *\no=LP-PPA-ubuntusway-dev-stable\nPin-Priority: 100" | sudo tee /etc/apt/preferences.d/ubuntusway-dev-stable.pref
+    				# install labwc and packages
 				install_packages labwc swaybg wlr-randr sfwbar wofi nwg-look alacritty
-      		fi
+      			fi
 
   			# setup Debian Testing repo for labwc as Debian 12 do not have labwc packaged
    			if [[ -n "$(uname -a | grep Debian)" ]]; then
