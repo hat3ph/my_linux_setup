@@ -1,0 +1,8 @@
+[app] (name=fbrun)
+  [Position]	(WINCENTER)	{0 0}
+  [Layer]	{2}
+[end]
+[transient] (name=*)
+  [Position]	(WINCENTER)	{0 0}
+  [Layer]	{2}
+[end]
