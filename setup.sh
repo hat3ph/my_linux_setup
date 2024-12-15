@@ -31,7 +31,7 @@ function remove_packages() {
 	for list in "$@"; do
 		package=$(apt list "$list*" 2>/dev/null | grep installed | awk -F '/' '{print $1'})
   		if [[ $package ]]; then
-			sudo apt-get remove -y $package 
+			sudo apt-get purge -y $package 
     		fi
  	done
 }
