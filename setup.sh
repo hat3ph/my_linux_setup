@@ -26,6 +26,16 @@ function install_packages() {
 	sudo apt-get install -y "$@"
 }
 
+# Function to remove packages
+function remove_packages() {
+	for list in "$@"; do
+		package=$(apt list "$list*" 2>/dev/null | grep installed | awk -F '/' '{print $1'})
+  		if [[ $package ]]; then
+			sudo apt-get remove -y $package 
+    		fi
+ 	done
+}
+
 # Function to backup and create a directory or file
 function backup_and_create() {
 	local path="$1"
@@ -590,7 +600,9 @@ function install(){
 	fi
 
 	# disable unwanted services
-	disable_services systemd-networkd-wait-online.service multipathd.service
+	disable_services systemd-networkd-wait-online.service
+ 	# remove unwanted packages
+  	remove_packages multipath snap
 
 	# install and setup for laptop usage
 	if [[ $laptop_mode == "yes" ]]; then
