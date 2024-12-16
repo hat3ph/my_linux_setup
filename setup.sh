@@ -606,7 +606,11 @@ function install(){
 
 	# install and setup for laptop usage
 	if [[ $laptop_mode == "yes" ]]; then
+ 		# add current user to video group
+ 		sudo gpasswd -a $USER video
+   		# install brightness utilities
 		install_packages brightnessctl cbatticon
+  		# setup udev rules to change screen brightness based on power input
 		sudo mkdir -p /etc/udev/rules.d
 		sudo mkdir -p /usr/local/bin
 		sudo cp ./rules.d/*.rules /etc/udev/rules.d/
