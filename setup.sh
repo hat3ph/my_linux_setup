@@ -345,11 +345,7 @@ function install(){
     	esac
 
 	# Install standard packages
- 	if [[ $wm == "sway" || $wm == "labwc" ]]; then
-  		install_packages papirus-icon-theme adwaita-icon-theme xdg-utils xdg-user-dirs rsyslog logrotate nano less curl wget iputils-ping fonts-noto-color-emoji fonts-noto-cjk fonts-font-awesome gpicview geany unzip
-    	else
-		install_packages papirus-icon-theme adwaita-icon-theme xdg-utils xdg-user-dirs policykit-1 policykit-1-gnome software-properties-gtk rsyslog logrotate nano less curl wget iputils-ping fonts-noto-color-emoji fonts-noto-cjk fonts-font-awesome gpicview geany unzip
- 	fi
+ 	install_packages papirus-icon-theme adwaita-icon-theme xdg-utils xdg-user-dirs lxpolkit software-properties-gtk rsyslog logrotate nano less curl wget iputils-ping fonts-noto-color-emoji fonts-noto-cjk fonts-font-awesome gpicview geany unzip
   
 	# install and configure dunst
 	if [[ $wm != "lubuntu" ]]; then
@@ -519,7 +515,7 @@ function install(){
 	# optional to install thunar file manager
 	if [[ $thunar == "yes" ]]; then
 		if [[ $wm != "lubuntu" ]]; then
-			install_packages thunar gvfs gvfs-backends thunar-archive-plugin thunar-media-tags-plugin avahi-daemon
+			install_packages thunar lxpolkit gvfs gvfs-backends thunar-archive-plugin thunar-media-tags-plugin avahi-daemon
 			#mkdir -p $HOME/.config/xfce4
 			#if [[ $wm != "xfwm4" && $wm != "sway" ]]; then
 			#	echo "TerminalEmulator=lxterminal" > $HOME/.config/xfce4/helpers.rc

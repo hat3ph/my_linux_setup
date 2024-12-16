@@ -18,6 +18,9 @@ exec --no-startup-id dex --autostart
 # do not include i3 in the OnlyShowIn entry
 #exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
 
+# or use lxpolkit for polkit authentication agent
+#exec --no-startup-id lxpolkit
+
 # autostart dunst notification daemon
 #exec --no-startup-id dunst
 
