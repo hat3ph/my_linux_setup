@@ -375,11 +375,13 @@ function install(){
 		install_packages qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils virt-manager
 	fi
 
-	# install wine and lutris
+	# install wine32/64 and lutris
 	if [[ $gaming == "yes" ]]; then
-		install_packages wine64
+ 		sudo dpkg --add-architecture i386
+		install_packages wine32 wine64
 		install_packages python3-lxml python3-setproctitle python3-magic gir1.2-webkit2-4.1 cabextract \
-  			fluid-soundfont-gs vulkan-tools python3-protobuf python3-evdev fluidsynth gamemode
+  			fluid-soundfont-gs vulkan-tools python3-protobuf python3-evdev fluidsynth gamemode \
+     			python3-pil python3-gi-cairo gir1.2-notify-0.7 mesa-utils libimagequant0 libraqm0 python3-cairo python3-olefile
 		wget -P /tmp https://github.com/lutris/lutris/releases/download/v0.5.18/lutris_0.5.18_all.deb
 		sudo dpkg -i /tmp/lutris*.deb
 	
