@@ -241,6 +241,12 @@ function install(){
 			mkdir -p $HOME/.config/sway
 			cp -r ./swaywm/* $HOME/.config/sway/
 			#cp ./mako/config $HOME/.config/mako/
+
+			# install gammastep for screen color temp adjustment
+			install_packages gammastep
+			mkdir -p $HOME/.config/gammastep
+			cp -r ./gammastep/* $HOME/.config/gammastep
+			chmod +x $HOME/.config/gammastep/hooks/*.sh
 			
 			# enable autostart sway after TUI login
 			#autostart_wm sway
@@ -257,9 +263,9 @@ function install(){
    			if [[ -n "$(uname -a | grep Ubuntu)" ]]; then
 				sudo add-apt-repository ppa:ubuntusway-dev/stable -y
     				echo -e "Package: *\nPin: release o=LP-PPA-ubuntusway-dev-stable\nPin-Priority: 100" | sudo tee /etc/apt/preferences.d/ubuntusway-dev-stable.pref
-    				# install labwc and packages
+    			# install labwc and packages
 				install_packages labwc swaybg wlr-randr sfwbar wofi nwg-look alacritty
-      			fi
+      		fi
 
   			# setup Debian Testing repo for labwc as Debian 12 do not have labwc packaged
    			if [[ -n "$(uname -a | grep Debian)" ]]; then
@@ -290,6 +296,12 @@ function install(){
 			# copy sfwbar config
 			mkdir -p $HOME/.config/sfwbar
 			cp ./config/sfwbar.config $HOME/.config/sfwbar/
+
+			# install gammastep for screen color temp adjustment
+			install_packages gammastep
+			mkdir -p $HOME/.config/gammastep
+			cp -r ./gammastep/* $HOME/.config/gammastep
+			chmod +x $HOME/.config/gammastep/hooks/*.sh
 
    			# labwc/openbox themes
       		mkdir -p $HOME/.themes
