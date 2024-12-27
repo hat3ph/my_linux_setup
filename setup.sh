@@ -29,7 +29,7 @@ function install_packages() {
 # Function to remove packages
 function remove_packages() {
 	for list in "$@"; do
-		package=$(apt list "$list*" 2>/dev/null | grep installed | awk -F '/' '{print $1'})
+		package=$(apt list "$list*" 2>/dev/null | grep installed | awk -F '/' '{print $1}')
   		if [[ $package ]]; then
 			sudo apt-get purge -y $package 
     		fi
