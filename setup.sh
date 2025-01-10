@@ -297,6 +297,10 @@ function install(){
 			mkdir -p $HOME/.config/sfwbar
 			cp ./config/sfwbar.config $HOME/.config/sfwbar/
 
+			# tofi theme
+			mkdir -p $HOME/.config/tofi
+			wget https://raw.githubusercontent.com/philj56/tofi/master/themes/fullscreen -O $HOME/.config/tofi/config
+
 			# install gammastep for screen color temp adjustment
 			install_packages gammastep
 			mkdir -p $HOME/.config/gammastep

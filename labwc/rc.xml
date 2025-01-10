@@ -26,7 +26,7 @@
       <action name="Execute" command="thunar" />
     </keybind>
     <keybind key="W-R">
-      <action name="Execute" command="wofi --show drun" />
+      <action name="Execute" command="tofi-drun --drun-launch=true" />
     </keybind>
     <keybind key="W-Up">
       <action name="Execute" command="~/.local/bin/wpctl_audio.sh up" />

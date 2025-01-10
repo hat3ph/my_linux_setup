@@ -14,7 +14,7 @@
 # Credit: https://github.com/drewgrif/dotfiles/blob/main/.config/bin/power
 
 #chosen=$(echo -e "[Cancel]\nLockscreen\nLogout\nReboot\nShutdown\nSuspend\nHibernate\nHybrid-sleep\nSuspend-then-hibernate" | rofi -dmenu -i)
-chosen=$(echo -e "[Cancel]\nLockscreen\nLogout\nReboot\nShutdown" | wofi --dmenu -i)
+chosen=$(echo -e "[Cancel]\nLockscreen\nLogout\nReboot\nShutdown" | tofi --prompt-text "Power Options")
 # Info about some states are available here:
 # https://www.freedesktop.org/software/systemd/man/systemd-sleep.conf.html#Description
 
