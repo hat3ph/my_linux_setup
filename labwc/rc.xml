@@ -35,7 +35,7 @@
       <action name="Execute" command="~/.local/bin/wpctl_audio.sh down" />
     </keybind>
     <keybind key="W-P">
-      <action name="Execute" command="~/.local/bin/wofi_power_menu.sh" />
+      <action name="Execute" command="~/.local/bin/tofi_power_menu.sh" />
     </keybind>
     <!--
       Remove a previously defined keybind

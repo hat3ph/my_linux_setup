@@ -264,7 +264,7 @@ function install(){
 				sudo add-apt-repository ppa:ubuntusway-dev/stable -y
     				echo -e "Package: *\nPin: release o=LP-PPA-ubuntusway-dev-stable\nPin-Priority: 100" | sudo tee /etc/apt/preferences.d/ubuntusway-dev-stable.pref
     			# install labwc and packages
-				install_packages labwc swaybg wlr-randr sfwbar wofi nwg-look alacritty
+				install_packages labwc swaybg wlr-randr sfwbar tofi nwg-look alacritty
       		fi
 
   			# setup Debian Testing repo for labwc as Debian 12 do not have labwc packaged
@@ -273,7 +273,7 @@ function install(){
     			sudo sed -i 's/bookworm/testing/g' /etc/apt/sources.list.d/debian-testing.list
 				echo -e "Package: *\nPin: release a=stable\nPin-Priority: 700\nPackage: *\nPin: release a=testing\nPin-Priority: -10" | sudo tee /etc/apt/preferences.d/debian-testing.pref
     			sudo apt-get update
-				install_packages swaybg wlr-randr wofi alacritty libglib2.0-bin
+				install_packages swaybg wlr-randr tofi alacritty libglib2.0-bin
 				sudo DEBIAN_FRONTEND=noninteractive apt-get install -t testing labwc sfwbar nwg-look -y
       		fi
    			
