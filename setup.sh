@@ -369,9 +369,11 @@ function install(){
 		# customize dunst config
 		mkdir -p $HOME/.config/dunst
 		backup_and_create "$HOME/.config/dunst/dunstrc" 
-    	cp -r /etc/xdg/dunst $HOME/.config/
-    	sed -i 's/Adwaita/"Adwaita, Papirus"/g' $HOME/.config/dunst/dunstrc
-    	sed -i 's/32/22/g' $HOME/.config/dunst/dunstrc
+    		cp -r /etc/xdg/dunst $HOME/.config/
+        	# add more icon themes for dunst
+    		sed -i 's/Adwaita/"Adwaita, Papirus"/g' $HOME/.config/dunst/dunstrc
+        	# set max notification icon size
+    		sed -i 's/128/32/g' $HOME/.config/dunst/dunstrc
 	fi
 
 	# install yt-dlp
