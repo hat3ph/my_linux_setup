@@ -570,7 +570,7 @@ function install(){
       	fi
 		sudo mkdir -p /etc/greetd
 		sudo mv /etc/greetd/config.toml /etc/greetd/config.toml.default
-		cp .config/tuigreet.toml /etc/greetd/config.toml
+		sudo cp .config/tuigreet.toml /etc/greetd/config.toml
     ;;
   	esac
 	#if [[ $login_mgr == "lxdm" ]]; then
