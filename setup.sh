@@ -88,8 +88,13 @@ function menu (){
 	read -p "Install Thunar file manager? (yes/no) [yes]:" thunar
     thunar=${thunar:-yes} 
  
-    read -p "Choose login manager (sddm or lxdm or wayland or no). Choose no for no login manager. [no]:" login_mgr
-    login_mgr=${login_mgr:-no}
+    if [[ $wm == "labwc" || $wm == "sway" ]]; then
+		read -p "Choose login manager (tuigreet or tty or no). Choose no for no login manager. [no]:" login_mgr
+		login_mgr=${login_mgr:-no}
+	else
+		read -p "Choose login manager (sddm or lxdm or tty or no). Choose no for no login manager. [no]:" login_mgr
+		login_mgr=${login_mgr:-no}
+    fi
  
    	read -p "Use NetworkManager for network interface management? (yes/no) [yes]:" nm
     nm=${nm:-yes} 
@@ -551,8 +556,19 @@ function install(){
   	sddm)
    		install_packages sddm
    	;;
-    wayland)
+    tty)
     	autostart_wm $wm
+    ;;
+	tuigreet)
+   		if [[ -n "$(uname -a | grep Ubuntu)" ]]; then
+			install_packages greetd-tuigreet
+		else
+    		sudo apt-get update
+			sudo DEBIAN_FRONTEND=noninteractive apt-get install -t testing greetd tuigreet -y
+      	fi
+		sudo mkdir -p /etc/greetd
+		sudo mv /etc/greetd/config.toml /etc/greetd/config.toml.default
+		cp .config/tuigreet.toml /etc/greetd/config.toml
     ;;
   	esac
 	#if [[ $login_mgr == "lxdm" ]]; then
@@ -675,7 +691,9 @@ printf "Login Manager           : $login_mgr\n"
 printf "NetworkManager          : $nm\n"
 printf "Nano's configuration    : $nano_config\n"
 printf "Laptop Mode             : $laptop_mode\n"
-printf "AMDGPU Config           : $amdgpu_config\n"
+if [[ $wm != "sway" && $wm != "labwc" ]]; then
+printf "AMDGPU Xorg Config      : $amdgpu_config\n"
+fi
 printf "QEMU KVM                : $qemu\n"
 printf "Gaming                  : $gaming\n"
 printf "lm-sensor setup         : $sensors\n"
