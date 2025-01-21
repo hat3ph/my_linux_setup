@@ -558,20 +558,22 @@ function install(){
   	sddm)
    		install_packages sddm
    	;;
-    tty)
-    	autostart_wm $wm
-    ;;
+    	tty)
+    		autostart_wm $wm
+    	;;
 	tuigreet)
    		if [[ -n "$(uname -a | grep Ubuntu)" ]]; then
 			install_packages greetd-tuigreet
 		else
-    		sudo apt-get update
+    			sudo apt-get update
 			sudo DEBIAN_FRONTEND=noninteractive apt-get install -t testing greetd tuigreet -y
-      	fi
+      		fi
 		sudo mkdir -p /etc/greetd
 		sudo mv /etc/greetd/config.toml /etc/greetd/config.toml.default
 		sudo cp .config/tuigreet.toml /etc/greetd/config.toml
-    ;;
+  		# add poweroff and reboot command for Debian 12
+  		sudo sed -i "s/asterisks/asterisks --power-shutdown 'systemct poweroff' --power-reboot 'systemctl reboot'/g" /etc/greetd/config.toml
+    	;;
   	esac
 	#if [[ $login_mgr == "lxdm" ]]; then
 	#	install_packages lxdm
