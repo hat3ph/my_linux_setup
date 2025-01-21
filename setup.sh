@@ -86,48 +86,50 @@ function menu (){
 	pipewire=${pipewire:-yes} 
  	
 	read -p "Install Thunar file manager? (yes/no) [yes]:" thunar
-    thunar=${thunar:-yes} 
+	thunar=${thunar:-yes} 
  
-    if [[ $wm == "labwc" || $wm == "sway" ]]; then
+	if [[ $wm == "labwc" || $wm == "sway" ]]; then
 		read -p "Choose login manager (tuigreet or tty or no). Choose no for no login manager. [no]:" login_mgr
 		login_mgr=${login_mgr:-no}
 	else
 		read -p "Choose login manager (sddm or lxdm or tty or no). Choose no for no login manager. [no]:" login_mgr
 		login_mgr=${login_mgr:-no}
-    fi
+    	fi
  
    	read -p "Use NetworkManager for network interface management? (yes/no) [yes]:" nm
-    nm=${nm:-yes} 
+    	nm=${nm:-yes} 
+ 	
+  	read -p "Configure nano text editor? (yes/no) [no]:" nano_config
+    	nano_config=${nano_config:-no} 
+
+	read -p "Install on a laptop? (yes/no) [no]:" laptop_mode
+    	laptop_mode=${laptop_mode:-no} 
  
-    read -p "Configure nano text editor? (yes/no) [no]:" nano_config
-    nano_config=${nano_config:-no} 
+    	if [[ $wm != "sway" && $wm != "labwc" ]]; then
+    		read -p "Enable amdgpu xorg tearfree? (yes/no) [no]:" amdgpu_config
+    		amdgpu_config=${amdgpu_config:-no}
+    	fi
  
-    read -p "Install on a laptop? (yes/no) [no]:" laptop_mode
-    laptop_mode=${laptop_mode:-no} 
- 
-    read -p "Enable amdgpu xorg tearfree? (yes/no) [no]:" amdgpu_config
-    amdgpu_config=${amdgpu_config:-no} 
- 
-    read -p "Install QEMU and Virt-Manager? (yes/no) [no]:" qemu
-    qemu=${qemu:-no} 
- 
-    read -p "Install Wine and Lutris for gaming? (yes/no) [no]:" gaming
-    gaming=${gaming:-no} 
- 
-    read -p "Customize lm-sensors? (yes/no) [no]:" sensors
-    sensors=${sensors:-no} 
- 
-    read -p "Customize your bashrc? (yes/no) [no]:" bashrc
-    bashrc=${bashrc:-no} 
- 
-    read -p "Install and configure smartd? (yes/no) [no]:" smartd
-    smartd=${smartd:-no} 
- 
-    read -p "Enable 4GB swapfile? (yes/no) [no]:" swapfile
-    swapfile=${swapfile:-no} 
- 
-    read -p "Install yt-dlp? (yes/no) [no]:" ytdlp
-    ytdlp=${ytdlp:-no}
+	read -p "Install QEMU and Virt-Manager? (yes/no) [no]:" qemu
+	qemu=${qemu:-no} 
+	 
+	read -p "Install Wine and Lutris for gaming? (yes/no) [no]:" gaming
+	gaming=${gaming:-no} 
+	
+	read -p "Customize lm-sensors? (yes/no) [no]:" sensors
+	sensors=${sensors:-no} 
+	
+      	read -p "Customize your bashrc? (yes/no) [no]:" bashrc
+	bashrc=${bashrc:-no} 
+	 
+	read -p "Install and configure smartd? (yes/no) [no]:" smartd
+	smartd=${smartd:-no} 
+	
+      	read -p "Enable 4GB swapfile? (yes/no) [no]:" swapfile
+	swapfile=${swapfile:-no} 
+	 
+	read -p "Install yt-dlp? (yes/no) [no]:" ytdlp
+	ytdlp=${ytdlp:-no}
 }
  
 function install(){
