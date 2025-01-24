@@ -585,6 +585,11 @@ function install(){
 	# https://www.omgubuntu.co.uk/2022/04/how-to-install-firefox-deb-apt-ubuntu-22-04
 	if [[ $firefox == "yes" ]]; then
 		if [[ -n "$(uname -a | grep Ubuntu)" ]]; then
+  			#remove and disable snapd packages for Ubuntu
+  			remove_packages snapd
+  			echo -e 'Package: snapd\nPin: release a=*\nPin-Priority: -10' | sudo tee /etc/apt/preferences.d/nosnap.pref
+     
+     			# install firefox package from mozilla repo
 			sudo install -d -m 0755 /etc/apt/keyrings
 			wget -q https://packages.mozilla.org/apt/repo-signing-key.gpg -O- | \
 				sudo tee /etc/apt/keyrings/packages.mozilla.org.asc > /dev/null
@@ -638,7 +643,7 @@ function install(){
 	# disable unwanted services
 	disable_services systemd-networkd-wait-online.service
  	# remove unwanted packages
-  	remove_packages multipath snap
+  	remove_packages multipath
 
 	# install and setup for laptop usage
 	if [[ $laptop_mode == "yes" ]]; then
