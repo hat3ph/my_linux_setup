@@ -6,7 +6,7 @@ super + r
 	rofi -show drun
 # open rofi power menu mode
 super + p
-	$HOME/.local/bin/power_menu.sh
+	$HOME/.local/bin/rofi_power_menu.sh
 # open flameshot screen capture
 Print
 	flameshot gui
