@@ -94,21 +94,21 @@ function menu (){
 	else
 		read -p "Choose login manager (sddm or lxdm or tty or no). Choose no for no login manager. [no]:" login_mgr
 		login_mgr=${login_mgr:-no}
-    	fi
+	fi
  
    	read -p "Use NetworkManager for network interface management? (yes/no) [yes]:" nm
-    	nm=${nm:-yes} 
+    nm=${nm:-yes} 
  	
   	read -p "Configure nano text editor? (yes/no) [no]:" nano_config
-    	nano_config=${nano_config:-no} 
+    nano_config=${nano_config:-no} 
 
 	read -p "Install on a laptop? (yes/no) [no]:" laptop_mode
-    	laptop_mode=${laptop_mode:-no} 
+    laptop_mode=${laptop_mode:-no} 
  
-    	if [[ $wm != "sway" && $wm != "labwc" ]]; then
-    		read -p "Enable amdgpu xorg tearfree? (yes/no) [no]:" amdgpu_config
-    		amdgpu_config=${amdgpu_config:-no}
-    	fi
+    if [[ $wm != "sway" && $wm != "labwc" ]]; then
+    	read -p "Enable amdgpu xorg tearfree? (yes/no) [no]:" amdgpu_config
+    	amdgpu_config=${amdgpu_config:-no}
+    fi
  
 	read -p "Install QEMU and Virt-Manager? (yes/no) [no]:" qemu
 	qemu=${qemu:-no} 
@@ -119,13 +119,13 @@ function menu (){
 	read -p "Customize lm-sensors? (yes/no) [no]:" sensors
 	sensors=${sensors:-no} 
 	
-      	read -p "Customize your bashrc? (yes/no) [no]:" bashrc
+    read -p "Customize your bashrc? (yes/no) [no]:" bashrc
 	bashrc=${bashrc:-no} 
 	 
 	read -p "Install and configure smartd? (yes/no) [no]:" smartd
 	smartd=${smartd:-no} 
 	
-      	read -p "Enable 4GB swapfile? (yes/no) [no]:" swapfile
+    read -p "Enable 4GB swapfile? (yes/no) [no]:" swapfile
 	swapfile=${swapfile:-no} 
 	 
 	read -p "Install yt-dlp? (yes/no) [no]:" ytdlp
@@ -269,7 +269,7 @@ function install(){
 			# setup Ubuntu Sway Remix repo for nwg-look as Ubuntu 24.04 do not have nwg-look packaged
    			if [[ -n "$(uname -a | grep Ubuntu)" ]]; then
 				sudo add-apt-repository ppa:ubuntusway-dev/stable -y
-    				echo -e "Package: *\nPin: release o=LP-PPA-ubuntusway-dev-stable\nPin-Priority: 100" | sudo tee /etc/apt/preferences.d/ubuntusway-dev-stable.pref
+    			echo -e "Package: *\nPin: release o=LP-PPA-ubuntusway-dev-stable\nPin-Priority: 100" | sudo tee /etc/apt/preferences.d/ubuntusway-dev-stable.pref
     			# install labwc and packages
 				install_packages labwc swaybg wlr-randr sfwbar tofi nwg-look alacritty
       		fi
@@ -321,6 +321,11 @@ function install(){
 			
 			git clone https://github.com/catppuccin/openbox /tmp/catppuccin-openbox
 	  		cp -r /tmp/catppuccin-openbox/themes/catppuccin-* $HOME/.themes/
+
+			# enable idle inhibit while playing audio and video
+			# https://github.com/labwc/labwc/discussions/1503
+			mkdir -p $HOME/.config/xdg-desktop/portal
+			cp ./config/wlroots-portals.conf $HOME/.config/xdg-desktop/portal
 		;;
 		lubuntu)
 			# install minimal setup on Lubuntu
@@ -376,11 +381,11 @@ function install(){
 		# customize dunst config
 		mkdir -p $HOME/.config/dunst
 		backup_and_create "$HOME/.config/dunst/dunstrc" 
-    		cp -r /etc/xdg/dunst $HOME/.config/
-        	# add more icon themes for dunst
-    		sed -i 's/Adwaita/"Adwaita, Papirus"/g' $HOME/.config/dunst/dunstrc
-        	# set max notification icon size
-    		sed -i 's/128/32/g' $HOME/.config/dunst/dunstrc
+    	cp -r /etc/xdg/dunst $HOME/.config/
+        # add more icon themes for dunst
+    	sed -i 's/Adwaita/"Adwaita, Papirus"/g' $HOME/.config/dunst/dunstrc
+        # set max notification icon size
+    	sed -i 's/128/32/g' $HOME/.config/dunst/dunstrc
 	fi
 
 	# install yt-dlp
@@ -406,7 +411,7 @@ function install(){
 		install_packages wine32 wine64
 		install_packages python3-lxml python3-setproctitle python3-magic gir1.2-webkit2-4.1 cabextract \
   			fluid-soundfont-gs vulkan-tools python3-protobuf python3-evdev fluidsynth gamemode 7zip p7zip psmisc \
-     			python3-pil python3-gi-cairo gir1.2-notify-0.7 mesa-utils libimagequant0 libraqm0 python3-cairo python3-olefile
+     		python3-pil python3-gi-cairo gir1.2-notify-0.7 mesa-utils libimagequant0 libraqm0 python3-cairo python3-olefile
 		wget -P /tmp https://github.com/lutris/lutris/releases/download/v0.5.18/lutris_0.5.18_all.deb
 		sudo dpkg -i /tmp/lutris*.deb
 	
@@ -558,22 +563,22 @@ function install(){
   	sddm)
    		install_packages sddm
    	;;
-    	tty)
-    		autostart_wm $wm
-    	;;
+	tty)
+    	autostart_wm $wm
+    ;;
 	tuigreet)
    		if [[ -n "$(uname -a | grep Ubuntu)" ]]; then
 			install_packages greetd-tuigreet
 		else
-    			sudo apt-get update
+    		sudo apt-get update
 			sudo DEBIAN_FRONTEND=noninteractive apt-get install -t testing greetd tuigreet -y
-      		fi
+      	fi
 		sudo mkdir -p /etc/greetd
 		sudo mv /etc/greetd/config.toml /etc/greetd/config.toml.default
 		sudo cp .config/tuigreet.toml /etc/greetd/config.toml
   		# add poweroff and reboot command for Debian 12
   		sudo sed -i "s/asterisks/asterisks --power-shutdown 'systemct poweroff' --power-reboot 'systemctl reboot'/g" /etc/greetd/config.toml
-    	;;
+    ;;
   	esac
 	#if [[ $login_mgr == "lxdm" ]]; then
 	#	install_packages lxdm
@@ -589,7 +594,7 @@ function install(){
   			remove_packages snapd
   			echo -e 'Package: snapd\nPin: release a=*\nPin-Priority: -10' | sudo tee /etc/apt/preferences.d/nosnap.pref
      
-     			# install firefox package from mozilla repo
+     		# install firefox package from mozilla repo
 			sudo install -d -m 0755 /etc/apt/keyrings
 			wget -q https://packages.mozilla.org/apt/repo-signing-key.gpg -O- | \
 				sudo tee /etc/apt/keyrings/packages.mozilla.org.asc > /dev/null
