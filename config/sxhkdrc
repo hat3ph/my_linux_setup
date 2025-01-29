@@ -1,6 +1,9 @@
 # open terminal
 super + t
-	xfce4-terminal
+	x-terminal-emulator
+# open web browser
+super + w
+	x-www-browser
 # open rofi drun mode
 super + r
 	rofi -show drun

@@ -164,9 +164,17 @@ function install(){
 			install_packages openbox xorg xinit x11-utils lxterminal lxappearance xscreensaver rofi dex flameshot feh
 			echo "openbox-session" > "$HOME/.xinitrc"
 
+			# custom openbox configuration
 			backup_and_create "$HOME/.config/openbox"
 			mkdir -p $HOME/.config/openbox
 			cp -a /etc/xdg/openbox/* $HOME/.config/openbox/
+			echo "tint2 &" >> $HOME/.config/openbox/autostart
+			echo "lxpolkit &" >> $HOME/.config/openbox/autostart
+			echo "thunar --daemon &" >> $HOME/.config/openbox/autostart
+			echo "xdg-user-dirs-update &" >> $HOME/.config/openbox/autostart
+			echo "pnmixer &" >> $HOME/.config/openbox/autostart
+			echo "feh --bg-fill $HOME/Pictures/wallpapers/cat.jpg &" >> $HOME/.config/openbox/autostart
+			echo "nm-applet &" >> $HOME/.config/openbox/autostart
 
 			# install openbox themes
       		mkdir -p $HOME/.themes
@@ -177,6 +185,7 @@ function install(){
 	  		cp -r /tmp/catppuccin-openbox/themes/catppuccin-* $HOME/.themes/
 
 			# install tint2 taskbar and themes
+			install_packages tint2
 			mkdir -p $HOME/.config/tint2
 			wget https://raw.githubusercontent.com/addy-dclxvi/tint2-theme-collections/master/repentance/repentance.tint2rc -O $HOME/.config/tint2/repentance.tint2rc
 			wget https://raw.githubusercontent.com/dracula/tint2/master/tint2rc -O $HOME/.config/tint2/dracula.tint2rc
