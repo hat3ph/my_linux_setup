@@ -169,6 +169,7 @@ function install(){
 			mkdir -p $HOME/.config/openbox
 			cp -a /etc/xdg/openbox/* $HOME/.config/openbox/
 			echo "tint2 &" >> $HOME/.config/openbox/autostart
+   			echo "dunst &" >> $HOME/.config/openbox/autostart
 			echo "lxpolkit &" >> $HOME/.config/openbox/autostart
 			echo "thunar --daemon &" >> $HOME/.config/openbox/autostart
 			echo "xdg-user-dirs-update &" >> $HOME/.config/openbox/autostart
