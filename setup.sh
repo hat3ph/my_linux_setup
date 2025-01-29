@@ -73,7 +73,7 @@ function disable_services() {
 
 # function for selection menu
 function menu (){
-	read -p "Choose window manager (icewm, fluxbox, i3wm, xfwm4, sway, labwc, lubuntu) [icewm]: " wm
+	read -p "Choose window manager (icewm, fluxbox, openbox, i3wm, xfwm4, sway, labwc, lubuntu) [icewm]: " wm
 	wm=${wm:-icewm}
  
 	read -p "Install (non-snap) Firefox for Ubuntu or Firefox-ESR for Debian? (yes/no) [yes]:" firefox
@@ -159,6 +159,27 @@ function install(){
 
 			# remove unwanted files
 			rm $HOME/.fluxbox/styles/*.{sh,txt}
+		;;
+		openbox)
+			install_packages openbox xorg xinit x11-utils lxterminal lxappearance xscreensaver rofi dex flameshot feh
+			echo "openbox-session" > "$HOME/.xinitrc"
+
+			backup_and_create "$HOME/.config/openbox"
+			mkdir -p $HOME/.config/openbox
+			cp -a /etc/xdg/openbox/* $HOME/.config/openbox/
+
+			# install openbox themes
+      		mkdir -p $HOME/.themes
+	 		git clone https://github.com/dracula/openbox /tmp/dracula-openbox
+    		cp -r /tmp/dracula-openbox/Dracula* $HOME/.themes/
+			
+			git clone https://github.com/catppuccin/openbox /tmp/catppuccin-openbox
+	  		cp -r /tmp/catppuccin-openbox/themes/catppuccin-* $HOME/.themes/
+
+			# install tint2 taskbar and themes
+			mkdir -p $HOME/.config/tint2
+			wget https://raw.githubusercontent.com/addy-dclxvi/tint2-theme-collections/master/repentance/repentance.tint2rc -O $HOME/.config/tint2/repentance.tint2rc
+			wget https://raw.githubusercontent.com/dracula/tint2/master/tint2rc -O $HOME/.config/tint2/dracula.tint2rc
 		;;
         icewm)
             install_packages icewm xorg xinit x11-utils lxterminal lxappearance xscreensaver rofi dex flameshot feh
