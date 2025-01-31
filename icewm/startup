@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # setup wallpaper using feh
-feh --bg-fill --randomize $HOME/Pictures/wallpapers/* &
+/usr/bin/feh --bg-fill --randomize $HOME/Pictures/wallpapers/* &
 
 # enable XDG autostart
 /usr/bin/dex -a &

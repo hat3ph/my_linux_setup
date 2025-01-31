@@ -1,5 +1,5 @@
-prog Terminal ! lxterminal
-prog "Web Browser" ! firefox
+prog Terminal ! x-terminal-emulator
+prog "Web Browser" ! x-www-browser
 
 includeprog icewm-menu-fdo --no-sep-others --seps --no-sub-cats
 #menuprog Monitors ../devices/computer icewm-menu-xrandr

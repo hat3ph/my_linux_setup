@@ -637,12 +637,12 @@ function install(){
 		else
   			# install firefox-esr from debian repo
 			install_packages firefox-esr
-			if [[ $wm == "fluxbox" ]]; then
-				sed -i 's/firefox/firefox-esr/g' $HOME/.fluxbox/keys
-			fi
-			if [[ $wm == "icewm" ]]; then
-				sed -i 's/firefox/firefox-esr/g' $HOME/.icewm/{menu,toolbar}
-			fi
+			#if [[ $wm == "fluxbox" ]]; then
+			#	sed -i 's/firefox/firefox-esr/g' $HOME/.fluxbox/keys
+			#fi
+			#if [[ $wm == "icewm" ]]; then
+			#	sed -i 's/firefox/firefox-esr/g' $HOME/.icewm/{menu,toolbar}
+			#fi
 			if [[ $wm == "xfwm4" ]]; then
 				sed -i 's/firefox/firefox-esr/g' $HOME/.config/xfce4/panel/launcher-10/17140154333.desktop
 			fi

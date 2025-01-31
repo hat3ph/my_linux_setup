@@ -1,5 +1,5 @@
 # start a terminal
-bindsym $mod+Return exec lxterminal
+bindsym $mod+Return exec x-terminal-emulator
 
 # kill focused window
 bindsym $mod+Shift+q kill

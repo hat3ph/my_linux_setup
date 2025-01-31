@@ -1,4 +1,4 @@
-prog Terminal ! lxterminal
+prog Terminal ! x-terminal-emulator
 prog "File Manager" thunar thunar
 prog "Text Editor" ! geany
-prog "Web Browser" firefox firefox
+prog "Web Browser" ! x-www-browser

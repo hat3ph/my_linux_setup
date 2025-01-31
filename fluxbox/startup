@@ -26,7 +26,7 @@ fi
 #xrandr --output Virtual1 --mode 1440x900 &
 /usr/bin/dex -a &
 /usr/bin/pnmixer &
-thunar --daemon &
+/usr/bin/thunar --daemon &
 #feh --bg-fill --randomize $HOME/Pictures/wallpapers/* &
 #fbsetbg -f -r ~/Pictures/wallpapers/ &
 /usr/bin/cbatticon -u 20 &

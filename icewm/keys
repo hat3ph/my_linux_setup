@@ -1,5 +1,5 @@
 # Apps Launcher Keybinds
-key "Super+t" /usr/bin/lxterminal
+key "Super+t" /usr/bin/x-terminal-emulator
 key "Super+f" /usr/bin/thunar
 key "Super+r" /usr/bin/rofi -show drun
 key "Super+p" $HOME/.local/bin/rofi_power_menu.sh

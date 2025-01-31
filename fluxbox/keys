@@ -58,16 +58,15 @@ Mod4 8 :Tab 8
 Mod4 9 :Tab 9
 
 # open a terminal
-#Mod1 F1 :Exec x-terminal-emulator
-Mod1 T :Exec lxterminal
+Mod1 T :Exec x-terminal-emulator
 # open rofi app finder
 Mod1 R :Exec rofi -show drun
 # open rofi power menu
 Mod1 P :Exec $HOME/.local/bin/rofi_power_menu.sh
 # open thunar file manager
 Mod1 F :Exec thunar
-# open firefox-esr web browser
-Mod1 W :Exec firefox-esr
+# open web browser
+Mod1 W :Exec x-www-browser
 # open flameshot screen capture
 Print :Exec flameshot gui
 # open RootMenu
