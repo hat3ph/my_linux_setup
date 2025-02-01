@@ -73,7 +73,11 @@ function disable_services() {
 
 # function for selection menu
 function menu (){
-	read -p "Choose window manager (icewm, fluxbox, openbox, i3wm, xfwm4, sway, labwc, lubuntu) [icewm]: " wm
+	if [[ -n "$(uname -a | grep Ubuntu)" ]]; then
+		read -p "Choose window manager (icewm, fluxbox, openbox, i3wm, xfwm4, sway, labwc, lubuntu) [icewm]: " wm
+ 	else
+		read -p "Choose window manager (icewm, fluxbox, openbox, i3wm, xfwm4, sway, lubuntu) [icewm]: " wm
+	fi
 	wm=${wm:-icewm}
  
 	read -p "Install (non-snap) Firefox for Ubuntu or Firefox-ESR for Debian? (yes/no) [yes]:" firefox
