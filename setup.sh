@@ -453,8 +453,9 @@ function install(){
 		wget -O - https://dl.winehq.org/wine-builds/winehq.key | sudo gpg --dearmor -o /etc/apt/keyrings/winehq-archive.key -
 
   		. /etc/os-release
+		ID=$ID
     		CODENAME=$VERSION_CODENAME
-      		sudo wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/$CODENAME/winehq-$CODENAME.sources
+      		sudo wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/$ID/dists/$CODENAME/winehq-$CODENAME.sources
 		install_packages winehq-stable
 
   		# install lutris dependencies
