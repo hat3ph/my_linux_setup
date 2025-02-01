@@ -312,7 +312,7 @@ function install(){
 			echo -e "Package: *\nPin: release a=stable\nPin-Priority: 700\nPackage: *\nPin: release a=testing\nPin-Priority: -10" | sudo tee /etc/apt/preferences.d/debian-testing.pref
     			sudo apt-get update
 			install_packages swaybg wlr-randr tofi alacritty libglib2.0-bin
-			sudo DEBIAN_FRONTEND=noninteractive apt-get install -t testing labwc sfwbar nwg-look -y
+			sudo DEBIAN_FRONTEND=noninteractive apt-get install -t testing labwc sfwbar nwg-look libwlroots-0.18 -y
       		fi
    			
       		# install labwc and packages
