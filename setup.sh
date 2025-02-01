@@ -17,8 +17,6 @@ EOF
 echo "Welcome to My Linux Interactive Setup Script!"
 echo "Please follow the prompts below to configure your environment."
 echo ""
- 
-#wm_options=(icewm fluxbox i3wm xfwm4 sway lubuntu)
 
 # Function to install packages
 function install_packages() {
@@ -94,11 +92,10 @@ function menu (){
  
 	if [[ $wm == "labwc" || $wm == "sway" ]]; then
 		read -p "Choose login manager (tuigreet or tty or no). Choose no for no login manager. [no]:" login_mgr
-		login_mgr=${login_mgr:-no}
 	else
 		read -p "Choose login manager (sddm or lxdm or tty or no). Choose no for no login manager. [no]:" login_mgr
-		login_mgr=${login_mgr:-no}
 	fi
+ 	login_mgr=${login_mgr:-no}
  
    	read -p "Use NetworkManager for network interface management? (yes/no) [yes]:" nm
 	nm=${nm:-yes} 
