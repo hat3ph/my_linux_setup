@@ -442,13 +442,37 @@ function install(){
 
 	# install wine32/64 and lutris
 	if [[ $gaming == "yes" ]]; then
+ 		# enable 32bit architecture
  		sudo dpkg --add-architecture i386
-		install_packages wine32 wine64
+
+   		# install 32/64bit wine packages from Ubuntu/Debian repos
+		#install_packages wine32 wine64
+
+  		# install stable wine package from winehq
+  		sudo mkdir -pm755 /etc/apt/keyrings
+		wget -O - https://dl.winehq.org/wine-builds/winehq.key | sudo gpg --dearmor -o /etc/apt/keyrings/winehq-archive.key -
+
+  		. /etc/os-release
+    		CODENAME=$VERSION_CODENAME
+      		sudo wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/$CODENAME/winehq-$CODENAME.sources
+		install_packages winehq-stable
+
+  		# install lutris dependencies
 		install_packages python3-lxml python3-setproctitle python3-magic gir1.2-webkit2-4.1 cabextract \
   			fluid-soundfont-gs vulkan-tools python3-protobuf python3-evdev fluidsynth gamemode 7zip p7zip psmisc \
 			python3-pil python3-gi-cairo gir1.2-notify-0.7 mesa-utils libimagequant0 libraqm0 python3-cairo python3-olefile
-		wget -P /tmp https://github.com/lutris/lutris/releases/download/v0.5.18/lutris_0.5.18_all.deb
-		sudo dpkg -i /tmp/lutris*.deb
+
+		# install lutris
+   		if [[ -n "$(uname -a | grep Ubuntu)" ]]; then
+     			# https://github.com/lutris/lutris/releases
+			wget -P /tmp https://github.com/lutris/lutris/releases/download/v0.5.18/lutris_0.5.18_all.deb
+   			sudo dpkg -i /tmp/lutris*.deb
+		else
+  			# https://software.opensuse.org/download.html?project=home%3Astrycore&package=lutris
+  			echo 'deb http://download.opensuse.org/repositories/home:/strycore/Debian_12/ /' | sudo tee /etc/apt/sources.list.d/home:strycore.list
+			curl -fsSL https://download.opensuse.org/repositories/home:strycore/Debian_12/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/home_strycore.gpg > /dev/null
+			install_packages lutris
+  		fi
 	
 		# install MangoHud
 		wget -P /tmp https://github.com/flightlessmango/MangoHud/releases/download/v0.7.2/MangoHud-0.7.2.r0.g7b80f73.tar.gz
