@@ -442,6 +442,10 @@ function install(){
  		# enable 32bit architecture
  		sudo dpkg --add-architecture i386
 
+   		# install vulkan drivers for AMD/Intel GPU
+		# https://github.com/lutris/docs/blob/master/InstallingDrivers.md
+     		install_packages libgl1:i386 libgl1-mesa-dri:i386 mesa-vulkan-drivers mesa-vulkan-drivers:i386
+
    		# install 32/64bit wine packages from Ubuntu/Debian repos
 		#install_packages wine32 wine64
 
