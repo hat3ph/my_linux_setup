@@ -115,7 +115,12 @@ function menu (){
 	qemu=${qemu:-no} 
 	 
 	read -p "Install Wine and Lutris for gaming? (yes/no) [no]:" gaming
-	gaming=${gaming:-no} 
+	gaming=${gaming:-no}
+
+ 	if [[ $gaming == "yes" ]]; then
+		read -p "Install WineHQ package for wine? If no, will install 32/64bit wine package from default repo. (yes/no) [no]:" winehq
+		winehq=${winehq:-no}
+ 	fi
 	
 	read -p "Customize lm-sensors? (yes/no) [no]:" sensors
 	sensors=${sensors:-no} 
@@ -446,19 +451,21 @@ function install(){
 		# https://github.com/lutris/docs/blob/master/InstallingDrivers.md
      		install_packages libgl1:i386 libgl1-mesa-dri:i386 mesa-vulkan-drivers mesa-vulkan-drivers:i386
 
-   		# install 32/64bit wine packages from Ubuntu/Debian repos
-		#install_packages wine32 wine64
-
-  		# install stable wine package from winehq
-  		sudo mkdir -pm755 /etc/apt/keyrings
-		wget -O - https://dl.winehq.org/wine-builds/winehq.key | sudo gpg --dearmor -o /etc/apt/keyrings/winehq-archive.key -
-
-  		. /etc/os-release
-		ID=$ID
-    		CODENAME=$VERSION_CODENAME
-      		sudo wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/$ID/dists/$CODENAME/winehq-$CODENAME.sources
-		install_packages winehq-stable
-
+		# install 32/64bit wine packages
+		if [[ $winehq == "no" ]]; then
+   			# install 32/64bit wine packages from Ubuntu/Debian repos
+			install_packages wine32 wine64
+		else
+			# install stable wine package from winehq
+   			sudo mkdir -pm755 /etc/apt/keyrings
+      			wget -O - https://dl.winehq.org/wine-builds/winehq.key | sudo gpg --dearmor -o /etc/apt/keyrings/winehq-archive.key -
+	 		. /etc/os-release
+    			ID=$ID
+       			CODENAME=$VERSION_CODENAME
+	  		sudo wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/$ID/dists/$CODENAME/winehq-$CODENAME.sources
+     			install_packages winehq-stable
+		fi
+  
   		# install lutris dependencies
 		install_packages python3-lxml python3-setproctitle python3-magic gir1.2-webkit2-4.1 cabextract \
   			fluid-soundfont-gs vulkan-tools python3-protobuf python3-evdev fluidsynth gamemode 7zip p7zip psmisc \
@@ -771,6 +778,9 @@ printf "AMDGPU Xorg Config      : $amdgpu_config\n"
 fi
 printf "QEMU KVM                : $qemu\n"
 printf "Gaming                  : $gaming\n"
+if [[ $winehq == "yes" ]]; then
+printf "WineHQ wine packages    : $winehq\n"
+fi
 printf "lm-sensor setup         : $sensors\n"
 printf "Custom bashrc           : $bashrc\n"
 printf "Configure Smartd        : $smartd\n"
