@@ -356,8 +356,8 @@ function install(){
 
 		# enable idle inhibit while playing audio and video
 		# https://github.com/labwc/labwc/discussions/1503
-		mkdir -p $HOME/.config/xdg-desktop/portal
-		cp ./config/wlroots-portals.conf $HOME/.config/xdg-desktop/portal
+		mkdir -p $HOME/.config/xdg-desktop-portal
+		cp ./config/wlroots-portals.conf $HOME/.config/xdg-desktop-portal
 	;;
 	lubuntu)
 		# install minimal setup on Lubuntu
