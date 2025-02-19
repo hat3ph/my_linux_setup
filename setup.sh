@@ -652,7 +652,9 @@ function install(){
 		sudo mv /etc/greetd/config.toml /etc/greetd/config.toml.default
 		sudo cp ./config/tuigreet.toml /etc/greetd/config.toml
   		# add poweroff and reboot command for Debian 12
-     		sudo sed -i "s/asterisks/asterisks --power-shutdown 'systemct poweroff' --power-reboot 'systemctl reboot'/g" /etc/greetd/config.toml
+    		if [[ -n "$(uname -a | grep Debian)" ]]; then
+     			sudo sed -i "s/asterisks/asterisks --power-shutdown 'systemct poweroff' --power-reboot 'systemctl reboot'/g" /etc/greetd/config.toml
+		fi
     	;;
   	esac
 	#if [[ $login_mgr == "lxdm" ]]; then
