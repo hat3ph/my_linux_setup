@@ -491,7 +491,7 @@ function install(){
   		fi
 	
 		# install MangoHud
-		wget -P /tmp https://github.com/flightlessmango/MangoHud/releases/download/v0.7.2/MangoHud-0.7.2.r0.g7b80f73.tar.gz
+		wget -P /tmp https://github.com/flightlessmango/MangoHud/releases/download/v0.8.1/MangoHud-0.8.1.r0.gfea4292.tar.gz
 		tar -zxvf /tmp/MangoHud*.tar.gz -C /tmp
 		(cd /tmp/MangoHud && ./mangohud-setup.sh install)
    
