@@ -138,6 +138,9 @@ function menu (){
 	 
 	read -p "Install yt-dlp? (yes/no) [no]:" ytdlp
 	ytdlp=${ytdlp:-no}
+
+	read -p "Configure timezone? Enter your timezone or no to not configure it. (Asia/Kuala_Lumpur/no) [no]:" timezone
+ 	timezone=${timezone:no}
 }
  
 function install(){
@@ -754,7 +757,12 @@ function install(){
 	   	sudo mkswap /swapfile
 		sudo swapon /swapfile
 		echo "/swapfile swap swap defaults 0 0" | sudo tee -a /etc/fstab
-	fi	
+	fi
+
+	# configure timezone
+	if [[ $timezone != "no" ]]; then
+		sudo timedatectl set-timezone $timezone
+	fi
 
 	# copy all executable files
 	mkdir -p $HOME/.local/bin
@@ -796,6 +804,7 @@ printf "Custom bashrc           : $bashrc\n"
 printf "Configure Smartd        : $smartd\n"
 printf "Configure swapfile      : $swapfile\n"
 printf "Install yt-dlp          : $ytdlp\n"
+printf "Configure timezone	: $timezone\n"
 printf "##################################\n"
  
 while true; do
