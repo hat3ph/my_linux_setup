@@ -415,7 +415,7 @@ function install(){
     	esac
 
 	# Install standard packages
- 	install_packages papirus-icon-theme adwaita-icon-theme xdg-utils xdg-user-dirs lxpolkit software-properties-gtk rsyslog logrotate nano less curl wget iputils-ping fonts-noto-color-emoji fonts-noto-cjk fonts-font-awesome mirage geany unzip
+ 	install_packages papirus-icon-theme adwaita-icon-theme xdg-utils xdg-user-dirs lxpolkit software-properties-gtk rsyslog logrotate nano less curl wget iputils-ping fonts-noto fonts-font-awesome mirage geany unzip
   
 	# install and configure dunst
 	if [[ $wm != "lubuntu" ]]; then
