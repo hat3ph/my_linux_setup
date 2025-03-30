@@ -707,7 +707,7 @@ function install(){
   			if [[ $wm == "labwc" ]]; then
 				install_packages network-manager
    			else
-      			install_packages network-manager network-manager-gnome
+      				install_packages network-manager network-manager-gnome
       		fi
 			if [[ -n "$(uname -a | grep Ubuntu)" ]] then
 				for file in `find /etc/netplan/* -maxdepth 0 -type f -name *.yaml`; do
@@ -723,6 +723,8 @@ function install(){
 				sudo systemctl disable networking.service
 			fi
 		fi
+  		# disable NetworkManager-wait-online.service
+    		disable_services NetworkManager-wait-online.service
 	fi
 
 	# disable unwanted services
