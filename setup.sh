@@ -503,6 +503,13 @@ function install(){
 		#wget -P /tmp https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks
 		#cp /tmp/winetricks $HOME/.local/bin/
 		#chmod +x $HOME/.local/bin/winetricks
+
+		# configure gamemode not working for ubuntu
+		# https://bugs.launchpad.net/ubuntu/+source/gamemode/+bug/2076127
+		if [ ! $(getent group gamemode) ]; then
+			sudo groupadd gamemode
+		fi
+		sudo usermod -aG gamemode $USER
 	fi
     
 	# install and configure smartd to monitor disks
