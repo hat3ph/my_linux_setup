@@ -77,6 +77,9 @@ function menu (){
 		read -p "Choose window manager (icewm, fluxbox, openbox, i3wm, xfwm4, sway, lubuntu) [icewm]: " wm
 	fi
 	wm=${wm:-icewm}
+
+ 	read -p "Install terminal emulator? (xfce4-terminal/lxterminal/alacritty/foot) [xfce4-terminal]:" terminal
+	terminal=${terminal:-xfce4-terminal}
  
 	read -p "Install (non-snap) Firefox for Ubuntu or Firefox-ESR for Debian? (yes/no) [yes]:" firefox
 	firefox=${firefox:-yes}
@@ -146,7 +149,7 @@ function menu (){
 function install(){
 	case $wm in
         fluxbox)
-		install_packages fluxbox xorg xinit x11-utils lxterminal lxappearance rofi dex flameshot feh
+		install_packages fluxbox xorg xinit x11-utils $terminal lxappearance rofi dex flameshot feh
 		echo "startfluxbox" > "$HOME/.xinitrc"
 	    
 		backup_and_create "$HOME/.fluxbox"
@@ -172,7 +175,7 @@ function install(){
 		rm $HOME/.fluxbox/styles/*.{sh,txt}
 	;;
 	openbox)
-		install_packages openbox xorg xinit x11-utils lxterminal lxappearance rofi dex flameshot feh
+		install_packages openbox xorg xinit x11-utils $terminal lxappearance rofi dex flameshot feh
 		echo "openbox-session" > "$HOME/.xinitrc"
 
 		# custom openbox configuration
@@ -203,7 +206,7 @@ function install(){
 		wget https://raw.githubusercontent.com/dracula/tint2/master/tint2rc -O $HOME/.config/tint2/dracula.tint2rc
 	;;
         icewm)
-		install_packages icewm xorg xinit x11-utils lxterminal lxappearance rofi dex flameshot feh
+		install_packages icewm xorg xinit x11-utils $terminal lxappearance rofi dex flameshot feh
 		echo "icewm-session" > "$HOME/.xinitrc"
             	
 		# install icewm custom config
@@ -214,7 +217,6 @@ function install(){
 
 		# install icewm custom themes
 		mkdir -p $HOME/.icewm/themes
-
 		git clone https://github.com/Brottweiler/win95-dark.git /tmp/win95-dark
 		cp -r /tmp/win95-dark $HOME/.icewm/themes 
 		rm $HOME/.icewm/themes/win95-dark/.gitignore
@@ -236,7 +238,7 @@ function install(){
         ;;
         i3wm)
 		# install i3wm and other packages
-		install_packages i3 suckless-tools xorg xinit x11-utils lxterminal feh lxappearance dex rofi flameshot
+		install_packages i3 suckless-tools xorg xinit x11-utils $terminal feh lxappearance dex rofi flameshot
 			
 		# custom i3wm config
 		backup_and_create "$HOME/.config/i3"
@@ -245,7 +247,7 @@ function install(){
 	;;
 	xfwm4)
 		# install xfwm4 and other packages
-		install_packages xorg xinit xfce4-terminal xfwm4 xfce4-panel sxhkd feh lxappearance dex flameshot rofi
+		install_packages xorg xinit $terminal xfwm4 xfce4-panel sxhkd feh lxappearance dex flameshot rofi
 		echo "exec xfwm4" > $HOME/.xinitrc
         	cp ./xfwm4/xsessionrc $HOME/.xsessionrc
         
@@ -282,7 +284,7 @@ function install(){
 	;;
 	sway)
 		# install sway and packages
-		install_packages install sway swaybg swayidle swaylock xdg-desktop-portal-wlr xwayland foot suckless-tools grim imagemagick grimshot qt5ct qtwayland5
+		install_packages install sway swaybg swayidle swaylock xdg-desktop-portal-wlr xwayland $terminal suckless-tools grim imagemagick grimshot qt5ct qtwayland5
 
 		# copy my sway and mako configuration
 		backup_and_create "$HOME/.config/sway"
@@ -313,7 +315,7 @@ function install(){
 			sudo add-apt-repository ppa:ubuntusway-dev/stable -y
     			echo -e "Package: *\nPin: release o=LP-PPA-ubuntusway-dev-stable\nPin-Priority: 100" | sudo tee /etc/apt/preferences.d/ubuntusway-dev-stable.pref
     			# install labwc and packages
-			install_packages labwc swaybg wlr-randr sfwbar tofi nwg-look alacritty
+			install_packages labwc swaybg wlr-randr sfwbar tofi nwg-look $terminal
       		fi
 
   		# setup Debian Testing repo for labwc as Debian 12 do not have labwc packaged
@@ -322,7 +324,7 @@ function install(){
     			sudo sed -i 's/bookworm/testing/g' /etc/apt/sources.list.d/debian-testing.list
 			echo -e "Package: *\nPin: release a=stable\nPin-Priority: 700\nPackage: *\nPin: release a=testing\nPin-Priority: -10" | sudo tee /etc/apt/preferences.d/debian-testing.pref
     			sudo apt-get update
-			install_packages swaybg wlr-randr tofi alacritty libglib2.0-bin
+			install_packages swaybg wlr-randr tofi $terminal libglib2.0-bin
 			sudo DEBIAN_FRONTEND=noninteractive apt-get install -t testing labwc sfwbar nwg-look libwlroots-0.18 -y
       		fi
    			
@@ -791,6 +793,7 @@ printf "\n"
 printf "Start installation!!!!!!!!!!!\n"
 printf "##################################\n"
 printf "My WM Install           : $wm\n"
+printf "Terminal Emulator       : $terminal\n"
 printf "Firefox as DEB packages : $firefox\n"
 printf "Pipewire Audio          : $pipewire\n"
 printf "Thunar File Manager     : $thunar\n"
