@@ -1,4 +1,4 @@
-prog Terminal ! x-terminal-emulator
+prog Terminal terminal x-terminal-emulator
 prog "Web Browser" ! x-www-browser
 
 includeprog icewm-menu-fdo --no-sep-others --seps --no-sub-cats
