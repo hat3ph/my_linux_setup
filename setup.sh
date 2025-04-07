@@ -563,9 +563,9 @@ function install(){
 		tar -xvf /tmp/buuf*.tar.xz -C $HOME/.icons
 
 		# buuf icon from robson-66
-		git clone https://github.com/robson-66/Buuf.git /tmp/Buuf
-		mkdir -p $HOME/.icons
-		cp -r /tmp/Buuf $HOME/.icons && rm -rf $HOME/.icons/Buuf/.git
+		#git clone https://github.com/robson-66/Buuf.git /tmp/Buuf
+		#mkdir -p $HOME/.icons
+		#cp -r /tmp/Buuf $HOME/.icons && rm -rf $HOME/.icons/Buuf/.git
 
 		# setup buuf-icons-for-plasma icon theme
 		git clone https://www.opencode.net/phob1an/buuf-icons-for-plasma.git /tmp/buuf-icons-for-plasma
@@ -584,15 +584,17 @@ function install(){
   		git clone https://github.com/catppuccin/geany /tmp/geany-catppuccin
 		cp -r /tmp/geany-catppuccin/src/*.conf $HOME/.config/geany/colorschemes/
 
-		# install lxterminal dracula theme
-		git clone https://github.com/dracula/lxterminal.git /tmp/lxterminal
-		mkdir -p $HOME/.config/lxterminal/
-		cp /tmp/lxterminal/lxterminal.conf $HOME/.config/lxterminal/
-
-		# install lxterminal catppuccin theme
-  		git clone https://github.com/catppuccin/lxterminal /tmp/lxterminal-catppuccin
-		mkdir -p $HOME/.config/lxterminal/
-		cp /tmp/lxterminal-catppuccin/themes/*.conf $HOME/.config/lxterminal/
+		if [[ $terminal == "lxterminal" ]]; then
+			# install lxterminal dracula theme
+			git clone https://github.com/dracula/lxterminal.git /tmp/lxterminal
+			mkdir -p $HOME/.config/lxterminal/
+			cp /tmp/lxterminal/lxterminal.conf $HOME/.config/lxterminal/
+   
+			# install lxterminal catppuccin theme
+	  		git clone https://github.com/catppuccin/lxterminal /tmp/lxterminal-catppuccin
+			mkdir -p $HOME/.config/lxterminal/
+			cp /tmp/lxterminal-catppuccin/themes/*.conf $HOME/.config/lxterminal/
+		fi
 
 		# install dracula themes
 		mkdir -p $HOME/.icons
@@ -604,11 +606,11 @@ function install(){
 		tar -xvf /tmp/Dracula.tar.xz -C $HOME/.themes
 
 		# install Nordic GTK theme
-		mkdir -p $HOME/.local/share/themes
+		mkdir -p $HOME/.themes
 		wget -P /tmp https://github.com/EliverLara/Nordic/releases/download/v2.2.0/Nordic.tar.xz
-		tar -xf /tmp/Nordic.tar.xz -C $HOME/.local/share/themes
+		tar -xf /tmp/Nordic.tar.xz -C $HOME/.themes
 		wget -P /tmp https://github.com/EliverLara/Nordic/releases/download/v2.2.0/Nordic-darker.tar.xz
-		tar -xf /tmp/Nordic-darker.tar.xz -C $HOME/.local/share/themes
+		tar -xf /tmp/Nordic-darker.tar.xz -C $HOME/.themes
 	fi
 
 	# configure nano with line number
