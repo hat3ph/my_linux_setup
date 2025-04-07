@@ -143,7 +143,7 @@ function menu (){
 	ytdlp=${ytdlp:-no}
 
 	read -p "Configure timezone? Enter your timezone or no to not configure it. (Asia/Kuala_Lumpur/no) [no]:" timezone
- 	timezone=${timezone:no}
+ 	timezone=${timezone:-no}
 }
  
 function install(){
