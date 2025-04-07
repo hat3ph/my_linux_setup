@@ -783,7 +783,7 @@ function install(){
 	chmod +x $HOME/.local/bin/*
 
 	# set default x-terminal-emulator
-	sudo update-alternatives --set x-terminal-emulator /usr/bin/$terminal
+	sudo update-alternatives --set x-terminal-emulator $(which $terminal)
 }
 
 # installation menu selection
