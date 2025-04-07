@@ -781,6 +781,9 @@ function install(){
 	mkdir -p $HOME/.local/bin
 	cp ./bin/* $HOME/.local/bin
 	chmod +x $HOME/.local/bin/*
+
+	# set default x-terminal-emulator
+	sudo update-alternatives --set x-terminal-emulator /usr/bin/$terminal
 }
 
 # installation menu selection
