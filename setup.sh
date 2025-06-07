@@ -720,7 +720,7 @@ function install(){
    			else
       				install_packages network-manager network-manager-gnome
       		fi
-			if [[ -n "$(uname -a | grep Ubuntu)" ]] then
+			if [[ -n "$(uname -a | grep Ubuntu)" ]]; then
 				for file in `find /etc/netplan/* -maxdepth 0 -type f -name *.yaml`; do
 					sudo mv $file $file.bak
 				done
