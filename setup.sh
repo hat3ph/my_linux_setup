@@ -787,8 +787,20 @@ function install(){
 }
 
 # installation menu selection
-menu
- 
+if [[ -r /etc/os-release ]]; then
+	distro_version=$(cat /etc/os-release | grep UBUNTU_CODENAME | cut -d = -f 2)
+	#echo $distro_version
+	if [[ $distro_version == "noble" || $distro_version == "bookworm" ]]; then
+		menu
+	else
+		echo "Not running Debian/Ubuntu distribution. Exiting..."
+		exit;
+	fi
+else
+	echo "Not running a distribution with /etc/os-release available"
+	exit;
+fi
+
 #for wmlist in "${wm_options[@]}"; do
 #	echo $wmlist
 #done
