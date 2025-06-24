@@ -471,9 +471,6 @@ function install(){
 			# install stable wine package from winehq
    			sudo mkdir -pm755 /etc/apt/keyrings
       			wget -O - https://dl.winehq.org/wine-builds/winehq.key | sudo gpg --dearmor -o /etc/apt/keyrings/winehq-archive.key -
-	 		. /etc/os-release
-    			ID=$ID
-       			CODENAME=$VERSION_CODENAME
 	  		sudo wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/$ID/dists/$CODENAME/winehq-$CODENAME.sources
      			install_packages winehq-stable
 		fi
@@ -788,9 +785,12 @@ function install(){
 
 # installation menu selection
 if [[ -r /etc/os-release ]]; then
-	distro_version=$(cat /etc/os-release | grep UBUNTU_CODENAME | cut -d = -f 2)
-	#echo $distro_version
-	if [[ $distro_version == "noble" || $distro_version == "bookworm" ]]; then
+	. /etc/os-release
+ 	ID=$ID
+  	CODENAME=$VERSION_CODENAME
+	#CODENAME=$(cat /etc/os-release | grep _CODENAME | cut -d = -f 2)
+	#echo $CODENAME
+	if [[ $CODENAME == "noble" || $CODENAME == "bookworm" ]]; then
 		menu
 	else
 		echo "Not running Debian/Ubuntu distribution. Exiting..."
