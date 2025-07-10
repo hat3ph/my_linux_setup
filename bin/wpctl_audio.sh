@@ -16,6 +16,9 @@ function send_notification() {
 }
 
 case $1 in
+status)
+	send_notification
+	;;
 up)
 	# increase audio level and send notification
 	wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ $audio_level%+
@@ -47,7 +50,7 @@ mic)
 	fi
 	;;
 *)
-	echo "Usage: $0 {up|down|mute|mic}"
+	echo "Usage: $0 {status|up|down|mute|mic}"
 	exit 1
 	;;
 esac
