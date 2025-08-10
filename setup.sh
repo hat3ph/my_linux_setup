@@ -307,7 +307,7 @@ function install(){
 	;;
 	labwc)
 		# install labwc and packages
-		install_packages labwc swaybg wlr-randr waybar tofi nwg-look
+		install_packages labwc swaybg wlr-randr waybar tofi nwg-look $terminal
 
 		# enable autostart labwc after TUI login
 		#autostart_wm labwc
@@ -320,7 +320,7 @@ function install(){
    		wget https://raw.githubusercontent.com/labwc/labwc/master/docs/menu.xml -O $HOME/.config/labwc/menu.xml
 		#wget https://raw.githubusercontent.com/labwc/labwc/master/docs/autostart -O $HOME/.config/labwc/autostart
 		#wget https://raw.githubusercontent.com/labwc/labwc/master/docs/rc.xml -O $HOME/.config/labwc/rc.xml
-		sed -i 's/lab-sensible-terminal/$terminal/g' $HOME/.config/labwc/menu.xml
+		sed -i 's/lab-sensible-terminal/'$terminal'/g' $HOME/.config/labwc/menu.xml
 		cp ./labwc/* $HOME/.config/labwc/
 
 		# copy sfwbar config
