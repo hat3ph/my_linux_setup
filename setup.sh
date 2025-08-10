@@ -71,11 +71,7 @@ function disable_services() {
 
 # function for selection menu
 function menu (){
-	if [[ -n "$(uname -a | grep Ubuntu)" ]]; then
-		read -p "Choose window manager (icewm, fluxbox, openbox, i3wm, xfwm4, sway, labwc, lubuntu) [icewm]: " wm
- 	else
-		read -p "Choose window manager (icewm, fluxbox, openbox, i3wm, xfwm4, sway, lubuntu) [icewm]: " wm
-	fi
+	read -p "Choose window manager (icewm, fluxbox, openbox, i3wm, xfwm4, sway, labwc, lubuntu) [icewm]:" wm
 	wm=${wm:-icewm}
 
  	read -p "Install terminal emulator? (xfce4-terminal/lxterminal/alacritty/foot) [xfce4-terminal]:" terminal
@@ -192,9 +188,9 @@ function install(){
 		echo "nm-applet &" >> $HOME/.config/openbox/autostart
 
 		# install openbox themes
-      		mkdir -p $HOME/.themes
+		mkdir -p $HOME/.themes
 		git clone https://github.com/dracula/openbox /tmp/dracula-openbox
-    		cp -r /tmp/dracula-openbox/Dracula* $HOME/.themes/
+		cp -r /tmp/dracula-openbox/Dracula* $HOME/.themes/
 			
 		git clone https://github.com/catppuccin/openbox /tmp/catppuccin-openbox
 		cp -r /tmp/catppuccin-openbox/themes/catppuccin-* $HOME/.themes/
@@ -210,9 +206,9 @@ function install(){
 		echo "icewm-session" > "$HOME/.xinitrc"
             	
 		# install icewm custom config
-        	backup_and_create "$HOME/.icewm"
+		backup_and_create "$HOME/.icewm"
 		mkdir -p $HOME/.icewm/
-        	cp -r ./icewm/* $HOME/.icewm/
+		cp -r ./icewm/* $HOME/.icewm/
 		chmod +x $HOME/.icewm/startup
 
 		# install icewm custom themes
@@ -235,7 +231,7 @@ function install(){
 		else
 			cp ./styles/debian.xpm $HOME./icewm/themes/DraculIce/taskbar/start.xpm
 		fi
-        ;;
+	;;
         i3wm)
 		# install i3wm and other packages
 		install_packages i3 suckless-tools xorg xinit x11-utils $terminal feh lxappearance dex rofi flameshot
@@ -249,17 +245,17 @@ function install(){
 		# install xfwm4 and other packages
 		install_packages xorg xinit $terminal xfwm4 xfce4-panel sxhkd feh lxappearance dex flameshot rofi
 		echo "exec xfwm4" > $HOME/.xinitrc
-        	cp ./xfwm4/xsessionrc $HOME/.xsessionrc
-        
-        	# insall dracula xfce4-terminal theme
-    		mkdir -p $HOME/.local/share/xfce4/terminal/colorschemes
-      		git clone https://github.com/dracula/xfce4-terminal.git /tmp/xfce4-terminal
+		cp ./xfwm4/xsessionrc $HOME/.xsessionrc
+		
+		# insall dracula xfce4-terminal theme
+		mkdir -p $HOME/.local/share/xfce4/terminal/colorschemes
+		git clone https://github.com/dracula/xfce4-terminal.git /tmp/xfce4-terminal
 		cp /tmp/xfce4-terminal/Dracula.theme $HOME/.local/share/xfce4/terminal/colorschemes
 
 		# install catppuccin xfce4-terminal theme
 		mkdir -p $HOME/.local/share/xfce4/terminal/colorschemes
    		git clone https://github.com/catppuccin/xfce4-terminal /tmp/xfce4-terminal-catppuccin
-      		cp /tmp/xfce4-terminal-catppuccin/themes/*.theme $HOME/.local/share/xfce4/terminal/colorschemes
+		cp /tmp/xfce4-terminal-catppuccin/themes/*.theme $HOME/.local/share/xfce4/terminal/colorschemes
 			
 		# copy xfce4-panel config
 		mkdir -p $HOME/.config/xfce4/panel/launcher-{8,10,14,15}
@@ -310,26 +306,8 @@ function install(){
 		#echo -e '\n#If running from tty1 start sway\n[ "$(tty)" = "/dev/tty1" ] && exec /usr/local/bin/start_sway.sh' >> $HOME/.bashrc
 	;;
 	labwc)
-		# setup Ubuntu Sway Remix repo for nwg-look as Ubuntu 24.04 do not have nwg-look packaged
-   		if [[ -n "$(uname -a | grep Ubuntu)" ]]; then
-			sudo add-apt-repository ppa:ubuntusway-dev/stable -y
-    			echo -e "Package: *\nPin: release o=LP-PPA-ubuntusway-dev-stable\nPin-Priority: 100" | sudo tee /etc/apt/preferences.d/ubuntusway-dev-stable.pref
-    			# install labwc and packages
-			install_packages labwc swaybg wlr-randr sfwbar tofi nwg-look $terminal
-      		fi
-
-  		# setup Debian Testing repo for labwc as Debian 12 do not have labwc packaged
-   		if [[ -n "$(uname -a | grep Debian)" ]]; then
-			sudo cp /etc/apt/sources.list /etc/apt/sources.list.d/debian-testing.list
-    			sudo sed -i 's/bookworm/testing/g' /etc/apt/sources.list.d/debian-testing.list
-			echo -e "Package: *\nPin: release a=stable\nPin-Priority: 700\nPackage: *\nPin: release a=testing\nPin-Priority: -10" | sudo tee /etc/apt/preferences.d/debian-testing.pref
-    			sudo apt-get update
-			install_packages swaybg wlr-randr tofi $terminal libglib2.0-bin
-			sudo DEBIAN_FRONTEND=noninteractive apt-get install -t testing labwc sfwbar nwg-look libwlroots-0.18 -y
-      		fi
-   			
-      		# install labwc and packages
-		#install_packages labwc swaybg wlr-randr sfwbar wofi nwg-look
+		# install labwc and packages
+		install_packages labwc swaybg wlr-randr waybar tofi nwg-look
 
 		# enable autostart labwc after TUI login
 		#autostart_wm labwc
@@ -340,8 +318,9 @@ function install(){
 		#cp /etc/xdg/labwc/menu.xml $HOME/.config/labwc/
    		wget https://raw.githubusercontent.com/labwc/labwc/master/docs/environment -O $HOME/.config/labwc/environment
    		wget https://raw.githubusercontent.com/labwc/labwc/master/docs/menu.xml -O $HOME/.config/labwc/menu.xml
-      		#wget https://raw.githubusercontent.com/labwc/labwc/master/docs/autostart -O $HOME/.config/labwc/autostart
+		#wget https://raw.githubusercontent.com/labwc/labwc/master/docs/autostart -O $HOME/.config/labwc/autostart
 		#wget https://raw.githubusercontent.com/labwc/labwc/master/docs/rc.xml -O $HOME/.config/labwc/rc.xml
+		sed -i 's/lab-sensible-terminal/$terminal/g' $HOME/.config/labwc/menu.xml
 		cp ./labwc/* $HOME/.config/labwc/
 
 		# copy sfwbar config
@@ -359,9 +338,9 @@ function install(){
 		chmod +x $HOME/.config/gammastep/hooks/*.sh
 
    		# labwc/openbox themes
-      		mkdir -p $HOME/.themes
-	 	git clone https://github.com/dracula/openbox /tmp/dracula-openbox
-    		cp -r /tmp/dracula-openbox/Dracula* $HOME/.themes/
+		mkdir -p $HOME/.themes
+		git clone https://github.com/dracula/openbox /tmp/dracula-openbox
+		cp -r /tmp/dracula-openbox/Dracula* $HOME/.themes/
 			
 		git clone https://github.com/catppuccin/openbox /tmp/catppuccin-openbox
 	  	cp -r /tmp/catppuccin-openbox/themes/catppuccin-* $HOME/.themes/
@@ -388,23 +367,23 @@ function install(){
 		rm $HOME/.local/share/file-manager/actions/open-in-terminal.desktop
 
    		# install Dracula theme for LXQt and QTerminal
-      		mkdir -p $HOME/.local/share/lxqt/{palettes,themes}
-    		git clone https://github.com/AzumaHazuki/lxqt-themes-dracula /tmp/lxqt-themes-dracula
-      		cp -r /tmp/lxqt-themes-dracula/palettes/* $HOME/.local/share/lxqt/palettes
+		mkdir -p $HOME/.local/share/lxqt/{palettes,themes}
+		git clone https://github.com/AzumaHazuki/lxqt-themes-dracula /tmp/lxqt-themes-dracula
+		cp -r /tmp/lxqt-themes-dracula/palettes/* $HOME/.local/share/lxqt/palettes
 		cp -r /tmp/lxqt-themes-dracula/themes $HOME/.local/share/lxqt/themes/Dracula
 
 		sudo mkdir -p /usr/share/qtermwidget5/color-schemes
   		git clone https://github.com/dracula/qterminal.git /tmp/qterminal
-    		sudo cp /tmp/qterminal/Dracula.colorscheme /usr/share/qtermwidget5/color-schemes
+		sudo cp /tmp/qterminal/Dracula.colorscheme /usr/share/qtermwidget5/color-schemes
 
-       		# install Catppuccin LXQt and QTerminal theme
+		# install Catppuccin LXQt and QTerminal theme
 	  	mkdir -p $HOME/.local/share/lxqt/themes
 	  	git clone https://github.com/catppuccin/lxqt /tmp/lxqt-catppuccin
-     		cp -r /tmp/lxqt-catppuccin/src/* $HOME/.local/share/lxqt/themes
+		cp -r /tmp/lxqt-catppuccin/src/* $HOME/.local/share/lxqt/themes
 
 		sudo mkdir -p /usr/share/qtermwidget5/color-schemes
  		git clone https://github.com/catppuccin/qterminal /tmp/qterminal-catppuccin
-    		sudo cp /tmp/qterminal-catppuccin/src/*.colorscheme /usr/share/qtermwidget5/color-schemes
+		sudo cp /tmp/qterminal-catppuccin/src/*.colorscheme /usr/share/qtermwidget5/color-schemes
      			
 		# install openbox themes
 		mkdir -p $HOME/.local/share/themes
@@ -412,12 +391,12 @@ function install(){
 		git clone https://github.com/terroo/openbox-themes /tmp/openbox-themes
 		cp -r /tmp/openbox-themes/* $HOME/.local/share/themes/
    		git clone https://github.com/catppuccin/openbox /tmp/openbox-catppuccin
-      		cp -r /tmp/openbox-catppuccin/themes/* $HOME/.local/share/themes/
+		cp -r /tmp/openbox-catppuccin/themes/* $HOME/.local/share/themes/
 	;;
     	esac
 
 	# Install standard packages
- 	install_packages papirus-icon-theme adwaita-icon-theme xdg-utils xdg-user-dirs lxpolkit software-properties-gtk rsyslog logrotate nano less curl wget iputils-ping fonts-noto fonts-font-awesome mirage geany unzip cron
+ 	install_packages papirus-icon-theme adwaita-icon-theme xdg-utils xdg-user-dirs lxpolkit rsyslog logrotate nano less curl wget iputils-ping fonts-noto fonts-font-awesome mirage geany unzip cron
   
 	# install and configure dunst
 	if [[ $wm != "lubuntu" ]]; then
@@ -461,7 +440,7 @@ function install(){
 
    		# install vulkan drivers for AMD/Intel GPU
 		# https://github.com/lutris/docs/blob/master/InstallingDrivers.md
-     		install_packages libgl1:i386 libgl1-mesa-dri:i386 mesa-vulkan-drivers mesa-vulkan-drivers:i386
+		install_packages libgl1:i386 libgl1-mesa-dri:i386 mesa-vulkan-drivers mesa-vulkan-drivers:i386
 
 		# install 32/64bit wine packages
 		if [[ $winehq == "no" ]]; then
@@ -470,9 +449,9 @@ function install(){
 		else
 			# install stable wine package from winehq
    			sudo mkdir -pm755 /etc/apt/keyrings
-      			wget -O - https://dl.winehq.org/wine-builds/winehq.key | sudo gpg --dearmor -o /etc/apt/keyrings/winehq-archive.key -
-	  		sudo wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/$ID/dists/$CODENAME/winehq-$CODENAME.sources
-     			install_packages winehq-stable
+			wget -O - https://dl.winehq.org/wine-builds/winehq.key | sudo gpg --dearmor -o /etc/apt/keyrings/winehq-archive.key -
+			sudo wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/$ID/dists/$CODENAME/winehq-$CODENAME.sources
+			install_packages winehq-stable
 		fi
   
   		# install lutris dependencies
@@ -482,7 +461,7 @@ function install(){
 
 		# install lutris
    		if [[ -n "$(uname -a | grep Ubuntu)" ]]; then
-     			# https://github.com/lutris/lutris/releases
+			# https://github.com/lutris/lutris/releases
 			wget -P /tmp https://github.com/lutris/lutris/releases/download/v0.5.18/lutris_0.5.18_all.deb
    			sudo dpkg -i /tmp/lutris*.deb
 		else
@@ -650,21 +629,20 @@ function install(){
    		install_packages sddm
    	;;
 	tty)
-    		autostart_wm $wm
-     	;;
+		autostart_wm $wm
+	;;
 	tuigreet)
    		if [[ -n "$(uname -a | grep Ubuntu)" ]]; then
 			install_packages greetd-tuigreet
 		else
-    			sudo apt-get update
-			sudo DEBIAN_FRONTEND=noninteractive apt-get install -t testing greetd tuigreet -y
-    		fi
+    		install_packages greetd tuigreet
+		fi
 		sudo mkdir -p /etc/greetd
 		sudo mv /etc/greetd/config.toml /etc/greetd/config.toml.default
 		sudo cp ./config/tuigreet.toml /etc/greetd/config.toml
   		# add poweroff and reboot command for Debian 12
-    		if [[ -n "$(uname -a | grep Debian)" ]]; then
-     			sudo sed -i "s/asterisks/asterisks --power-shutdown 'systemct poweroff' --power-reboot 'systemctl reboot'/g" /etc/greetd/config.toml
+		if [[ -n "$(uname -a | grep Debian)" ]]; then
+			sudo sed -i "s/asterisks/asterisks --power-shutdown 'systemct poweroff' --power-reboot 'systemctl reboot'/g" /etc/greetd/config.toml
 		fi
     	;;
   	esac
@@ -715,7 +693,7 @@ function install(){
   			if [[ $wm == "labwc" ]]; then
 				install_packages network-manager
    			else
-      				install_packages network-manager network-manager-gnome
+				install_packages network-manager network-manager-gnome
       		fi
 			if [[ -n "$(uname -a | grep Ubuntu)" ]]; then
 				for file in `find /etc/netplan/* -maxdepth 0 -type f -name *.yaml`; do
@@ -732,7 +710,7 @@ function install(){
 			fi
 		fi
   		# disable NetworkManager-wait-online.service
-    		disable_services NetworkManager-wait-online.service
+		disable_services NetworkManager-wait-online.service
 	fi
 
 	# disable unwanted services
@@ -780,7 +758,11 @@ function install(){
 	chmod +x $HOME/.local/bin/*
 
 	# set default x-terminal-emulator
-	sudo update-alternatives --set x-terminal-emulator $(which $terminal)
+	if [[ $terminal == "xfce4-terminal" ]]; then
+		sudo update-alternatives --set x-terminal-emulator /usr/bin/xfce4-terminal.wrapper
+	else
+		sudo update-alternatives --set x-terminal-emulator $(which $terminal)
+	fi
 }
 
 # installation menu selection
@@ -790,7 +772,7 @@ if [[ -r /etc/os-release ]]; then
   	CODENAME=$VERSION_CODENAME
 	#CODENAME=$(cat /etc/os-release | grep _CODENAME | cut -d = -f 2)
 	#echo $CODENAME
-	if [[ $CODENAME == "noble" || $CODENAME == "bookworm" ]]; then
+	if [[ $CODENAME == "noble" || $CODENAME == "trixie" ]]; then
 		menu
 	else
 		echo "Not running Debian/Ubuntu distribution. Exiting..."
@@ -833,7 +815,7 @@ printf "Custom bashrc           : $bashrc\n"
 printf "Configure Smartd        : $smartd\n"
 printf "Configure swapfile      : $swapfile\n"
 printf "Install yt-dlp          : $ytdlp\n"
-printf "Configure timezone	: $timezone\n"
+printf "Configure timezone      : $timezone\n"
 printf "##################################\n"
  
 while true; do
