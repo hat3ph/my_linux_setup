@@ -306,6 +306,11 @@ function install(){
 		#echo -e '\n#If running from tty1 start sway\n[ "$(tty)" = "/dev/tty1" ] && exec /usr/local/bin/start_sway.sh' >> $HOME/.bashrc
 	;;
 	labwc)
+ 		# setup Ubuntu Sway Remix repo for nwg-look as Ubuntu 24.04 do not have nwg-look packaged
+		if [[ -n "$(uname -a | grep Ubuntu)" ]]; then
+			sudo add-apt-repository ppa:ubuntusway-dev/stable -y
+			echo -e "Package: *\nPin: release o=LP-PPA-ubuntusway-dev-stable\nPin-Priority: 100" | sudo tee /etc/apt/preferences.d/ubuntusway-dev-stable.pref
+		fi
 		# install labwc and packages
 		install_packages labwc swaybg wlr-randr waybar tofi nwg-look $terminal
 
