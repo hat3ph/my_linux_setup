@@ -71,7 +71,7 @@ function disable_services() {
 
 # function for selection menu
 function menu (){
-	read -p "Choose window manager (icewm, fluxbox, openbox, i3wm, xfwm4, sway, labwc, lubuntu) [icewm]:" wm
+	read -p "Choose window manager (icewm, fluxbox, openbox, i3wm, xfwm4, sway, labwc) [icewm]:" wm
 	wm=${wm:-icewm}
 
  	read -p "Install terminal emulator? (xfce4-terminal/lxterminal/alacritty/foot) [xfce4-terminal]:" terminal
@@ -201,7 +201,7 @@ function install(){
 		wget https://raw.githubusercontent.com/addy-dclxvi/tint2-theme-collections/master/repentance/repentance.tint2rc -O $HOME/.config/tint2/repentance.tint2rc
 		wget https://raw.githubusercontent.com/dracula/tint2/master/tint2rc -O $HOME/.config/tint2/dracula.tint2rc
 	;;
-        icewm)
+    icewm)
 		install_packages icewm xorg xinit x11-utils $terminal lxappearance rofi dex flameshot feh
 		echo "icewm-session" > "$HOME/.xinitrc"
             	
@@ -232,7 +232,7 @@ function install(){
 			cp ./styles/debian.xpm $HOME./icewm/themes/DraculIce/taskbar/start.xpm
 		fi
 	;;
-        i3wm)
+    i3wm)
 		# install i3wm and other packages
 		install_packages i3 suckless-tools xorg xinit x11-utils $terminal feh lxappearance dex rofi flameshot
 			
@@ -398,7 +398,7 @@ function install(){
    		git clone https://github.com/catppuccin/openbox /tmp/openbox-catppuccin
 		cp -r /tmp/openbox-catppuccin/themes/* $HOME/.local/share/themes/
 	;;
-    	esac
+    esac
 
 	# Install standard packages
  	install_packages papirus-icon-theme adwaita-icon-theme xdg-utils xdg-user-dirs lxpolkit rsyslog logrotate nano less curl wget iputils-ping fonts-noto fonts-font-awesome mirage geany unzip cron
