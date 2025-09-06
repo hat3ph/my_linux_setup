@@ -402,7 +402,12 @@ function install(){
 
 	# Install standard packages
  	install_packages papirus-icon-theme adwaita-icon-theme xdg-utils xdg-user-dirs lxpolkit rsyslog logrotate nano less curl wget iputils-ping fonts-noto fonts-font-awesome mirage geany unzip cron
-  
+
+	# install packages for Ubuntu 24.04 Noble LTS
+ 	if [[ $CODENAME == "noble" ]]; then
+		install_packages software-properties-gtk
+	fi
+ 
 	# install and configure dunst
 	if [[ $wm != "lubuntu" ]]; then
 		install_packages dunst
