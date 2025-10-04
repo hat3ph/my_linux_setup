@@ -34,8 +34,17 @@
     <keybind key="W-Down">
       <action name="Execute" command="~/.local/bin/wpctl_audio.sh down" />
     </keybind>
+    <keybind key="W-M">
+      <action name="Execute" command="~/.local/bin/wpctl_audio.sh mute" />
+    </keybind>
     <keybind key="W-P">
       <action name="Execute" command="~/.local/bin/tofi_power_menu.sh" />
+    </keybind>
+    <keybind key="Print">
+      <action name="Execute" command="~/.local/bin/grim_screenshot.sh full" />
+    </keybind>
+    <keybind key="A-Print">
+      <action name="Execute" command="~/.local/bin/grim_screenshot.sh region" />
     </keybind>
     <!--
       Remove a previously defined keybind
