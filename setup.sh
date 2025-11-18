@@ -357,7 +357,7 @@ function install(){
 	;;
 	lubuntu)
 		# install minimal setup on Lubuntu
-		install_packages vlc geany transmission-qt rar
+		install_packages vlc geany transmission-qt rar unrar
 
 		# copy my LXQt and autostart configuration
 		mkdir -p $HOME/.config/{lxqt,autostart}
