@@ -19,7 +19,7 @@ fi
 
 function send_notification() {
 	brightness=$(brightnessctl info | cut -d ' ' -f 4 | grep -oP '\(\K[^%)]+')
-	$notification_cmd -t $notification_interval -i audio-speakers -u low -r "9994" -h int:value:"$brightness" "Brightness Level $brightness%"
+	$notification_cmd -t $notification_interval -i display-brightness -u low -r "9994" -h int:value:"$brightness" "Brightness Level $brightness%"
 }
 
 case $1 in
