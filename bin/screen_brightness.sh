@@ -2,13 +2,19 @@
 
 brightness_level=10
 notification_interval=3000
-brightness=$(brightnessctl info | cut -d ' ' -f 4 | grep -oP '\(\K[^%)]+')
+app=brightnessctl
 
 # use notify-send from libnotify-bin package or dunstify from dunst package
 if command -v notify-send &> /dev/null; then
 	notification_cmd=/usr/bin/notify-send
 else
 	notification_cmd=/usr/bin/dunstify
+fi
+
+# check application availability
+if ! command -v $app &> /dev/null; then
+	$notification_cmd -t $notification_interval -i display-brightness -u critical "Missing $app application!!!"
+	exit 1
 fi
 
 function send_notification() {
@@ -19,13 +25,13 @@ function send_notification() {
 case $1 in
 up)
 	# increase screen brightness level and send notification
-	brightnessctl set $brightness_level%+
+	$app set $brightness_level%+
 	send_notification
 	;;
 down)
 	# decrease screen brightness level not more then 50% and send notification
 	if [ "$brightness" -gt 50 ]; then
-		brightnessctl set $brightness_level%-
+		$app set $brightness_level%-
 	fi
 	send_notification
 	;;
