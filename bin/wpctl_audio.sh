@@ -13,7 +13,7 @@ fi
 
 # check wpctl application availability
 if ! command -v $app >&2; then
-	$notification_cmd -t $notification_interval -i audio-speakers -u critical "Missing $app application!!!"
+	$notification_cmd -t $notification_interval -i dialog-warning -u critical "Missing $app application!!!"
 	exit 1
 fi
 
