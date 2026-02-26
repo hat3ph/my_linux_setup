@@ -472,17 +472,17 @@ function install(){
 		# install lutris
    		if [[ -n "$(uname -a | grep Ubuntu)" ]]; then
 			# https://github.com/lutris/lutris/releases
-			wget -P /tmp https://github.com/lutris/lutris/releases/download/v0.5.18/lutris_0.5.18_all.deb
+			wget -P /tmp https://github.com/lutris/lutris/releases/download/v0.5.22/lutris_0.5.22_all.deb
    			sudo dpkg -i /tmp/lutris*.deb
 		else
   			# https://software.opensuse.org/download.html?project=home%3Astrycore&package=lutris
-  			echo 'deb http://download.opensuse.org/repositories/home:/strycore/Debian_12/ /' | sudo tee /etc/apt/sources.list.d/home:strycore.list
-			curl -fsSL https://download.opensuse.org/repositories/home:strycore/Debian_12/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/home_strycore.gpg > /dev/null
+			echo 'deb http://download.opensuse.org/repositories/home:/strycore:/lutris/Debian_13/ /' | sudo tee /etc/apt/sources.list.d/home:strycore:lutris.list
+			curl -fsSL https://download.opensuse.org/repositories/home:strycore:lutris/Debian_13/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/home_strycore_lutris.gpg > /dev/null
 			install_packages lutris
   		fi
 	
 		# install MangoHud
-		wget -P /tmp https://github.com/flightlessmango/MangoHud/releases/download/v0.8.1/MangoHud-0.8.1.r0.gfea4292.tar.gz
+		wget -P /tmp https://github.com/flightlessmango/MangoHud/releases/download/v0.8.2/MangoHud-0.8.2.r0.ga37b007.tar.gz
 		tar -zxvf /tmp/MangoHud*.tar.gz -C /tmp
 		(cd /tmp/MangoHud && ./mangohud-setup.sh install)
    
