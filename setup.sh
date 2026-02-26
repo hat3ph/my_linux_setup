@@ -491,13 +491,18 @@ function install(){
 		#wget -P /tmp https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks
 		#cp /tmp/winetricks $HOME/.local/bin/
 		#chmod +x $HOME/.local/bin/winetricks
-
-		# configure gamemode not working for ubuntu
+		
+		# manually add user to gamemode group if not already there
 		# https://bugs.launchpad.net/ubuntu/+source/gamemode/+bug/2076127
 		if [ ! $(getent group gamemode) ]; then
 			sudo groupadd gamemode
 		fi
-		sudo usermod -aG gamemode $USER
+		if id -nG "$USER" | grep -qw "gamemode"; then
+    		echo $USER belongs to gamemode.
+		else
+			echo $USER does not belong to gamemode. Adding user to gamemode group.
+			sudo usermod -aG gamemode $USER
+		fi
 	fi
     
 	# install and configure smartd to monitor disks
