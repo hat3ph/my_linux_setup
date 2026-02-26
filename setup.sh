@@ -503,6 +503,14 @@ function install(){
 			echo $USER does not belong to gamemode. Adding user to gamemode group.
 			sudo usermod -aG gamemode $USER
 		fi
+
+		# Fix Lutris not able to run game due to bubblewrap don't have permission to create user namespace in Ubuntu 24.04
+		# https://etbe.coker.com.au/2024/04/24/ubuntu-24-04-bubblewrap/
+		if [[ $CODENAME == "noble" ]]; then
+			sudo mkdir -p /etc/apparmor.d
+			echo -e "abi <abi/4.0>,\ninclude <tunables/global>\n\nprofile bwrap /usr/bin/bwrap flags=(unconfined) {\n  userns,\n\n  # Site-specific additions and overrides. See local/README for details.\n  include if exists <local/bwrap>\n}" | sudo tee /etc/apparmor.d/bwrap
+			sudo systemctl reload apparmor
+		fi
 	fi
     
 	# install and configure smartd to monitor disks
