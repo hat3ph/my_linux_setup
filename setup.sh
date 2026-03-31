@@ -18,6 +18,13 @@ echo "Welcome to My Linux Interactive Setup Script!"
 echo "Please follow the prompts below to configure your environment."
 echo ""
 
+# Function to auto load kernel module at boot if kernel support it
+function load_kernel_module() {
+	if modinfo $1 > /dev/null 2>&1; then
+		echo $1 | sudo tee /etc/modules-load.d/$1.conf
+	fi
+}
+
 # Function to install packages
 function install_packages() {
 	sudo apt-get update && sudo apt-get upgrade -y
@@ -511,6 +518,10 @@ function install(){
 			echo -e "abi <abi/4.0>,\ninclude <tunables/global>\n\nprofile bwrap /usr/bin/bwrap flags=(unconfined) {\n  userns,\n\n  # Site-specific additions and overrides. See local/README for details.\n  include if exists <local/bwrap>\n}" | sudo tee /etc/apparmor.d/bwrap
 			sudo systemctl reload apparmor
 		fi
+
+		# enable ntsync driver for gaming
+		# https://www.phoronix.com/news/Linux-6.14-NTSYNC-Driver-Ready
+		load_kernel_module ntsync
 	fi
     
 	# install and configure smartd to monitor disks
@@ -529,8 +540,8 @@ function install(){
 	# install and configure lm-sensors
 	if [[ $sensors == "yes" ]]; then
 		install_packages lm-sensors
-		# setup disk drive temp module
-		echo drivetemp | sudo tee /etc/modules-load.d/drivetemp.conf
+		# enable drivetemp kernel module
+		load_kernel_module drivetemp
 
 		# setup sensors for ASUS X370 Crosshair
 		echo -e 'chip "asus_wmi_sensors-virtual-0"\n' | sudo tee /etc/sensors.d/asus_wmi_sensors.conf
