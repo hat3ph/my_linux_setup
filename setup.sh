@@ -686,7 +686,7 @@ function install(){
 			# set default terminal in thunar
 			mkdir -p $HOME/.config/xfce4
 			#if [[ $wm != "xfwm4" && $wm != "sway" ]]; then
-			echo "TerminalEmulator=$(terminal)" > $HOME/.config/xfce4/helpers.rc
+			echo "TerminalEmulator=$terminal" > $HOME/.config/xfce4/helpers.rc
 			#fi
 		fi
 	fi
