@@ -651,9 +651,10 @@ function install(){
 			if [[ $ID == "ubuntu" ]]; then
 				install_packages rar unrar
 			fi
-			#mkdir -p $HOME/.config/xfce4
+			# set default terminal in thunar
+			mkdir -p $HOME/.config/xfce4
 			#if [[ $wm != "xfwm4" && $wm != "sway" ]]; then
-			#	echo "TerminalEmulator=lxterminal" > $HOME/.config/xfce4/helpers.rc
+			echo "TerminalEmulator=$(terminal)" > $HOME/.config/xfce4/helpers.rc
 			#fi
 		fi
 	fi
