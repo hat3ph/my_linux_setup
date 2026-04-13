@@ -626,6 +626,7 @@ function install(){
   		git clone https://github.com/catppuccin/geany /tmp/geany-catppuccin
 		cp -r /tmp/geany-catppuccin/src/*.conf $HOME/.config/geany/colorschemes/
 
+		# install lxterminal themes
 		if [[ $terminal == "lxterminal" ]]; then
 			# install lxterminal dracula theme
 			git clone https://github.com/dracula/lxterminal.git /tmp/lxterminal
