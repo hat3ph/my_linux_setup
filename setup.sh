@@ -595,6 +595,10 @@ function install(){
 		#sed -i "s/administrator/"$USER"/g" $HOME/.gtkrc-2.0
 		cp ./config/gtk3 $HOME/.config/gtk-3.0/settings.ini
 
+		# set global GTK_THEME
+		echo -e 'gtktheme=$(cat $HOME/.config/gtk-3.0/settings.ini | grep gtk-theme-name | cut -d = -f 2)\nexport GTK_THEME=$gtktheme' | \
+			sudo tee /etc/profile.d/gtk-theme.sh
+
 		# copy wallpapers
 		mkdir -p $HOME/Pictures/wallpapers
 		cp ./wallpapers/* $HOME/Pictures/wallpapers/
@@ -669,7 +673,7 @@ function install(){
 			if [[ $wm == "i3wm" || $wm == "sway" || $wm == "labwc" ]]; then
 				install_packages pipewire pipewire-pulse wireplumber
 			else
-				install_packages pipewire pipewire-pulse wireplumber pavucontrol-qt pnmixer
+				install_packages pipewire pipewire-pulse wireplumber pavucontrol pnmixer
 				mkdir -p $HOME/.config/pnmixer
 				cp ./config/pnmixer $HOME/.config/pnmixer/config
 			fi
