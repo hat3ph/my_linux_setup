@@ -230,8 +230,8 @@ function install(){
 			# install tint2 taskbar and themes
 			install_packages tint2
 			mkdir -p $HOME/.config/tint2
-			wget https://raw.githubusercontent.com/addy-dclxvi/tint2-theme-collections/master/repentance/repentance.tint2rc -O $HOME/.config/tint2/repentance.tint2rc
-			wget https://raw.githubusercontent.com/dracula/tint2/master/tint2rc -O $HOME/.config/tint2/dracula.tint2rc
+			#wget https://raw.githubusercontent.com/addy-dclxvi/tint2-theme-collections/master/repentance/repentance.tint2rc -O $HOME/.config/tint2/repentance.tint2rc
+			#wget https://raw.githubusercontent.com/dracula/tint2/master/tint2rc -O $HOME/.config/tint2/dracula.tint2rc
 		;;
     	icewm)
 			# install x server
