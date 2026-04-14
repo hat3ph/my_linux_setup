@@ -658,6 +658,13 @@ function install(){
 		tar -xf /tmp/Nordic.tar.xz -C $HOME/.themes
 		wget -P /tmp https://github.com/EliverLara/Nordic/releases/download/v2.2.0/Nordic-darker.tar.xz
 		tar -xf /tmp/Nordic-darker.tar.xz -C $HOME/.themes
+
+		# install WhiteSur GTK theme
+		mkdir -p $HOME/.themes
+		git clone https://github.com/vinceliuice/WhiteSur-gtk-theme /tmp/WhiteSur-gtk-theme
+		for file in /tmp/WhiteSur-gtk-theme/release/*.tar.xz; do
+			tar -xvf "$file" -C $HOME/.themes;
+		done
 	fi
 
 	# configure nano with line number
