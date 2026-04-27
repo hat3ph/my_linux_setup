@@ -43,8 +43,14 @@
     <keybind key="Print">
       <action name="Execute" command="~/.local/bin/grim_screenshot.sh full" />
     </keybind>
+    <keybind key="C-Print">
+      <action name="Execute" command="~/.local/bin/grim_screenshot.sh full-save" />
+    </keybind>
     <keybind key="A-Print">
       <action name="Execute" command="~/.local/bin/grim_screenshot.sh region" />
+    </keybind>
+    <keybind key="C-A-Print">
+      <action name="Execute" command="~/.local/bin/grim_screenshot.sh region-save" />
     </keybind>
     <!--
       Remove a previously defined keybind
