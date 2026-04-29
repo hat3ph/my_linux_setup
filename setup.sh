@@ -508,7 +508,7 @@ function install(){
 		fi
   
   		# install lutris dependencies
-		install_packages python3-lxml python3-setproctitle python3-magic gir1.2-webkit2-4.1 cabextract \
+		install_packages python3-lxml python3-setproctitle python3-magic gir1.2-webkit2-4.1 cabextract libgnutls30t64 \
   			fluid-soundfont-gs vulkan-tools python3-protobuf python3-evdev fluidsynth gamemode 7zip p7zip psmisc \
 			python3-pil python3-gi-cairo gir1.2-notify-0.7 mesa-utils libimagequant0 libraqm0 python3-cairo python3-olefile
 
