@@ -81,40 +81,42 @@ function menu (){
 	read -p "Choose window manager (icewm, fluxbox, openbox, i3wm, xfwm4, sway, labwc) [icewm]:" wm
 	wm=${wm:-icewm}
 
- 	read -p "Install terminal emulator? (xfce4-terminal/lxterminal/alacritty/foot) [xfce4-terminal]:" terminal
-	terminal=${terminal:-xfce4-terminal}
- 
 	read -p "Install (non-snap) Firefox for Ubuntu or Firefox-ESR for Debian? (yes/no) [yes]:" firefox
 	firefox=${firefox:-yes}
+
+	if [[ $wm != "lubuntu" ]]; then
+ 		read -p "Install terminal emulator? (xfce4-terminal/lxterminal/alacritty/foot) [xfce4-terminal]:" terminal
+		terminal=${terminal:-xfce4-terminal}
+
+		read -p "Use PipeWire audio server? (yes/no) [yes]:" pipewire
+		pipewire=${pipewire:-yes}
  	
+		read -p "Install Thunar file manager? (yes/no) [yes]:" thunar
+		thunar=${thunar:-yes}
+
+		if [[ $wm == "labwc" || $wm == "sway" ]]; then
+			read -p "Choose login manager (tuigreet or tty or no). Choose no for no login manager. [no]:" login_mgr
+		else
+			read -p "Choose login manager (sddm or lxdm or tty or no). Choose no for no login manager. [no]:" login_mgr
+			if [[ $CODENAME == "trixie" ]]; then
+				read -p "Use which X server. (xorg or xlibre) [xorg]:" xserver
+				xserver=${xserver:-xorg}
+			fi
+		fi
+ 		login_mgr=${login_mgr:-no}
+ 
+   		read -p "Use NetworkManager for network interface management? (yes/no) [yes]:" nm
+		nm=${nm:-yes}
+	fi
+
 	read -p "Install custom GTK theming? (yes/no) [yes]:" theming
 	theming=${theming:-yes}
-	
-	read -p "Use PipeWire audio server? (yes/no) [yes]:" pipewire
-	pipewire=${pipewire:-yes} 
- 	
-	read -p "Install Thunar file manager? (yes/no) [yes]:" thunar
-	thunar=${thunar:-yes} 
  
-	if [[ $wm == "labwc" || $wm == "sway" ]]; then
-		read -p "Choose login manager (tuigreet or tty or no). Choose no for no login manager. [no]:" login_mgr
-	else
-		read -p "Choose login manager (sddm or lxdm or tty or no). Choose no for no login manager. [no]:" login_mgr
-		if [[ $CODENAME == "trixie" ]]; then
-			read -p "Use which X server. (xorg or xlibre) [xorg]:" xserver
-		fi
-	fi
- 	login_mgr=${login_mgr:-no}
-	xserver=${xserver:-xorg}
- 
-   	read -p "Use NetworkManager for network interface management? (yes/no) [yes]:" nm
-	nm=${nm:-yes} 
- 	
   	read -p "Configure nano text editor? (yes/no) [no]:" nano_config
-	nano_config=${nano_config:-no} 
+	nano_config=${nano_config:-no}
 
 	read -p "Install on a laptop? (yes/no) [no]:" laptop_mode
-	laptop_mode=${laptop_mode:-no} 
+	laptop_mode=${laptop_mode:-no}
  
 	if [[ $wm != "sway" && $wm != "labwc" ]]; then
 		read -p "Enable amdgpu xorg tearfree? (yes/no) [no]:" amdgpu_config
@@ -124,7 +126,7 @@ function menu (){
  	fi
  
 	read -p "Install QEMU and Virt-Manager? (yes/no) [no]:" qemu
-	qemu=${qemu:-no} 
+	qemu=${qemu:-no}
 	 
 	read -p "Install Wine and Lutris for gaming? (yes/no) [no]:" gaming
 	gaming=${gaming:-no}
@@ -135,16 +137,16 @@ function menu (){
  	fi
 	
 	read -p "Customize lm-sensors? (yes/no) [no]:" sensors
-	sensors=${sensors:-no} 
+	sensors=${sensors:-no}
 	
 	read -p "Customize your bashrc? (yes/no) [no]:" bashrc
-	bashrc=${bashrc:-no} 
+	bashrc=${bashrc:-no}
 	 
 	read -p "Install and configure smartd? (yes/no) [no]:" smartd
-	smartd=${smartd:-no} 
+	smartd=${smartd:-no}
 	
 	read -p "Enable 4GB swapfile? (yes/no) [no]:" swapfile
-	swapfile=${swapfile:-no} 
+	swapfile=${swapfile:-no}
 	 
 	read -p "Install yt-dlp? (yes/no) [no]:" ytdlp
 	ytdlp=${ytdlp:-no}
@@ -346,7 +348,7 @@ function install(){
 		;;
 		labwc)
 	 		# setup Ubuntu Sway Remix repo for nwg-look as Ubuntu 24.04 do not have nwg-look packaged
-			if [[ -n "$(uname -a | grep Ubuntu)" ]]; then
+			if [[ $CODENAME == "noble" ]]; then
 				sudo add-apt-repository ppa:ubuntusway-dev/stable -y
 				echo -e "Package: *\nPin: release o=LP-PPA-ubuntusway-dev-stable\nPin-Priority: 100" | sudo tee /etc/apt/preferences.d/ubuntusway-dev-stable.pref
 			fi
@@ -395,8 +397,8 @@ function install(){
 			cp ./config/wlroots-portals.conf $HOME/.config/xdg-desktop-portal
 		;;
 		lubuntu)
-			# install minimal setup on Lubuntu
-			install_packages vlc geany transmission-qt rar unrar
+			# install additional packages on Lubuntu
+			install_packages vlc geany transmission-qt rar unrar plasma-discover
 	
 			# copy my LXQt and autostart configuration
 			mkdir -p $HOME/.config/{lxqt,autostart}
@@ -440,16 +442,18 @@ function install(){
     esac
 
 	# Install standard packages
- 	install_packages papirus-icon-theme adwaita-icon-theme xdg-utils xdg-user-dirs lxpolkit rsyslog logrotate nano less curl wget iputils-ping fonts-noto fonts-font-awesome mirage geany unzip cron
+ 	install_packages papirus-icon-theme adwaita-icon-theme xdg-utils xdg-user-dirs rsyslog logrotate nano less curl wget iputils-ping fonts-noto fonts-font-awesome geany unzip cron
 
-	# install packages for Ubuntu 24.04 Noble LTS
- 	if [[ $CODENAME == "noble" ]]; then
-		install_packages software-properties-gtk
+	# install packages for Ubuntu based OS except Lubuntu
+ 	if [[ -n "$(uname -a | grep Ubuntu)" ]]; then
+		if [[ $wm != "lubuntu" ]]; then
+			install_packages lxpolkit software-properties-gtk
+		fi
 	fi
  
-	# install and configure dunst
+	# install additional packages if not in Lubuntu
 	if [[ $wm != "lubuntu" ]]; then
-		install_packages dunst
+		install_packages dunst mirage
 		# customize dunst config
 		mkdir -p $HOME/.config/dunst
 		backup_and_create "$HOME/.config/dunst/dunstrc" 
@@ -589,15 +593,16 @@ function install(){
 
 	# install universal theming
 	if [[ $theming == "yes" ]]; then
-		# custom gtk2 and gtk3 themes
-		mkdir -p $HOME/.config/gtk-3.0
-		cp ./config/gtk2 $HOME/.gtkrc-2.0
-		#sed -i "s/administrator/"$USER"/g" $HOME/.gtkrc-2.0
-		cp ./config/gtk3 $HOME/.config/gtk-3.0/settings.ini
-
-		# set global GTK_THEME
-		echo -e 'gtktheme=$(cat $HOME/.config/gtk-3.0/settings.ini | grep gtk-theme-name | cut -d = -f 2)\nexport GTK_THEME=$gtktheme' | \
-			sudo tee /etc/profile.d/gtk-theme.sh
+		if [[ $wm != "lubuntu" ]]; then
+			# custom gtk2 and gtk3 themes
+			mkdir -p $HOME/.config/gtk-3.0
+			cp ./config/gtk2 $HOME/.gtkrc-2.0
+			#sed -i "s/administrator/"$USER"/g" $HOME/.gtkrc-2.0
+			cp ./config/gtk3 $HOME/.config/gtk-3.0/settings.ini
+			# set global GTK_THEME
+			echo -e 'gtktheme=$(cat $HOME/.config/gtk-3.0/settings.ini | grep gtk-theme-name | cut -d = -f 2)\nexport GTK_THEME=$gtktheme' | \
+				sudo tee /etc/profile.d/gtk-theme.sh
+		fi
 
 		# copy wallpapers
 		mkdir -p $HOME/Pictures/wallpapers
@@ -676,31 +681,27 @@ function install(){
 
 	# use pipewire with wireplumber or pulseaudio-utils
 	if [[ $pipewire == "yes" ]]; then
-		if [[ $wm != "lubuntu" ]]; then
-			if [[ $wm == "i3wm" || $wm == "sway" || $wm == "labwc" ]]; then
-				install_packages pipewire pipewire-pulse wireplumber
-			else
-				install_packages pipewire pipewire-pulse wireplumber pavucontrol pnmixer
-				mkdir -p $HOME/.config/pnmixer
-				cp ./config/pnmixer $HOME/.config/pnmixer/config
-			fi
+		if [[ $wm == "i3wm" || $wm == "sway" || $wm == "labwc" ]]; then
+			install_packages pipewire pipewire-pulse wireplumber
+		else
+			install_packages pipewire pipewire-pulse wireplumber pavucontrol pnmixer
+			mkdir -p $HOME/.config/pnmixer
+			cp ./config/pnmixer $HOME/.config/pnmixer/config
 		fi
 	fi
 
-	# optional to install thunar file manager
+	# Install thunar file manager
 	if [[ $thunar == "yes" ]]; then
-		if [[ $wm != "lubuntu" ]]; then
-			install_packages thunar lxpolkit gvfs gvfs-backends thunar-archive-plugin thunar-media-tags-plugin avahi-daemon
-			# install RARLAB’s Unrar (Proprietary Version)
-			if [[ $ID == "ubuntu" ]]; then
-				install_packages rar unrar
-			fi
-			# set default terminal in thunar
-			mkdir -p $HOME/.config/xfce4
-			#if [[ $wm != "xfwm4" && $wm != "sway" ]]; then
-			echo "TerminalEmulator=$terminal" > $HOME/.config/xfce4/helpers.rc
-			#fi
+		install_packages thunar lxpolkit gvfs gvfs-backends thunar-archive-plugin thunar-media-tags-plugin avahi-daemon
+		# install RARLAB’s Unrar (Proprietary Version)
+		if [[ $ID == "ubuntu" ]]; then
+			install_packages rar unrar
 		fi
+		# set default terminal in thunar
+		mkdir -p $HOME/.config/xfce4
+		#if [[ $wm != "xfwm4" && $wm != "sway" ]]; then
+		echo "TerminalEmulator=$terminal" > $HOME/.config/xfce4/helpers.rc
+		#fi
 	fi
 
 	# optional to install SDDM or lxdm or no login manager
@@ -772,25 +773,24 @@ function install(){
 
 	# optional install NetworkManager
 	if [[ $nm == yes ]]; then
-		if [[ $wm != "lubuntu" ]]; then
-  			if [[ $wm == "labwc" ]]; then
-				install_packages network-manager
-   			else
-				install_packages network-manager network-manager-gnome
-      		fi
-			if [[ -n "$(uname -a | grep Ubuntu)" ]]; then
-				for file in `find /etc/netplan/* -maxdepth 0 -type f -name *.yaml`; do
-					sudo mv $file $file.bak
-				done
-				echo -e "# Let NetworkManager manage all devices on this system\nnetwork:\n  version: 2\n  renderer: NetworkManager" | \
-				sudo tee /etc/netplan/01-network-manager-all.yaml
+  		if [[ $wm == "labwc" ]]; then
+			install_packages network-manager
+   		else
+			install_packages network-manager network-manager-gnome
+		fi
+		# configure Ubuntu and Debian to use NetworkManager
+		if [[ -n "$(uname -a | grep Ubuntu)" ]]; then
+			for file in `find /etc/netplan/* -maxdepth 0 -type f -name *.yaml`; do
+				sudo mv $file $file.bak
+			done
+			echo -e "# Let NetworkManager manage all devices on this system\nnetwork:\n  version: 2\n  renderer: NetworkManager" | \
+			sudo tee /etc/netplan/01-network-manager-all.yaml
 			else
 				sudo cp /etc/NetworkManager/NetworkManager.conf /etc/NetworkManager/NetworkManager.conf.bak
 				sudo sed -i 's/managed=false/managed=true/g' /etc/NetworkManager/NetworkManager.conf
 				sudo mv /etc/network/interfaces /etc/network/interfaces.bak
 				head -9 /etc/network/interfaces.bak | sudo tee /etc/network/interfaces
 				sudo systemctl disable networking.service
-			fi
 		fi
   		# disable NetworkManager-wait-online.service
 		disable_services NetworkManager-wait-online.service
@@ -855,7 +855,7 @@ if [[ -r /etc/os-release ]]; then
   	CODENAME=$VERSION_CODENAME
 	#CODENAME=$(cat /etc/os-release | grep _CODENAME | cut -d = -f 2)
 	#echo $CODENAME
-	if [[ $CODENAME == "noble" || $CODENAME == "trixie" ]]; then
+	if [[ $CODENAME == "noble" || $CODENAME == "resolute" || $CODENAME == "trixie" ]]; then
 		menu
 	else
 		echo "Not running Debian/Ubuntu distribution. Exiting..."
@@ -875,13 +875,15 @@ printf "\n"
 printf "Start installation!!!!!!!!!!!\n"
 printf "##################################\n"
 printf "My WM Install           : $wm\n"
-printf "Terminal Emulator       : $terminal\n"
 printf "Firefox as DEB packages : $firefox\n"
+if [[ $wm != "lubuntu" ]]; then
+printf "Terminal Emulator       : $terminal\n"
 printf "Pipewire Audio          : $pipewire\n"
 printf "Thunar File Manager     : $thunar\n"
-printf "Custom theming          : $theming\n"
 printf "Login Manager           : $login_mgr\n"
 printf "NetworkManager          : $nm\n"
+fi
+printf "Custom theming          : $theming\n"
 printf "Nano's configuration    : $nano_config\n"
 printf "Laptop Mode             : $laptop_mode\n"
 if [[ $wm != "sway" && $wm != "labwc" ]]; then
