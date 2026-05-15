@@ -161,7 +161,6 @@ function install_xserver(){
 		install_packages xorg
 	else
 		# https://github.com/xlibre-debian/debian
-		install_packages gpg curl ca-certificates
 		curl -fsSL https://mrchicken.nexussfan.cz/publickey.asc | gpg --dearmor | sudo tee /usr/share/keyrings/NexusSfan.pgp > /dev/null
 		sudo mkdir -p /etc/apt/sources.list.d
 		echo -e "Types: deb\nURIs: https://xlibre-debian.github.io/debian/\nSuites: main\nComponents: stable\nSigned-By: /usr/share/keyrings/NexusSfan.pgp" | \
@@ -442,7 +441,8 @@ function install(){
     esac
 
 	# Install standard packages
- 	install_packages papirus-icon-theme adwaita-icon-theme xdg-utils xdg-user-dirs rsyslog logrotate nano less curl wget iputils-ping fonts-noto fonts-font-awesome geany unzip cron
+ 	install_packages papirus-icon-theme adwaita-icon-theme xdg-utils xdg-user-dirs rsyslog logrotate nano less gpg curl ca-certificates wget \
+		iputils-ping fonts-noto fonts-font-awesome geany unzip cron
 
 	# install packages for Ubuntu based OS except Lubuntu
  	if [[ -n "$(uname -a | grep Ubuntu)" ]]; then
@@ -501,7 +501,6 @@ function install(){
 			install_packages wine32 wine64
 		else
 			# install stable wine package from winehq
-			install_packages gpg
    			sudo mkdir -pm755 /etc/apt/keyrings
 			wget -O - https://dl.winehq.org/wine-builds/winehq.key | sudo gpg --dearmor -o /etc/apt/keyrings/winehq-archive.key -
 			sudo wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/$ID/dists/$CODENAME/winehq-$CODENAME.sources
@@ -520,7 +519,6 @@ function install(){
    			sudo dpkg -i /tmp/lutris*.deb
 		else
   			# https://software.opensuse.org/download.html?project=home%3Astrycore&package=lutris
-			install_packages gpg
 			echo 'deb http://download.opensuse.org/repositories/home:/strycore:/lutris/Debian_13/ /' | sudo tee /etc/apt/sources.list.d/home:strycore:lutris.list
 			curl -fsSL https://download.opensuse.org/repositories/home:strycore:lutris/Debian_13/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/home_strycore_lutris.gpg > /dev/null
 			install_packages lutris
