@@ -501,6 +501,7 @@ function install(){
 			install_packages wine32 wine64
 		else
 			# install stable wine package from winehq
+			install_packages gpg
    			sudo mkdir -pm755 /etc/apt/keyrings
 			wget -O - https://dl.winehq.org/wine-builds/winehq.key | sudo gpg --dearmor -o /etc/apt/keyrings/winehq-archive.key -
 			sudo wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/$ID/dists/$CODENAME/winehq-$CODENAME.sources
@@ -519,6 +520,7 @@ function install(){
    			sudo dpkg -i /tmp/lutris*.deb
 		else
   			# https://software.opensuse.org/download.html?project=home%3Astrycore&package=lutris
+			install_packages gpg
 			echo 'deb http://download.opensuse.org/repositories/home:/strycore:/lutris/Debian_13/ /' | sudo tee /etc/apt/sources.list.d/home:strycore:lutris.list
 			curl -fsSL https://download.opensuse.org/repositories/home:strycore:lutris/Debian_13/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/home_strycore_lutris.gpg > /dev/null
 			install_packages lutris
