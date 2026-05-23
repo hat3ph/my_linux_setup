@@ -283,9 +283,14 @@ function install(){
 			# install x server
 			install_xserver
 			# install xfwm4 and other packages
-			install_packages xinit $terminal xfwm4 xfce4-panel sxhkd feh dex flameshot rofi
+			install_packages xinit $terminal xfwm4 xfce4-panel sxhkd feh lxappearance dex flameshot rofi
 			echo "exec xfwm4" > $HOME/.xinitrc
 			cp ./xfwm4/xsessionrc $HOME/.xsessionrc
+
+			# Allow lxappearance show up in xfce's menu
+			mkdir -p $HOME/.local/share/applications
+			cp /usr/share/applications/lxappearance.desktop $HOME/.local/share/applications/lxappearance.desktop
+			sed -i 's/NotShowIn/#NotShowIn/g' $HOME/.local/share/applications/lxappearance.desktop
 			
 			# insall dracula xfce4-terminal theme
 			mkdir -p $HOME/.local/share/xfce4/terminal/colorschemes
