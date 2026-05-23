@@ -283,7 +283,7 @@ function install(){
 			# install x server
 			install_xserver
 			# install xfwm4 and other packages
-			install_packages xinit $terminal xfwm4 xfce4-panel sxhkd feh lxappearance dex flameshot rofi
+			install_packages xinit $terminal xfwm4 xfce4-panel sxhkd feh dex flameshot rofi
 			echo "exec xfwm4" > $HOME/.xinitrc
 			cp ./xfwm4/xsessionrc $HOME/.xsessionrc
 			
