@@ -741,8 +741,8 @@ function install(){
 	#	install_packages sddm
 	#fi
 
-	# install firefox without snap
-	# https://www.omgubuntu.co.uk/2022/04/how-to-install-firefox-deb-apt-ubuntu-22-04
+	# install firefox deb package
+	# https://support.mozilla.org/en-US/kb/install-firefox-linux#w_install-firefox-deb-package-for-debian-based-and-ubuntu-based-distributions-recommended
 	if [[ $firefox == "yes" ]]; then
 		if [[ -n "$(uname -a | grep Ubuntu)" ]]; then
   			#remove and disable snapd packages for Ubuntu
@@ -753,8 +753,8 @@ function install(){
 			sudo install -d -m 0755 /etc/apt/keyrings
 			wget -q https://packages.mozilla.org/apt/repo-signing-key.gpg -O- | \
 				sudo tee /etc/apt/keyrings/packages.mozilla.org.asc > /dev/null
-			echo "deb [signed-by=/etc/apt/keyrings/packages.mozilla.org.asc] https://packages.mozilla.org/apt mozilla main" | \
-				sudo tee -a /etc/apt/sources.list.d/mozilla.list > /dev/null
+			echo -e "Types: deb\nURIs: https://packages.mozilla.org/apt\nSuites: mozilla\nComponents: main\nSigned-By: /etc/apt/keyrings/packages.mozilla.org.asc" | \
+				sudo tee /etc/apt/sources.list.d/mozilla.sources > /dev/null
 			echo -e "Package: *\nPin: origin packages.mozilla.org\nPin-Priority: 1000" | \
 				sudo tee /etc/apt/preferences.d/mozilla
 			install_packages firefox
