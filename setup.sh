@@ -721,7 +721,7 @@ function install(){
 		autostart_wm $wm
 	;;
 	tuigreet)
-   		if [[ -n "$(uname -a | grep Ubuntu)" ]]; then
+   		if [[ $CODENAME == "noble" ]]; then
 			install_packages greetd-tuigreet
 		else
     		install_packages greetd tuigreet
