@@ -285,16 +285,6 @@ function install(){
 			cp /usr/share/applications/lxappearance.desktop $HOME/.local/share/applications/lxappearance.desktop
 			sed -i 's/NotShowIn/#NotShowIn/g' $HOME/.local/share/applications/lxappearance.desktop
 
-			# insall dracula xfce4-terminal theme
-			mkdir -p $HOME/.local/share/xfce4/terminal/colorschemes
-			git clone https://github.com/dracula/xfce4-terminal.git /tmp/xfce4-terminal
-			cp /tmp/xfce4-terminal/Dracula.theme $HOME/.local/share/xfce4/terminal/colorschemes
-
-			# install catppuccin xfce4-terminal theme
-			mkdir -p $HOME/.local/share/xfce4/terminal/colorschemes
-			git clone https://github.com/catppuccin/xfce4-terminal /tmp/xfce4-terminal-catppuccin
-			cp /tmp/xfce4-terminal-catppuccin/themes/*.theme $HOME/.local/share/xfce4/terminal/colorschemes
-
 			# copy xfce4-panel config
 			mkdir -p $HOME/.config/xfce4/panel/launcher-{8,10,14,15}
 			mkdir -p $HOME/.config/xfce4/xfconf/xfce-perchannel-xml
@@ -640,6 +630,16 @@ function install(){
 			cp /tmp/lxterminal-catppuccin/themes/*.conf $HOME/.config/lxterminal/
 		fi
 
+		# insall xfce4-terminal preset color theme
+		if [[ $terminal == "xfce4-terminal" ]]; then
+			mkdir -p $HOME/.local/share/xfce4/terminal/colorschemes
+			git clone https://github.com/dracula/xfce4-terminal.git /tmp/xfce4-terminal
+			cp /tmp/xfce4-terminal/Dracula.theme $HOME/.local/share/xfce4/terminal/colorschemes
+
+			git clone https://github.com/catppuccin/xfce4-terminal /tmp/xfce4-terminal-catppuccin
+			cp /tmp/xfce4-terminal-catppuccin/themes/*.theme $HOME/.local/share/xfce4/terminal/colorschemes
+		fi
+		
 		# install dracula themes
 		mkdir -p $HOME/.icons
 		wget -P /tmp https://github.com/dracula/gtk/releases/download/v4.0.0/Dracula-cursors.tar.xz
