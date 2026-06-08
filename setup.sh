@@ -317,12 +317,6 @@ function install(){
 			cp -r ./swaywm/* $HOME/.config/sway/
 			#cp ./mako/config $HOME/.config/mako/
 
-			# install gammastep for screen color temp adjustment
-			install_packages gammastep
-			mkdir -p $HOME/.config/gammastep
-			cp -r ./gammastep/* $HOME/.config/gammastep
-			chmod +x $HOME/.config/gammastep/hooks/*.sh
-
 			# enable autostart sway after TUI login
 			#autostart_wm sway
 			#sudo cp ./config/start_sway.sh /usr/local/bin/start_sway.sh
@@ -363,12 +357,6 @@ function install(){
 			# tofi theme
 			mkdir -p $HOME/.config/tofi
 			wget https://raw.githubusercontent.com/philj56/tofi/master/themes/fullscreen -O $HOME/.config/tofi/config
-
-			# install gammastep for screen color temp adjustment
-			install_packages gammastep
-			mkdir -p $HOME/.config/gammastep
-			cp -r ./gammastep/* $HOME/.config/gammastep
-			chmod +x $HOME/.config/gammastep/hooks/*.sh
 
 			# enable idle inhibit while playing audio and video
 			# https://github.com/labwc/labwc/discussions/1503
@@ -434,6 +422,14 @@ function install(){
 		sed -i 's/Adwaita/"Adwaita, Papirus"/g' $HOME/.config/dunst/dunstrc
 		# set max notification icon size
 		sed -i 's/128/32/g' $HOME/.config/dunst/dunstrc
+	fi
+
+	# install gammastep for wayland wm
+	if [[ $wm == "labwc" || $wm == "sway" ]]; then
+		install_packages gammastep
+		mkdir -p $HOME/.config/gammastep
+		cp -r ./gammastep/* $HOME/.config/gammastep
+		chmod +x $HOME/.config/gammastep/hooks/*.sh
 	fi
 
 	# install XScreensaver for XOrg
