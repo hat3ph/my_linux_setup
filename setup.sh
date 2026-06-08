@@ -44,7 +44,7 @@ function remove_packages() {
 # Function to backup and create a directory or file
 function backup_and_create() {
 	local path="$1"
-    
+
 	# Check if the path is a directory
 	if [ -d "$path" ]; then
 		mv "$path" "${path}_backup_$(date +%Y_%m_%d_%H_%M_%S)"
@@ -90,7 +90,7 @@ function menu (){
 
 		read -p "Use PipeWire audio server? (yes/no) [yes]:" pipewire
 		pipewire=${pipewire:-yes}
-		
+
 		read -p "Install Thunar file manager? (yes/no) [yes]:" thunar
 		thunar=${thunar:-yes}
 
@@ -171,7 +171,7 @@ function install_xserver(){
 
 function install(){
 	case $wm in
-        fluxbox)
+		fluxbox)
 			# install x server
 			install_xserver
 			# install fluxbox and packages
@@ -423,11 +423,11 @@ function install(){
     esac
 
 	# Install standard packages
- 	install_packages papirus-icon-theme adwaita-icon-theme xdg-utils xdg-user-dirs rsyslog logrotate nano less gpg curl ca-certificates wget \
+	install_packages papirus-icon-theme adwaita-icon-theme xdg-utils xdg-user-dirs rsyslog logrotate nano less gpg curl ca-certificates wget \
 		iputils-ping fonts-noto fonts-font-awesome geany unzip cron
 
 	# install packages for Ubuntu based OS except Lubuntu
- 	if [[ -n "$(uname -a | grep Ubuntu)" ]]; then
+	if [[ -n "$(uname -a | grep Ubuntu)" ]]; then
 		if [[ $wm != "lubuntu" ]]; then
 			install_packages lxpolkit software-properties-gtk
 		fi
@@ -446,10 +446,10 @@ function install(){
 		sed -i 's/128/32/g' $HOME/.config/dunst/dunstrc
 	fi
 
- 	# install XScreensaver for XOrg
-  	if [[ $xscreensaver == "yes" ]]; then
+	# install XScreensaver for XOrg
+	if [[ $xscreensaver == "yes" ]]; then
 		install_packages xscreensaver
-   	fi
+	fi
 
 	# install yt-dlp
 	if [[ $ytdlp == "yes" ]]; then
@@ -470,48 +470,48 @@ function install(){
 
 	# install wine32/64 and lutris
 	if [[ $gaming == "yes" ]]; then
- 		# enable 32bit architecture
- 		sudo dpkg --add-architecture i386
+		# enable 32bit architecture
+		sudo dpkg --add-architecture i386
 
-   		# install vulkan drivers for AMD/Intel GPU
+		# install vulkan drivers for AMD/Intel GPU
 		# https://github.com/lutris/docs/blob/master/InstallingDrivers.md
 		install_packages libgl1:i386 libgl1-mesa-dri:i386 mesa-vulkan-drivers mesa-vulkan-drivers:i386
 
 		# install 32/64bit wine packages
 		if [[ $winehq == "no" ]]; then
-   			# install 32/64bit wine packages from Ubuntu/Debian repos
+			# install 32/64bit wine packages from Ubuntu/Debian repos
 			install_packages wine32 wine64
 		else
 			# install stable wine package from winehq
-   			sudo mkdir -pm755 /etc/apt/keyrings
+			sudo mkdir -pm755 /etc/apt/keyrings
 			wget -O - https://dl.winehq.org/wine-builds/winehq.key | sudo gpg --dearmor -o /etc/apt/keyrings/winehq-archive.key -
 			sudo wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/$ID/dists/$CODENAME/winehq-$CODENAME.sources
 			install_packages winehq-stable
 		fi
   
-  		# install lutris dependencies
+		# install lutris dependencies
 		install_packages python3-lxml python3-setproctitle python3-magic gir1.2-webkit2-4.1 cabextract libgnutls30t64 \
-  			fluid-soundfont-gs vulkan-tools python3-protobuf python3-evdev fluidsynth gamemode 7zip p7zip psmisc \
+			fluid-soundfont-gs vulkan-tools python3-protobuf python3-evdev fluidsynth gamemode 7zip p7zip psmisc \
 			python3-pil python3-gi-cairo gir1.2-notify-0.7 mesa-utils libimagequant0 libraqm0 python3-cairo python3-olefile
 
 		# install lutris
-   		if [[ -n "$(uname -a | grep Ubuntu)" ]]; then
+		if [[ -n "$(uname -a | grep Ubuntu)" ]]; then
 			# https://github.com/lutris/lutris/releases
 			wget -P /tmp https://github.com/lutris/lutris/releases/download/v0.5.22/lutris_0.5.22_all.deb
-   			sudo dpkg -i /tmp/lutris*.deb
+			sudo dpkg -i /tmp/lutris*.deb
 		else
-  			# https://software.opensuse.org/download.html?project=home%3Astrycore&package=lutris
+			# https://software.opensuse.org/download.html?project=home%3Astrycore&package=lutris
 			echo 'deb http://download.opensuse.org/repositories/home:/strycore:/lutris/Debian_13/ /' | sudo tee /etc/apt/sources.list.d/home:strycore:lutris.list
 			curl -fsSL https://download.opensuse.org/repositories/home:strycore:lutris/Debian_13/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/home_strycore_lutris.gpg > /dev/null
 			install_packages lutris
-  		fi
-	
+		fi
+
 		# install MangoHud
 		wget -P /tmp https://github.com/flightlessmango/MangoHud/releases/download/v0.8.4/MangoHud-0.8.4.r0.g992103e.tar.gz
 		tar -zxvf /tmp/MangoHud*.tar.gz -C /tmp
 		(cd /tmp/MangoHud && ./mangohud-setup.sh install)
-   
-	   	# download winetrick https://wiki.winehq.org/Winetricks
+
+		# download winetrick https://wiki.winehq.org/Winetricks
 		#mkdir -p $HOME/.local/bin
 		#wget -P /tmp https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks
 		#cp /tmp/winetricks $HOME/.local/bin/
@@ -523,7 +523,7 @@ function install(){
 			sudo groupadd gamemode
 		fi
 		if id -nG "$USER" | grep -qw "gamemode"; then
-    		echo $USER belongs to gamemode.
+			echo $USER belongs to gamemode.
 		else
 			echo $USER does not belong to gamemode. Adding user to gamemode group.
 			sudo usermod -aG gamemode $USER
@@ -624,7 +624,7 @@ function install(){
 		mkdir -p $HOME/.config/geany/colorschemes
 		git clone https://github.com/geany/geany-themes.git /tmp/geany-themes
 		cp -r /tmp/geany-themes/colorschemes/* $HOME/.config/geany/colorschemes/
-  		git clone https://github.com/catppuccin/geany /tmp/geany-catppuccin
+		git clone https://github.com/catppuccin/geany /tmp/geany-catppuccin
 		cp -r /tmp/geany-catppuccin/src/*.conf $HOME/.config/geany/colorschemes/
 
 		# install lxterminal themes
@@ -635,7 +635,7 @@ function install(){
 			cp /tmp/lxterminal/lxterminal.conf $HOME/.config/lxterminal/
    
 			# install lxterminal catppuccin theme
-	  		git clone https://github.com/catppuccin/lxterminal /tmp/lxterminal-catppuccin
+			git clone https://github.com/catppuccin/lxterminal /tmp/lxterminal-catppuccin
 			mkdir -p $HOME/.config/lxterminal/
 			cp /tmp/lxterminal-catppuccin/themes/*.conf $HOME/.config/lxterminal/
 		fi
@@ -765,11 +765,7 @@ function install(){
 
 	# optional install NetworkManager
 	if [[ $nm == yes ]]; then
-		if [[ $wm == "labwc" ]]; then
-			install_packages network-manager
-		else
-			install_packages network-manager network-manager-gnome
-		fi
+		install_packages network-manager network-manager-applet
 		# configure Ubuntu and Debian to use NetworkManager
 		if [[ -n "$(uname -a | grep Ubuntu)" ]]; then
 			for file in `find /etc/netplan/* -maxdepth 0 -type f -name *.yaml`; do
