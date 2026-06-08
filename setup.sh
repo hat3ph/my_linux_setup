@@ -35,10 +35,10 @@ function install_packages() {
 function remove_packages() {
 	for list in "$@"; do
 		package=$(apt list "$list*" 2>/dev/null | grep installed | awk -F '/' '{print $1}')
-  		if [[ $package ]]; then
+		if [[ $package ]]; then
 			sudo apt-get purge -y $package 
-    		fi
- 	done
+			fi
+	done
 }
 
 # Function to backup and create a directory or file
@@ -47,14 +47,14 @@ function backup_and_create() {
     
 	# Check if the path is a directory
 	if [ -d "$path" ]; then
-       		mv "$path" "${path}_backup_$(date +%Y_%m_%d_%H_%M_%S)"
-		mkdir -p "$path"
-    	# Check if the path is a file
-    	elif [ -f "$path" ]; then
 		mv "$path" "${path}_backup_$(date +%Y_%m_%d_%H_%M_%S)"
-    	else
-       		echo "Error: '$path' is neither a file nor a directory."
-       		return 1
+		mkdir -p "$path"
+		# Check if the path is a file
+		elif [ -f "$path" ]; then
+		mv "$path" "${path}_backup_$(date +%Y_%m_%d_%H_%M_%S)"
+	else
+		echo "Error: '$path' is neither a file nor a directory."
+		return 1
 	fi
 }
 
@@ -85,12 +85,12 @@ function menu (){
 	firefox=${firefox:-yes}
 
 	if [[ $wm != "lubuntu" ]]; then
- 		read -p "Install terminal emulator? (xfce4-terminal/lxterminal/alacritty/foot) [xfce4-terminal]:" terminal
+		read -p "Install terminal emulator? (xfce4-terminal/lxterminal/alacritty/foot) [xfce4-terminal]:" terminal
 		terminal=${terminal:-xfce4-terminal}
 
 		read -p "Use PipeWire audio server? (yes/no) [yes]:" pipewire
 		pipewire=${pipewire:-yes}
- 	
+		
 		read -p "Install Thunar file manager? (yes/no) [yes]:" thunar
 		thunar=${thunar:-yes}
 
@@ -103,16 +103,16 @@ function menu (){
 				xserver=${xserver:-xorg}
 			fi
 		fi
- 		login_mgr=${login_mgr:-no}
+		login_mgr=${login_mgr:-no}
  
-   		read -p "Use NetworkManager for network interface management? (yes/no) [yes]:" nm
+		read -p "Use NetworkManager for network interface management? (yes/no) [yes]:" nm
 		nm=${nm:-yes}
 	fi
 
 	read -p "Install custom GTK theming? (yes/no) [yes]:" theming
 	theming=${theming:-yes}
  
-  	read -p "Configure nano text editor? (yes/no) [no]:" nano_config
+	read -p "Configure nano text editor? (yes/no) [no]:" nano_config
 	nano_config=${nano_config:-no}
 
 	read -p "Install on a laptop? (yes/no) [no]:" laptop_mode
@@ -121,38 +121,38 @@ function menu (){
 	if [[ $wm != "sway" && $wm != "labwc" ]]; then
 		read -p "Enable amdgpu xorg tearfree? (yes/no) [no]:" amdgpu_config
 		amdgpu_config=${amdgpu_config:-no}
-  		read -p "Enable XScreensaver? (yes/no) [no]:" xscreensaver
+		read -p "Enable XScreensaver? (yes/no) [no]:" xscreensaver
 		xscreensaver=${xscreensaver:-no}
- 	fi
+	fi
  
 	read -p "Install QEMU and Virt-Manager? (yes/no) [no]:" qemu
 	qemu=${qemu:-no}
-	 
+
 	read -p "Install Wine and Lutris for gaming? (yes/no) [no]:" gaming
 	gaming=${gaming:-no}
 
- 	if [[ $gaming == "yes" ]]; then
+	if [[ $gaming == "yes" ]]; then
 		read -p "Install WineHQ package for wine? If no, will install 32/64bit wine package from default repo. (yes/no) [no]:" winehq
 		winehq=${winehq:-no}
- 	fi
-	
+	fi
+
 	read -p "Customize lm-sensors? (yes/no) [no]:" sensors
 	sensors=${sensors:-no}
-	
+
 	read -p "Customize your bashrc? (yes/no) [no]:" bashrc
 	bashrc=${bashrc:-no}
-	 
+
 	read -p "Install and configure smartd? (yes/no) [no]:" smartd
 	smartd=${smartd:-no}
-	
+
 	read -p "Enable 4GB swapfile? (yes/no) [no]:" swapfile
 	swapfile=${swapfile:-no}
-	 
+
 	read -p "Install yt-dlp? (yes/no) [no]:" ytdlp
 	ytdlp=${ytdlp:-no}
 
 	read -p "Configure timezone? Enter your timezone or no to not configure it. (Asia/Kuala_Lumpur/no) [no]:" timezone
- 	timezone=${timezone:-no}
+	timezone=${timezone:-no}
 }
 
 # allow option to use xorg or xlibre as X server for Debian Trixie
@@ -177,26 +177,26 @@ function install(){
 			# install fluxbox and packages
 			install_packages fluxbox xinit x11-utils $terminal lxappearance rofi dex flameshot feh
 			echo "startfluxbox" > "$HOME/.xinitrc"
-		    
+
 			backup_and_create "$HOME/.fluxbox"
 			mkdir -p $HOME/.fluxbox
 			cp -r ./fluxbox/* $HOME/.fluxbox/
 			#sed -i 's/administrator/$USER/g' $HOME/.fluxbox/init
 			#sed -i 's/administrator/$USER/g' $HOME/.fluxbox/startup
-	
+
 			# install extra fluxbox styles
 			mkdir -p $HOME/.fluxbox/styles
 			#tar -zxvf ./styles/Retour.tgz -C $HOME/.fluxbox/styles/
-				
+
 			# download fluxbox style from http://tenr.de/styles/?i=16
 			wget -P /tmp http://tenr.de/styles/archives/tenr.de-styles-pkg.tar.bz2
 			tar -xvf /tmp/tenr.de-styles-pkg.tar.bz2
 			cp -r /tmp/tenr.de-styles-pkg/* $HOME/.fluxbox/styles/
-	
-	   		wget -P /tmp http://tenr.de/styles/archives/fluxmod-styles-pkg.tar.bz2
+
+			wget -P /tmp http://tenr.de/styles/archives/fluxmod-styles-pkg.tar.bz2
 			tar -xvf /tmp/fluxmod-styles-pkg.tar.bz2
 			cp -r /tmp/fluxmod-styles-pkg/* $HOME/.fluxbox/styles/
-	
+
 			# remove unwanted files
 			rm $HOME/.fluxbox/styles/*.{sh,txt}
 		;;
@@ -206,74 +206,67 @@ function install(){
 			# install openbox and packages
 			install_packages openbox xinit x11-utils $terminal lxappearance rofi dex flameshot feh
 			echo "openbox-session" > "$HOME/.xinitrc"
-	
+
 			# custom openbox configuration
 			backup_and_create "$HOME/.config/openbox"
 			mkdir -p $HOME/.config/openbox
 			cp -a /etc/xdg/openbox/* $HOME/.config/openbox/
 			echo "tint2 &" >> $HOME/.config/openbox/autostart
-	   		echo "dunst &" >> $HOME/.config/openbox/autostart
+			echo "dunst &" >> $HOME/.config/openbox/autostart
 			echo "lxpolkit &" >> $HOME/.config/openbox/autostart
 			echo "thunar --daemon &" >> $HOME/.config/openbox/autostart
 			echo "xdg-user-dirs-update &" >> $HOME/.config/openbox/autostart
 			echo "pnmixer &" >> $HOME/.config/openbox/autostart
 			echo "feh --bg-fill $HOME/Pictures/wallpapers/cat.jpg &" >> $HOME/.config/openbox/autostart
 			echo "nm-applet &" >> $HOME/.config/openbox/autostart
-	
-			# install openbox themes
-			mkdir -p $HOME/.themes
-			git clone https://github.com/dracula/openbox /tmp/dracula-openbox
-			cp -r /tmp/dracula-openbox/Dracula* $HOME/.themes/
-				
-			git clone https://github.com/catppuccin/openbox /tmp/catppuccin-openbox
-			cp -r /tmp/catppuccin-openbox/themes/catppuccin-* $HOME/.themes/
-	
+
 			# install tint2 taskbar and themes
 			install_packages tint2
 			mkdir -p $HOME/.config/tint2
 			#wget https://raw.githubusercontent.com/addy-dclxvi/tint2-theme-collections/master/repentance/repentance.tint2rc -O $HOME/.config/tint2/repentance.tint2rc
 			#wget https://raw.githubusercontent.com/dracula/tint2/master/tint2rc -O $HOME/.config/tint2/dracula.tint2rc
 		;;
-    	icewm)
+		icewm)
 			# install x server
 			install_xserver
 			# install icewm and packages
 			install_packages icewm xinit x11-utils $terminal lxappearance rofi dex flameshot feh
 			echo "icewm-session" > "$HOME/.xinitrc"
-	            	
+
 			# install icewm custom config
 			backup_and_create "$HOME/.icewm"
 			mkdir -p $HOME/.icewm/
 			cp -r ./icewm/* $HOME/.icewm/
 			chmod +x $HOME/.icewm/startup
-	
+
 			# install icewm custom themes
 			mkdir -p $HOME/.icewm/themes
 			git clone https://github.com/Brottweiler/win95-dark.git /tmp/win95-dark
 			cp -r /tmp/win95-dark $HOME/.icewm/themes 
 			rm $HOME/.icewm/themes/win95-dark/.gitignore
 			sudo rm -r $HOME/.icewm/themes/win95-dark/.git
-		  
+
 			git clone https://github.com/Vimux/icewm-theme-icepick.git /tmp/icewm-theme-icepick
 			cp -r /tmp/icewm-theme-icepick/IcePick $HOME/.icewm/themes
-		  
+
 			git clone https://github.com/Brottweiler/Arc-Dark.git /tmp/Arc-Dark
 			cp -r /tmp/Arc-Dark $HOME/.icewm/themes
 			sudo rm -r $HOME/.icewm/themes/Arc-Dark/.git
-	
+
 			tar -xvf ./styles/DraculIce.tar.gz -C $HOME/.icewm/themes
 			if [[ -n "$(uname -a | grep Ubuntu)" ]]; then
-				cp $HOME./icewm/themes/DraculIce/taskbar/start_ubuntu.svg $HOME./icewm/themes/DraculIce/taskbar/start.xpm
+				cp $HOME./icewm/themes/DraculIce/taskbar/start_ubuntu.svg
+				$HOME./icewm/themes/DraculIce/taskbar/start.xpm
 			else
 				cp ./styles/debian.xpm $HOME./icewm/themes/DraculIce/taskbar/start.xpm
 			fi
 		;;
-    	i3wm)
+		i3wm)
 			# install x server
 			install_xserver
 			# install i3wm and other packages
 			install_packages i3 suckless-tools xinit x11-utils $terminal feh lxappearance dex rofi flameshot
-				
+
 			# custom i3wm config
 			backup_and_create "$HOME/.config/i3"
 			mkdir -p $HOME/.config/i3
@@ -291,17 +284,17 @@ function install(){
 			mkdir -p $HOME/.local/share/applications
 			cp /usr/share/applications/lxappearance.desktop $HOME/.local/share/applications/lxappearance.desktop
 			sed -i 's/NotShowIn/#NotShowIn/g' $HOME/.local/share/applications/lxappearance.desktop
-			
+
 			# insall dracula xfce4-terminal theme
 			mkdir -p $HOME/.local/share/xfce4/terminal/colorschemes
 			git clone https://github.com/dracula/xfce4-terminal.git /tmp/xfce4-terminal
 			cp /tmp/xfce4-terminal/Dracula.theme $HOME/.local/share/xfce4/terminal/colorschemes
-	
+
 			# install catppuccin xfce4-terminal theme
 			mkdir -p $HOME/.local/share/xfce4/terminal/colorschemes
-	   		git clone https://github.com/catppuccin/xfce4-terminal /tmp/xfce4-terminal-catppuccin
+			git clone https://github.com/catppuccin/xfce4-terminal /tmp/xfce4-terminal-catppuccin
 			cp /tmp/xfce4-terminal-catppuccin/themes/*.theme $HOME/.local/share/xfce4/terminal/colorschemes
-				
+
 			# copy xfce4-panel config
 			mkdir -p $HOME/.config/xfce4/panel/launcher-{8,10,14,15}
 			mkdir -p $HOME/.config/xfce4/xfconf/xfce-perchannel-xml
@@ -310,91 +303,83 @@ function install(){
 			cp ./xfwm4/17140154333.desktop $HOME/.config/xfce4/panel/launcher-10/
 			cp ./xfwm4/17140154514.desktop $HOME/.config/xfce4/panel/launcher-14/
 			cp ./xfwm4/17140154635.desktop $HOME/.config/xfce4/panel/launcher-15/
-				
+
 			#configure sxhkd config
 			mkdir -p $HOME/.config/sxhkd
 			cp ./config/sxhkdrc $HOME/.config/sxhkd/sxhkdrc
-	
+
 			# remove round corner in xfce4-panel
 			mkdir -p $HOME/.config/gtk-3.0
 			cp ./xfwm4/gtk.css $HOME/.config/gtk-3.0/gtk.css
-	
+
 			# xsession file for login manager
-	   		sudo mkdir -p /usr/share/xsessions
-		 	sudo cp ./xfwm4/xfwm4.desktop /usr/share/xsessions
+			sudo mkdir -p /usr/share/xsessions
+			sudo cp ./xfwm4/xfwm4.desktop /usr/share/xsessions
 		;;
 		sway)
 			# install sway and packages
 			install_packages install sway swaybg swayidle swaylock xdg-desktop-portal-wlr xwayland $terminal suckless-tools grim imagemagick grimshot qt5ct qtwayland5
-	
+
 			# copy my sway and mako configuration
 			backup_and_create "$HOME/.config/sway"
 			#backup_and_create "$HOME/.config/mako"
 			mkdir -p $HOME/.config/sway
 			cp -r ./swaywm/* $HOME/.config/sway/
 			#cp ./mako/config $HOME/.config/mako/
-	
+
 			# install gammastep for screen color temp adjustment
 			install_packages gammastep
 			mkdir -p $HOME/.config/gammastep
 			cp -r ./gammastep/* $HOME/.config/gammastep
 			chmod +x $HOME/.config/gammastep/hooks/*.sh
-				
+
 			# enable autostart sway after TUI login
 			#autostart_wm sway
 			#sudo cp ./config/start_sway.sh /usr/local/bin/start_sway.sh
 			#sudo chmod +x /usr/local/bin/start_sway.sh
 			#sudo mkdir -p /etc/profile.d
 			#sudo cp ./config/sway_env.sh /etc/profile.d/sway_env.sh
-	
+
 			#backup_and_create "$HOME/.bashrc"
 			#echo -e '\n#If running from tty1 start sway\n[ "$(tty)" = "/dev/tty1" ] && exec /usr/local/bin/start_sway.sh' >> $HOME/.bashrc
 		;;
 		labwc)
-	 		# setup Ubuntu Sway Remix repo for nwg-look as Ubuntu 24.04 do not have nwg-look packaged
+			# setup Ubuntu Sway Remix repo for nwg-look as Ubuntu 24.04 do not have nwg-look packaged
 			if [[ $CODENAME == "noble" ]]; then
 				sudo add-apt-repository ppa:ubuntusway-dev/stable -y
 				echo -e "Package: *\nPin: release o=LP-PPA-ubuntusway-dev-stable\nPin-Priority: 100" | sudo tee /etc/apt/preferences.d/ubuntusway-dev-stable.pref
 			fi
 			# install labwc and packages
 			install_packages labwc swaybg wlr-randr waybar tofi nwg-look $terminal
-	
+
 			# enable autostart labwc after TUI login
 			#autostart_wm labwc
-	
+
 			# copy labwc configs
 			mkdir -p $HOME/.config/labwc
 			#cp /etc/xdg/labwc/environment $HOME/.config/labwc/
 			#cp /etc/xdg/labwc/menu.xml $HOME/.config/labwc/
-	   		wget https://raw.githubusercontent.com/labwc/labwc/master/docs/environment -O $HOME/.config/labwc/environment
-	   		wget https://raw.githubusercontent.com/labwc/labwc/master/docs/menu.xml -O $HOME/.config/labwc/menu.xml
+			wget https://raw.githubusercontent.com/labwc/labwc/master/docs/environment -O $HOME/.config/labwc/environment
+			wget https://raw.githubusercontent.com/labwc/labwc/master/docs/menu.xml -O $HOME/.config/labwc/menu.xml
 			#wget https://raw.githubusercontent.com/labwc/labwc/master/docs/autostart -O $HOME/.config/labwc/autostart
 			#wget https://raw.githubusercontent.com/labwc/labwc/master/docs/rc.xml -O $HOME/.config/labwc/rc.xml
 			sed -i 's/lab-sensible-terminal/'$terminal'/g' $HOME/.config/labwc/menu.xml
 			cp ./labwc/* $HOME/.config/labwc/
-	
+
 			# copy sfwbar config
-			mkdir -p $HOME/.config/sfwbar
-			cp ./config/sfwbar.config $HOME/.config/sfwbar/
-	
+			#mkdir -p $HOME/.config/sfwbar
+			#cp ./config/sfwbar.config $HOME/.config/sfwbar/
+
 			# tofi theme
 			mkdir -p $HOME/.config/tofi
 			wget https://raw.githubusercontent.com/philj56/tofi/master/themes/fullscreen -O $HOME/.config/tofi/config
-	
+
 			# install gammastep for screen color temp adjustment
 			install_packages gammastep
 			mkdir -p $HOME/.config/gammastep
 			cp -r ./gammastep/* $HOME/.config/gammastep
 			chmod +x $HOME/.config/gammastep/hooks/*.sh
-	
-	   		# labwc/openbox themes
-			mkdir -p $HOME/.themes
-			git clone https://github.com/dracula/openbox /tmp/dracula-openbox
-			cp -r /tmp/dracula-openbox/Dracula* $HOME/.themes/
-				
-			git clone https://github.com/catppuccin/openbox /tmp/catppuccin-openbox
-		  	cp -r /tmp/catppuccin-openbox/themes/catppuccin-* $HOME/.themes/
-	
+
 			# enable idle inhibit while playing audio and video
 			# https://github.com/labwc/labwc/discussions/1503
 			mkdir -p $HOME/.config/xdg-desktop-portal
@@ -403,45 +388,37 @@ function install(){
 		lubuntu)
 			# install additional packages on Lubuntu
 			install_packages vlc geany transmission-qt rar unrar plasma-discover
-	
+
 			# copy my LXQt and autostart configuration
 			mkdir -p $HOME/.config/{lxqt,autostart}
 			cp ./lubuntu/*.conf $HOME/.config/lxqt/
 			#cp ./autostart/*.desktop $HOME/.config/autostart/
-				
+
 			# create PCManFM-Qt custom actions files
 			mkdir -p $HOME/.local/share/file-manager/actions
 			cp ./actions/*.desktop $HOME/.local/share/file-manager/actions/
 			echo "Remember to change PCManFM-Qt's Archiver intergration to lxqt-archiver under Preferences > Advanced."
 			# actions to open terminal in desktop. Not needed for LXQt v1.3 and above
 			rm $HOME/.local/share/file-manager/actions/open-in-terminal.desktop
-	
-	   		# install Dracula theme for LXQt and QTerminal
+
+			# install Dracula theme for LXQt and QTerminal
 			mkdir -p $HOME/.local/share/lxqt/{palettes,themes}
 			git clone https://github.com/AzumaHazuki/lxqt-themes-dracula /tmp/lxqt-themes-dracula
 			cp -r /tmp/lxqt-themes-dracula/palettes/* $HOME/.local/share/lxqt/palettes
 			cp -r /tmp/lxqt-themes-dracula/themes $HOME/.local/share/lxqt/themes/Dracula
-	
+
 			sudo mkdir -p /usr/share/qtermwidget5/color-schemes
-	  		git clone https://github.com/dracula/qterminal.git /tmp/qterminal
+			git clone https://github.com/dracula/qterminal.git /tmp/qterminal
 			sudo cp /tmp/qterminal/Dracula.colorscheme /usr/share/qtermwidget5/color-schemes
-	
+
 			# install Catppuccin LXQt and QTerminal theme
-		  	mkdir -p $HOME/.local/share/lxqt/themes
-		  	git clone https://github.com/catppuccin/lxqt /tmp/lxqt-catppuccin
+			mkdir -p $HOME/.local/share/lxqt/themes
+			git clone https://github.com/catppuccin/lxqt /tmp/lxqt-catppuccin
 			cp -r /tmp/lxqt-catppuccin/src/* $HOME/.local/share/lxqt/themes
-	
+
 			sudo mkdir -p /usr/share/qtermwidget5/color-schemes
 	 		git clone https://github.com/catppuccin/qterminal /tmp/qterminal-catppuccin
 			sudo cp /tmp/qterminal-catppuccin/src/*.colorscheme /usr/share/qtermwidget5/color-schemes
-	     			
-			# install openbox themes
-			mkdir -p $HOME/.local/share/themes
-			#git clone https://github.com/dracula/openbox /tmp/openbox
-			git clone https://github.com/terroo/openbox-themes /tmp/openbox-themes
-			cp -r /tmp/openbox-themes/* $HOME/.local/share/themes/
-	   		git clone https://github.com/catppuccin/openbox /tmp/openbox-catppuccin
-			cp -r /tmp/openbox-catppuccin/themes/* $HOME/.local/share/themes/
 		;;
     esac
 
@@ -609,6 +586,16 @@ function install(){
 				sudo tee /etc/profile.d/gtk-theme.sh
 		fi
 
+		# install openbox/labwc themes
+		# https://github.com/terroo/openbox-themes
+		if [[ $wm == "labwc" || $wm == "sway" || $wm == "lubuntu" ]]; then
+			mkdir -p $HOME/.themes
+			git clone https://github.com/dracula/openbox /tmp/dracula-openbox
+			cp -r /tmp/dracula-openbox/Dracula* mkdir -p $HOME/.themes/
+			git clone https://github.com/catppuccin/openbox /tmp/catppuccin-openbox
+			cp -r /tmp/catppuccin-openbox/themes/catppuccin-* mkdir -p $HOME/.themes/
+		fi
+
 		# copy wallpapers
 		mkdir -p $HOME/Pictures/wallpapers
 		cp ./wallpapers/* $HOME/Pictures/wallpapers/
@@ -710,44 +697,44 @@ function install(){
 	fi
 
 	# optional to install SDDM or lxdm or no login manager
- 	case $login_mgr in
+	case $login_mgr in
 	lxdm)
- 		install_packages lxdm
- 	;;
-  	sddm)
-   		install_packages sddm
-   	;;
+		install_packages lxdm
+	;;
+	sddm)
+		install_packages sddm
+	;;
 	tty)
 		autostart_wm $wm
 	;;
 	tuigreet)
-   		if [[ $CODENAME == "noble" ]]; then
+		if [[ $CODENAME == "noble" ]]; then
 			install_packages greetd-tuigreet
 		else
-    		install_packages greetd tuigreet
+			install_packages greetd tuigreet
 		fi
 		sudo mkdir -p /etc/greetd
 		sudo mv /etc/greetd/config.toml /etc/greetd/config.toml.default
 		sudo cp ./config/tuigreet.toml /etc/greetd/config.toml
-  		# add poweroff and reboot command for Debian 12
+		# add poweroff and reboot command for Debian 12
 		if [[ -n "$(uname -a | grep Debian)" ]]; then
 			sudo sed -i "s/asterisks/asterisks --power-shutdown 'systemct poweroff' --power-reboot 'systemctl reboot'/g" /etc/greetd/config.toml
 		fi
-    	;;
-  	esac
+		;;
+	esac
 	#if [[ $login_mgr == "lxdm" ]]; then
-	#	install_packages lxdm
+		#install_packages lxdm
 	#else
-	#	install_packages sddm
+		#install_packages sddm
 	#fi
 
 	# install firefox deb package
 	# https://support.mozilla.org/en-US/kb/install-firefox-linux#w_install-firefox-deb-package-for-debian-based-and-ubuntu-based-distributions-recommended
 	if [[ $firefox == "yes" ]]; then
 		if [[ -n "$(uname -a | grep Ubuntu)" ]]; then
-  			#remove and disable snapd packages for Ubuntu
-  			remove_packages snapd
-  			echo -e 'Package: snapd\nPin: release a=*\nPin-Priority: -10' | sudo tee /etc/apt/preferences.d/nosnap.pref
+			#remove and disable snapd packages for Ubuntu
+			remove_packages snapd
+			echo -e 'Package: snapd\nPin: release a=*\nPin-Priority: -10' | sudo tee /etc/apt/preferences.d/nosnap.pref
      
 			# install firefox package from mozilla repo
 			sudo install -d -m 0755 /etc/apt/keyrings
@@ -759,7 +746,7 @@ function install(){
 				sudo tee /etc/apt/preferences.d/mozilla
 			install_packages firefox
 		else
-  			# install firefox-esr from debian repo
+			# install firefox-esr from debian repo
 			install_packages firefox-esr
 			#if [[ $wm == "fluxbox" ]]; then
 			#	sed -i 's/firefox/firefox-esr/g' $HOME/.fluxbox/keys
@@ -770,7 +757,7 @@ function install(){
 			if [[ $wm == "xfwm4" ]]; then
 				sed -i 's/firefox/firefox-esr/g' $HOME/.config/xfce4/panel/launcher-10/17140154333.desktop
 			fi
-   			if [[ $wm == "labwc" ]]; then
+			if [[ $wm == "labwc" ]]; then
 				sed -i 's/firefox/firefox-esr/g' $HOME/.config/labwc/menu.xml
 			fi
 		fi
@@ -778,9 +765,9 @@ function install(){
 
 	# optional install NetworkManager
 	if [[ $nm == yes ]]; then
-  		if [[ $wm == "labwc" ]]; then
+		if [[ $wm == "labwc" ]]; then
 			install_packages network-manager
-   		else
+		else
 			install_packages network-manager network-manager-gnome
 		fi
 		# configure Ubuntu and Debian to use NetworkManager
@@ -797,22 +784,22 @@ function install(){
 				head -9 /etc/network/interfaces.bak | sudo tee /etc/network/interfaces
 				sudo systemctl disable networking.service
 		fi
-  		# disable NetworkManager-wait-online.service
+		# disable NetworkManager-wait-online.service
 		disable_services NetworkManager-wait-online.service
 	fi
 
 	# disable unwanted services
 	disable_services systemd-networkd-wait-online.service
- 	# remove unwanted packages
-  	remove_packages multipath
+	# remove unwanted packages
+	remove_packages multipath
 
 	# install and setup for laptop usage
 	if [[ $laptop_mode == "yes" ]]; then
- 		# add current user to video group
- 		sudo gpasswd -a $USER video
-   		# install brightness utilities
+		# add current user to video group
+		sudo gpasswd -a $USER video
+		# install brightness utilities
 		install_packages brightnessctl cbatticon
-  		# setup udev rules to change screen brightness based on power input
+		# setup udev rules to change screen brightness based on power input
 		sudo mkdir -p /etc/udev/rules.d
 		sudo mkdir -p /usr/local/bin
 		sudo cp ./rules.d/*.rules /etc/udev/rules.d/
@@ -829,8 +816,8 @@ function install(){
 	# enable swapfile
 	if [[ $swapfile == "yes" ]]; then
 		sudo fallocate -l 4G /swapfile
-	   	sudo chmod 600 /swapfile
-	   	sudo mkswap /swapfile
+		sudo chmod 600 /swapfile
+		sudo mkswap /swapfile
 		sudo swapon /swapfile
 		echo "/swapfile swap swap defaults 0 0" | sudo tee -a /etc/fstab
 	fi
@@ -856,8 +843,8 @@ function install(){
 # installation menu selection
 if [[ -r /etc/os-release ]]; then
 	. /etc/os-release
- 	ID=$ID
-  	CODENAME=$VERSION_CODENAME
+	ID=$ID
+	CODENAME=$VERSION_CODENAME
 	#CODENAME=$(cat /etc/os-release | grep _CODENAME | cut -d = -f 2)
 	#echo $CODENAME
 	if [[ $CODENAME == "noble" || $CODENAME == "resolute" || $CODENAME == "trixie" ]]; then
