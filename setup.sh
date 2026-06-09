@@ -411,6 +411,10 @@ function install(){
 		fi
 	fi
  
+	# setup apt update notification
+	sudo mkdir -p /etc/cron.hourly
+	sudo cp ./config/apt_notifier /etc/cron.hourly
+
 	# install additional packages if not in Lubuntu
 	if [[ $wm != "lubuntu" ]]; then
 		install_packages dunst mirage
