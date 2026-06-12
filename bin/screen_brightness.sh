@@ -30,7 +30,8 @@ up)
 	;;
 down)
 	# decrease screen brightness level not more then 50% and send notification
-	if [ "$brightness" -gt 50 ]; then
+	brightness=$(brightnessctl info | cut -d ' ' -f 4 | grep -oP '\(\K[^%)]+')
+	if [ "$brightness" -gt "50" ]; then
 		$app set $brightness_level%-
 	fi
 	send_notification
