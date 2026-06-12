@@ -334,7 +334,7 @@ function install(){
 				echo -e "Package: *\nPin: release o=LP-PPA-ubuntusway-dev-stable\nPin-Priority: 100" | sudo tee /etc/apt/preferences.d/ubuntusway-dev-stable.pref
 			fi
 			# install labwc and packages
-			install_packages labwc swaybg wlr-randr waybar tofi grim wl-clipboard slurp nwg-look $terminal
+			install_packages labwc swaybg wlr-randr waybar tofi xdg-desktop-portal-wlr grim wl-clipboard slurp swayidle swaylock wlopm nwg-look $terminal
 
 			# enable autostart labwc after TUI login
 			#autostart_wm labwc
