@@ -308,7 +308,7 @@ function install(){
 		;;
 		sway)
 			# install sway and packages
-			install_packages install sway swaybg swayidle swaylock xdg-desktop-portal-wlr xwayland $terminal suckless-tools grim imagemagick grimshot qt5ct qtwayland5
+			install_packages install sway swaybg swayidle swaylock xdg-desktop-portal-wlr xwayland $terminal suckless-tools imagemagick grim wl-clipboard slurp qt5ct qtwayland5
 
 			# copy my sway and mako configuration
 			backup_and_create "$HOME/.config/sway"
@@ -334,7 +334,7 @@ function install(){
 				echo -e "Package: *\nPin: release o=LP-PPA-ubuntusway-dev-stable\nPin-Priority: 100" | sudo tee /etc/apt/preferences.d/ubuntusway-dev-stable.pref
 			fi
 			# install labwc and packages
-			install_packages labwc swaybg wlr-randr waybar tofi nwg-look $terminal
+			install_packages labwc swaybg wlr-randr waybar tofi grim wl-clipboard slurp nwg-look $terminal
 
 			# enable autostart labwc after TUI login
 			#autostart_wm labwc
