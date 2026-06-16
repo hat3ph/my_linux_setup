@@ -36,7 +36,7 @@ function remove_packages() {
 	for list in "$@"; do
 		package=$(apt list "$list*" 2>/dev/null | grep installed | awk -F '/' '{print $1}')
 		if [[ $package ]]; then
-			sudo apt-get purge -y $package 
+			sudo apt-get purge -y $package
 			fi
 	done
 }
@@ -70,7 +70,7 @@ function disable_services() {
 		if (systemctl -q is-active $service); then
 			echo "Stopping running $service service."
 			sudo systemctl disable --now $service
-		else 
+		else
 			echo "$service service is not running."
 		fi
 	done
@@ -83,13 +83,13 @@ function menu (){
 
 	read -p "Install (non-snap) Firefox for Ubuntu or Firefox-ESR for Debian? (yes/no) [yes]:" firefox
 	firefox=${firefox:-yes}
-	
+
 	read -p "Install terminal emulator? (xfce4-terminal/lxterminal/alacritty/foot). Choose no if do not want to install any terminal emulator. [no]:" terminal
 	terminal=${terminal:-no}
 
 	read -p "Use PipeWire audio server? (yes/no) [yes]:" pipewire
 	pipewire=${pipewire:-yes}
-	
+
 	read -p "Install Thunar file manager? (yes/no) [yes]:" thunar
 	thunar=${thunar:-yes}
 
@@ -97,12 +97,13 @@ function menu (){
 		read -p "Choose login manager (tuigreet or tty or no). Choose no for no login manager. [no]:" login_mgr
 	else
 		read -p "Choose login manager (sddm or lxdm or tty or no). Choose no for no login manager. [no]:" login_mgr
-		if [[ $CODENAME == "trixie" ]]; then
-			read -p "Use which X server. (xorg or xlibre) [xorg]:" xserver
-			xserver=${xserver:-xorg}
-		fi
 	fi
 	login_mgr=${login_mgr:-no}
+
+	if [[ $CODENAME == "trixie" ]]; then
+		read -p "Use XLibre server. (yes/no) [no]:" xlibre
+		xlibre=${xlibre:-no}
+	fi
 
 	read -p "Use NetworkManager for network interface management? (yes/no) [yes]:" nm
 	nm=${nm:-yes}
@@ -129,10 +130,8 @@ function menu (){
 	read -p "Install Wine and Lutris for gaming? (yes/no) [no]:" gaming
 	gaming=${gaming:-no}
 
-	if [[ $gaming == "yes" ]]; then
-		read -p "Install WineHQ package for wine? If no, will install 32/64bit wine package from default repo. (yes/no) [no]:" winehq
-		winehq=${winehq:-no}
-	fi
+	read -p "Install WineHQ package for wine? If no, will install 32/64bit wine package from default repo. (yes/no) [no]:" winehq
+	winehq=${winehq:-no}
 
 	read -p "Customize lm-sensors? (yes/no) [no]:" sensors
 	sensors=${sensors:-no}
@@ -155,7 +154,7 @@ function menu (){
 
 # allow option to use xorg or xlibre as X server for Debian Trixie
 function install_xserver(){
-	if [[ $xserver == "xorg" ]]; then
+	if [[ $xlibre == "no" ]]; then
 		install_packages xorg
 	else
 		# https://github.com/xlibre-debian/debian
@@ -882,7 +881,7 @@ printf "Nano's configuration    : $nano_config\n"
 printf "Laptop Mode             : $laptop_mode\n"
 printf "AMDGPU Xorg Config      : $amdgpu_config\n"
 printf "Install Xscreensaver    : $xscreensaver\n"
-printf "X Server				: $xserver\n"
+printf "Install XLibre			: $xlibre\n"
 printf "QEMU KVM                : $qemu\n"
 printf "Gaming                  : $gaming\n"
 printf "WineHQ wine packages    : $winehq\n"
