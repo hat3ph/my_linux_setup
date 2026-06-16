@@ -347,7 +347,7 @@ function install(){
 			wget https://raw.githubusercontent.com/labwc/labwc/master/docs/menu.xml -O $HOME/.config/labwc/menu.xml
 			#wget https://raw.githubusercontent.com/labwc/labwc/master/docs/autostart -O $HOME/.config/labwc/autostart
 			#wget https://raw.githubusercontent.com/labwc/labwc/master/docs/rc.xml -O $HOME/.config/labwc/rc.xml
-			sed -i 's/lab-sensible-terminal/'$terminal'/g' $HOME/.config/labwc/menu.xml
+			sed -i 's/lab-sensible-terminal/x-terminal-emulator/g' $HOME/.config/labwc/menu.xml
 			cp ./labwc/* $HOME/.config/labwc/
 
 			# copy sfwbar config
