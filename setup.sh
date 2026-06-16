@@ -423,7 +423,9 @@ function install(){
  
 	# setup apt update notification
 	sudo mkdir -p /etc/cron.hourly
-	sudo cp ./config/apt_notifier /etc/cron.hourly
+	#sudo cp ./config/apt_notifier /etc/cron.hourly
+	sudo mkdir -p /etc/cron.hourly
+	sudo ln -s $HOME/.local/bin/apt_notifier.sh /etc/cron.hourly/apt_notifier
 
 	# install additional packages if not in Lubuntu
 	if [[ $wm != "lubuntu" ]]; then
