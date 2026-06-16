@@ -130,8 +130,10 @@ function menu (){
 	read -p "Install Wine and Lutris for gaming? (yes/no) [no]:" gaming
 	gaming=${gaming:-no}
 
-	read -p "Install WineHQ package for wine? If no, will install 32/64bit wine package from default repo. (yes/no) [no]:" winehq
-	winehq=${winehq:-no}
+	if [[ $gaming != "no" ]]; then
+		read -p "Install WineHQ package for wine? If no, will install 32/64bit wine package from default repo. (yes/no) [no]:" winehq
+		winehq=${winehq:-no}
+	fi
 
 	read -p "Customize lm-sensors? (yes/no) [no]:" sensors
 	sensors=${sensors:-no}
@@ -154,7 +156,7 @@ function menu (){
 
 # allow option to use xorg or xlibre as X server for Debian Trixie
 function install_xserver(){
-	if [[ $xlibre == "no" ]]; then
+	if [[ $xlibre != "yes" ]]; then
 		install_packages xorg
 	else
 		# https://github.com/xlibre-debian/debian
@@ -886,7 +888,9 @@ printf "Install XLibre			: $xlibre\n"
 fi
 printf "QEMU KVM                : $qemu\n"
 printf "Gaming                  : $gaming\n"
+if [[ $gaming != "no" ]]; then
 printf "WineHQ wine packages    : $winehq\n"
+fi
 printf "lm-sensor setup         : $sensors\n"
 printf "Custom bashrc           : $bashrc\n"
 printf "Configure Smartd        : $smartd\n"
