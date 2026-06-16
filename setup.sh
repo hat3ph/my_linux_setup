@@ -524,9 +524,9 @@ function install(){
 			sudo groupadd gamemode
 		fi
 		if id -nG "$USER" | grep -qw "gamemode"; then
-			echo $USER belongs to gamemode.
+			echo $USER already belongs to gamemode group. Ignore!
 		else
-			echo $USER does not belong to gamemode. Adding user to gamemode group.
+			echo $USER does not belong to gamemode group. Adding user to gamemode group.
 			sudo usermod -aG gamemode $USER
 		fi
 
@@ -803,7 +803,13 @@ function install(){
 	# install and setup for laptop usage
 	if [[ $laptop_mode == "yes" ]]; then
 		# add current user to video group
-		sudo gpasswd -a $USER video
+		if id -nG "$USER" | grep -qw "video"; then
+			echo $USER already belongs to video group. Ignore!
+		else
+			echo $USER does not belong to video group. Adding user to video group.
+			sudo usermod -aG video $USER
+		fi
+		#sudo gpasswd -a $USER video
 		# install brightness utilities
 		install_packages brightnessctl cbatticon
 		# setup udev rules to change screen brightness based on power input
