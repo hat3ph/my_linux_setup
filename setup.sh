@@ -178,7 +178,7 @@ function install(){
 			install_packages fluxbox xinit x11-utils lxappearance rofi dex flameshot feh
 			echo "startfluxbox" > "$HOME/.xinitrc"
 
-			backup_and_create "$HOME/.fluxbox"
+			#backup_and_create "$HOME/.fluxbox"
 			mkdir -p $HOME/.fluxbox
 			cp -r ./fluxbox/* $HOME/.fluxbox/
 			#sed -i 's/administrator/$USER/g' $HOME/.fluxbox/init
@@ -208,7 +208,7 @@ function install(){
 			echo "openbox-session" > "$HOME/.xinitrc"
 
 			# custom openbox configuration
-			backup_and_create "$HOME/.config/openbox"
+			#backup_and_create "$HOME/.config/openbox"
 			mkdir -p $HOME/.config/openbox
 			cp -a /etc/xdg/openbox/* $HOME/.config/openbox/
 			echo "tint2 &" >> $HOME/.config/openbox/autostart
@@ -234,7 +234,7 @@ function install(){
 			echo "icewm-session" > "$HOME/.xinitrc"
 
 			# install icewm custom config
-			backup_and_create "$HOME/.icewm"
+			#backup_and_create "$HOME/.icewm"
 			mkdir -p $HOME/.icewm/
 			cp -r ./icewm/* $HOME/.icewm/
 			chmod +x $HOME/.icewm/startup
@@ -268,7 +268,7 @@ function install(){
 			install_packages i3 suckless-tools xinit x11-utils feh lxappearance dex rofi flameshot
 
 			# custom i3wm config
-			backup_and_create "$HOME/.config/i3"
+			#backup_and_create "$HOME/.config/i3"
 			mkdir -p $HOME/.config/i3
 			cp -r ./i3wm/* $HOME/.config/i3/
 		;;
@@ -311,7 +311,7 @@ function install(){
 			install_packages install sway swaybg swayidle swaylock xdg-desktop-portal-wlr xwayland suckless-tools imagemagick grim wl-clipboard slurp qt5ct qtwayland5
 
 			# copy my sway and mako configuration
-			backup_and_create "$HOME/.config/sway"
+			#backup_and_create "$HOME/.config/sway"
 			#backup_and_create "$HOME/.config/mako"
 			mkdir -p $HOME/.config/sway
 			cp -r ./swaywm/* $HOME/.config/sway/
@@ -431,7 +431,7 @@ function install(){
 		install_packages dunst mirage
 		# customize dunst config
 		mkdir -p $HOME/.config/dunst
-		backup_and_create "$HOME/.config/dunst/dunstrc" 
+		#backup_and_create "$HOME/.config/dunst/dunstrc" 
 		cp -r /etc/xdg/dunst $HOME/.config/
 		# add more icon themes for dunst
 		sed -i 's/Adwaita/"Adwaita, Papirus"/g' $HOME/.config/dunst/dunstrc
@@ -677,7 +677,7 @@ function install(){
 
 	# configure nano with line number
 	if [[ $nano_config == "yes" ]]; then
-		backup_and_create "$HOME/.nanorc"
+		#backup_and_create "$HOME/.nanorc"
 		cp /etc/nanorc $HOME/.nanorc
 		sed -i 's/# set const/set const/g' $HOME/.nanorc
 	fi
@@ -785,11 +785,11 @@ function install(){
 			echo -e "# Let NetworkManager manage all devices on this system\nnetwork:\n  version: 2\n  renderer: NetworkManager" | \
 			sudo tee /etc/netplan/01-network-manager-all.yaml
 		else
-				sudo cp /etc/NetworkManager/NetworkManager.conf /etc/NetworkManager/NetworkManager.conf.bak
-				sudo sed -i 's/managed=false/managed=true/g' /etc/NetworkManager/NetworkManager.conf
-				sudo mv /etc/network/interfaces /etc/network/interfaces.bak
-				head -9 /etc/network/interfaces.bak | sudo tee /etc/network/interfaces
-				sudo systemctl disable networking.service
+			sudo cp /etc/NetworkManager/NetworkManager.conf /etc/NetworkManager/NetworkManager.conf.bak
+			sudo sed -i 's/managed=false/managed=true/g' /etc/NetworkManager/NetworkManager.conf
+			sudo mv /etc/network/interfaces /etc/network/interfaces.bak
+			head -9 /etc/network/interfaces.bak | sudo tee /etc/network/interfaces
+			sudo systemctl disable networking.service
 		fi
 		# disable NetworkManager-wait-online.service
 		disable_services NetworkManager-wait-online.service
