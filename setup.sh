@@ -78,15 +78,15 @@ function disable_services() {
 
 # function for selection menu
 function menu (){
-	read -p "Choose window manager (icewm, fluxbox, openbox, i3wm, xfwm4, sway, labwc) [icewm]:" wm
-	wm=${wm:-icewm}
+	read -p "Choose window manager (icewm, fluxbox, openbox, i3wm, xfwm4, sway, labwc). Choose No if do not want to install any window manager. [no]:" wm
+	wm=${wm:-no}
 
 	read -p "Install (non-snap) Firefox for Ubuntu or Firefox-ESR for Debian? (yes/no) [yes]:" firefox
 	firefox=${firefox:-yes}
 
 	if [[ $wm != "lubuntu" ]]; then
-		read -p "Install terminal emulator? (xfce4-terminal/lxterminal/alacritty/foot) [xfce4-terminal]:" terminal
-		terminal=${terminal:-xfce4-terminal}
+		read -p "Install terminal emulator? (xfce4-terminal/lxterminal/alacritty/foot). Choose no if do not want to install any terminal emulator. [no]:" terminal
+		terminal=${terminal:-no}
 
 		read -p "Use PipeWire audio server? (yes/no) [yes]:" pipewire
 		pipewire=${pipewire:-yes}
@@ -104,7 +104,7 @@ function menu (){
 			fi
 		fi
 		login_mgr=${login_mgr:-no}
- 
+
 		read -p "Use NetworkManager for network interface management? (yes/no) [yes]:" nm
 		nm=${nm:-yes}
 	fi
@@ -175,7 +175,7 @@ function install(){
 			# install x server
 			install_xserver
 			# install fluxbox and packages
-			install_packages fluxbox xinit x11-utils $terminal lxappearance rofi dex flameshot feh
+			install_packages fluxbox xinit x11-utils lxappearance rofi dex flameshot feh
 			echo "startfluxbox" > "$HOME/.xinitrc"
 
 			backup_and_create "$HOME/.fluxbox"
@@ -204,7 +204,7 @@ function install(){
 			# install x server
 			install_xserver
 			# install openbox and packages
-			install_packages openbox xinit x11-utils $terminal lxappearance rofi dex flameshot feh
+			install_packages openbox xinit x11-utils lxappearance rofi dex flameshot feh
 			echo "openbox-session" > "$HOME/.xinitrc"
 
 			# custom openbox configuration
@@ -230,7 +230,7 @@ function install(){
 			# install x server
 			install_xserver
 			# install icewm and packages
-			install_packages icewm xinit x11-utils $terminal lxappearance rofi dex flameshot feh
+			install_packages icewm xinit x11-utils lxappearance rofi dex flameshot feh
 			echo "icewm-session" > "$HOME/.xinitrc"
 
 			# install icewm custom config
@@ -265,7 +265,7 @@ function install(){
 			# install x server
 			install_xserver
 			# install i3wm and other packages
-			install_packages i3 suckless-tools xinit x11-utils $terminal feh lxappearance dex rofi flameshot
+			install_packages i3 suckless-tools xinit x11-utils feh lxappearance dex rofi flameshot
 
 			# custom i3wm config
 			backup_and_create "$HOME/.config/i3"
@@ -276,7 +276,7 @@ function install(){
 			# install x server
 			install_xserver
 			# install xfwm4 and other packages
-			install_packages xinit $terminal xfwm4 xfce4-panel sxhkd feh lxappearance dex flameshot rofi
+			install_packages xinit xfwm4 xfce4-panel sxhkd feh lxappearance dex flameshot rofi
 			echo "exec xfwm4" > $HOME/.xinitrc
 			cp ./xfwm4/xsessionrc $HOME/.xsessionrc
 
@@ -308,7 +308,7 @@ function install(){
 		;;
 		sway)
 			# install sway and packages
-			install_packages install sway swaybg swayidle swaylock xdg-desktop-portal-wlr xwayland $terminal suckless-tools imagemagick grim wl-clipboard slurp qt5ct qtwayland5
+			install_packages install sway swaybg swayidle swaylock xdg-desktop-portal-wlr xwayland suckless-tools imagemagick grim wl-clipboard slurp qt5ct qtwayland5
 
 			# copy my sway and mako configuration
 			backup_and_create "$HOME/.config/sway"
@@ -334,7 +334,7 @@ function install(){
 				echo -e "Package: *\nPin: release o=LP-PPA-ubuntusway-dev-stable\nPin-Priority: 100" | sudo tee /etc/apt/preferences.d/ubuntusway-dev-stable.pref
 			fi
 			# install labwc and packages
-			install_packages labwc swaybg wlr-randr waybar tofi xdg-desktop-portal-wlr grim wl-clipboard slurp swayidle swaylock wlopm nwg-look $terminal
+			install_packages labwc swaybg wlr-randr waybar tofi xdg-desktop-portal-wlr grim wl-clipboard slurp swayidle swaylock wlopm nwg-look
 
 			# enable autostart labwc after TUI login
 			#autostart_wm labwc
@@ -404,6 +404,17 @@ function install(){
 	install_packages papirus-icon-theme adwaita-icon-theme xdg-utils xdg-user-dirs rsyslog logrotate nano less gpg curl ca-certificates wget \
 		iputils-ping fonts-noto fonts-font-awesome geany unzip cron
 
+	# install terminal emulator
+	if [[ $terminal != "no" ]]; then
+		install_packages $terminal
+		# set default x-terminal-emulator
+		if [[ $terminal == "xfce4-terminal" ]]; then
+			sudo update-alternatives --set x-terminal-emulator /usr/bin/xfce4-terminal.wrapper
+		else
+			sudo update-alternatives --set x-terminal-emulator $(which $terminal)
+		fi
+	fi
+	
 	# install packages for Ubuntu based OS except Lubuntu
 	if [[ -n "$(uname -a | grep Ubuntu)" ]]; then
 		if [[ $wm != "lubuntu" ]]; then
@@ -773,7 +784,7 @@ function install(){
 			done
 			echo -e "# Let NetworkManager manage all devices on this system\nnetwork:\n  version: 2\n  renderer: NetworkManager" | \
 			sudo tee /etc/netplan/01-network-manager-all.yaml
-			else
+		else
 				sudo cp /etc/NetworkManager/NetworkManager.conf /etc/NetworkManager/NetworkManager.conf.bak
 				sudo sed -i 's/managed=false/managed=true/g' /etc/NetworkManager/NetworkManager.conf
 				sudo mv /etc/network/interfaces /etc/network/interfaces.bak
@@ -827,13 +838,6 @@ function install(){
 	mkdir -p $HOME/.local/bin
 	cp ./bin/* $HOME/.local/bin
 	chmod +x $HOME/.local/bin/*
-
-	# set default x-terminal-emulator
-	if [[ $terminal == "xfce4-terminal" ]]; then
-		sudo update-alternatives --set x-terminal-emulator /usr/bin/xfce4-terminal.wrapper
-	else
-		sudo update-alternatives --set x-terminal-emulator $(which $terminal)
-	fi
 }
 
 # installation menu selection
