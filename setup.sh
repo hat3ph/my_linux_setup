@@ -881,7 +881,9 @@ printf "Nano's configuration    : $nano_config\n"
 printf "Laptop Mode             : $laptop_mode\n"
 printf "AMDGPU Xorg Config      : $amdgpu_config\n"
 printf "Install Xscreensaver    : $xscreensaver\n"
+if [[ $CODENAME == "trixie" ]]; then
 printf "Install XLibre			: $xlibre\n"
+fi
 printf "QEMU KVM                : $qemu\n"
 printf "Gaming                  : $gaming\n"
 printf "WineHQ wine packages    : $winehq\n"
