@@ -4,16 +4,16 @@
 # https://www.patorjk.com/software/taag/#p=display&f=Graffiti&t=Type%20Something%20
 cat << "EOF"
 ##########################################################################################
-  __  ____     __  _      _____ _   _ _    ___   __   _____ ______ _______ _    _ _____   
- |  \/  \ \   / / | |    |_   _| \ | | |  | \ \ / /  / ____|  ____|__   __| |  | |  __ \  
- | \  / |\ \_/ /  | |      | | |  \| | |  | |\ V /  | (___ | |__     | |  | |  | | |__) | 
- | |\/| | \   /   | |      | | | . ` | |  | | > <    \___ \|  __|    | |  | |  | |  ___/  
- | |  | |  | |    | |____ _| |_| |\  | |__| |/ . \   ____) | |____   | |  | |__| | |      
- |_|  |_|  |_|    |______|_____|_| \_|\____//_/ \_\ |_____/|______|  |_|   \____/|_|      
- 
+  __  ____     __  _      _____ _   _ _    ___   __   _____ ______ _______ _    _ _____
+ |  \/  \ \   / / | |    |_   _| \ | | |  | \ \ / /  / ____|  ____|__   __| |  | |  __ \
+ | \  / |\ \_/ /  | |      | | |  \| | |  | |\ V /  | (___ | |__     | |  | |  | | |__) |
+ | |\/| | \   /   | |      | | | . ` | |  | | > <    \___ \|  __|    | |  | |  | |  ___/
+ | |  | |  | |    | |____ _| |_| |\  | |__| |/ . \   ____) | |____   | |  | |__| | |
+ |_|  |_|  |_|    |______|_____|_| \_|\____//_/ \_\ |_____/|______|  |_|   \____/|_|
+
 ##########################################################################################
 EOF
- 
+
 echo "Welcome to My Linux Interactive Setup Script!"
 echo "Please follow the prompts below to configure your environment."
 echo ""
@@ -83,31 +83,29 @@ function menu (){
 
 	read -p "Install (non-snap) Firefox for Ubuntu or Firefox-ESR for Debian? (yes/no) [yes]:" firefox
 	firefox=${firefox:-yes}
+	
+	read -p "Install terminal emulator? (xfce4-terminal/lxterminal/alacritty/foot). Choose no if do not want to install any terminal emulator. [no]:" terminal
+	terminal=${terminal:-no}
 
-	if [[ $wm != "lubuntu" ]]; then
-		read -p "Install terminal emulator? (xfce4-terminal/lxterminal/alacritty/foot). Choose no if do not want to install any terminal emulator. [no]:" terminal
-		terminal=${terminal:-no}
+	read -p "Use PipeWire audio server? (yes/no) [yes]:" pipewire
+	pipewire=${pipewire:-yes}
+	
+	read -p "Install Thunar file manager? (yes/no) [yes]:" thunar
+	thunar=${thunar:-yes}
 
-		read -p "Use PipeWire audio server? (yes/no) [yes]:" pipewire
-		pipewire=${pipewire:-yes}
-
-		read -p "Install Thunar file manager? (yes/no) [yes]:" thunar
-		thunar=${thunar:-yes}
-
-		if [[ $wm == "labwc" || $wm == "sway" ]]; then
-			read -p "Choose login manager (tuigreet or tty or no). Choose no for no login manager. [no]:" login_mgr
-		else
-			read -p "Choose login manager (sddm or lxdm or tty or no). Choose no for no login manager. [no]:" login_mgr
-			if [[ $CODENAME == "trixie" ]]; then
-				read -p "Use which X server. (xorg or xlibre) [xorg]:" xserver
-				xserver=${xserver:-xorg}
-			fi
+	if [[ $wm == "labwc" || $wm == "sway" ]]; then
+		read -p "Choose login manager (tuigreet or tty or no). Choose no for no login manager. [no]:" login_mgr
+	else
+		read -p "Choose login manager (sddm or lxdm or tty or no). Choose no for no login manager. [no]:" login_mgr
+		if [[ $CODENAME == "trixie" ]]; then
+			read -p "Use which X server. (xorg or xlibre) [xorg]:" xserver
+			xserver=${xserver:-xorg}
 		fi
-		login_mgr=${login_mgr:-no}
-
-		read -p "Use NetworkManager for network interface management? (yes/no) [yes]:" nm
-		nm=${nm:-yes}
 	fi
+	login_mgr=${login_mgr:-no}
+
+	read -p "Use NetworkManager for network interface management? (yes/no) [yes]:" nm
+	nm=${nm:-yes}
 
 	read -p "Install custom GTK theming? (yes/no) [yes]:" theming
 	theming=${theming:-yes}
@@ -874,26 +872,20 @@ printf "Start installation!!!!!!!!!!!\n"
 printf "##################################\n"
 printf "My WM Install           : $wm\n"
 printf "Firefox as DEB packages : $firefox\n"
-if [[ $wm != "lubuntu" ]]; then
 printf "Terminal Emulator       : $terminal\n"
 printf "Pipewire Audio          : $pipewire\n"
 printf "Thunar File Manager     : $thunar\n"
 printf "Login Manager           : $login_mgr\n"
 printf "NetworkManager          : $nm\n"
-fi
 printf "Custom theming          : $theming\n"
 printf "Nano's configuration    : $nano_config\n"
 printf "Laptop Mode             : $laptop_mode\n"
-if [[ $wm != "sway" && $wm != "labwc" ]]; then
 printf "AMDGPU Xorg Config      : $amdgpu_config\n"
 printf "Install Xscreensaver    : $xscreensaver\n"
 printf "X Server				: $xserver\n"
-fi
 printf "QEMU KVM                : $qemu\n"
 printf "Gaming                  : $gaming\n"
-if [[ $winehq == "yes" ]]; then
 printf "WineHQ wine packages    : $winehq\n"
-fi
 printf "lm-sensor setup         : $sensors\n"
 printf "Custom bashrc           : $bashrc\n"
 printf "Configure Smartd        : $smartd\n"
