@@ -12,17 +12,17 @@ exec --no-startup-id dex --autostart
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
-#exec --no-startup-id nm-applet
+exec --no-startup-id nm-applet
 
 # manual start gnome polkit authentication agent due to the autostart .desktop file
 # do not include i3 in the OnlyShowIn entry
 #exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
 
-# or use lxpolkit for polkit authentication agent
-#exec --no-startup-id lxpolkit
+# or use xfce-polkit for polkit authentication agent
+exec --no-startup-id /usr/libexec/xfce-polkit
 
 # autostart dunst notification daemon
-#exec --no-startup-id dunst
+exec --no-startup-id dunst
 
 # autostart battery applet
 exec --no-startup-id cbatticon -u 20

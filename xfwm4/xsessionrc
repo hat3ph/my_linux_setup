@@ -8,6 +8,8 @@ dex -a &
 dbus-update-activation-environment --systemd DBUS_SESSION_BUS_ADDRESS DISPLAY XAUTHORITY &
 # start xfce4-panel
 xfce4-panel &
+# start xfce-polkit
+/usr/libexec/xfce-polkit &
 # start sxhkd
 sxhkd &
 # start pnmixer audio systray applet
