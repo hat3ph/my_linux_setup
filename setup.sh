@@ -103,11 +103,6 @@ function menu (){
 	login_mgr=${login_mgr:-no}
 	desktop_panel=${desktop_panel:-no}
 
-	if [[ $CODENAME == "trixie" ]]; then
-		read -p "Use XLibre server. (yes/no) [no]:" xlibre
-		xlibre=${xlibre:-no}
-	fi
-
 	read -p "Use NetworkManager for network interface management? (yes/no) [yes]:" nm
 	nm=${nm:-yes}
 
@@ -125,6 +120,10 @@ function menu (){
 		amdgpu_config=${amdgpu_config:-no}
 		read -p "Enable XScreensaver? (yes/no) [no]:" xscreensaver
 		xscreensaver=${xscreensaver:-no}
+		if [[ $CODENAME == "trixie" ]]; then
+			read -p "Use XLibre server. (yes/no) [no]:" xlibre
+			xlibre=${xlibre:-no}
+		fi
 	fi
  
 	read -p "Install QEMU and Virt-Manager? (yes/no) [no]:" qemu
@@ -894,10 +893,12 @@ printf "NetworkManager          : $nm\n"
 printf "Custom theming          : $theming\n"
 printf "Nano's configuration    : $nano_config\n"
 printf "Laptop Mode             : $laptop_mode\n"
+if [[ $wm != "sway" && $wm != "labwc" ]]; then
 printf "AMDGPU Xorg Config      : $amdgpu_config\n"
 printf "Install Xscreensaver    : $xscreensaver\n"
 if [[ $CODENAME == "trixie" ]]; then
 printf "Install XLibre			: $xlibre\n"
+fi
 fi
 printf "QEMU KVM                : $qemu\n"
 printf "Gaming                  : $gaming\n"
