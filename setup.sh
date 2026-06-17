@@ -95,10 +95,13 @@ function menu (){
 
 	if [[ $wm == "labwc" || $wm == "sway" ]]; then
 		read -p "Choose login manager (tuigreet or tty or no). Choose no for no login manager. [no]:" login_mgr
+		read -p "Install which desktop panel (xfce4-panel or waybar or no)? Choose no to not install any. [no]:" desktop_panel
 	else
 		read -p "Choose login manager (sddm or lxdm or tty or no). Choose no for no login manager. [no]:" login_mgr
+		read -p "Install which desktop panel (xfce4-panel or waybar or tint2 or no)? Choose no to not install any. [no]:" desktop_panel
 	fi
 	login_mgr=${login_mgr:-no}
+	desktop_panel=${desktop_panel:-no}
 
 	if [[ $CODENAME == "trixie" ]]; then
 		read -p "Use XLibre server. (yes/no) [no]:" xlibre
@@ -210,7 +213,7 @@ function install(){
 			#backup_and_create "$HOME/.config/openbox"
 			mkdir -p $HOME/.config/openbox
 			cp -a /etc/xdg/openbox/* $HOME/.config/openbox/
-			echo "tint2 &" >> $HOME/.config/openbox/autostart
+			echo "$desktop_panel &" >> $HOME/.config/openbox/autostart
 			echo "dunst &" >> $HOME/.config/openbox/autostart
 			echo "lxpolkit &" >> $HOME/.config/openbox/autostart
 			echo "thunar --daemon &" >> $HOME/.config/openbox/autostart
@@ -218,12 +221,6 @@ function install(){
 			echo "pnmixer &" >> $HOME/.config/openbox/autostart
 			echo "feh --bg-fill $HOME/Pictures/wallpapers/cat.jpg &" >> $HOME/.config/openbox/autostart
 			echo "nm-applet &" >> $HOME/.config/openbox/autostart
-
-			# install tint2 taskbar and themes
-			install_packages tint2
-			mkdir -p $HOME/.config/tint2
-			#wget https://raw.githubusercontent.com/addy-dclxvi/tint2-theme-collections/master/repentance/repentance.tint2rc -O $HOME/.config/tint2/repentance.tint2rc
-			#wget https://raw.githubusercontent.com/dracula/tint2/master/tint2rc -O $HOME/.config/tint2/dracula.tint2rc
 		;;
 		icewm)
 			# install x server
@@ -275,7 +272,7 @@ function install(){
 			# install x server
 			install_xserver
 			# install xfwm4 and other packages
-			install_packages xinit xfwm4 xfce4-panel sxhkd feh lxappearance dex flameshot rofi
+			install_packages xinit xfwm4 sxhkd feh lxappearance dex flameshot rofi
 			echo "exec xfwm4" > $HOME/.xinitrc
 			cp ./xfwm4/xsessionrc $HOME/.xsessionrc
 
@@ -284,22 +281,9 @@ function install(){
 			cp /usr/share/applications/lxappearance.desktop $HOME/.local/share/applications/lxappearance.desktop
 			sed -i 's/NotShowIn/#NotShowIn/g' $HOME/.local/share/applications/lxappearance.desktop
 
-			# copy xfce4-panel config
-			mkdir -p $HOME/.config/xfce4/panel/launcher-{8,10,14,15}
-			mkdir -p $HOME/.config/xfce4/xfconf/xfce-perchannel-xml
-			cp ./xfwm4/xfce4-panel.xml $HOME/.config/xfce4/xfconf/xfce-perchannel-xml/
-			cp ./xfwm4/17140153922.desktop $HOME/.config/xfce4/panel/launcher-8/
-			cp ./xfwm4/17140154333.desktop $HOME/.config/xfce4/panel/launcher-10/
-			cp ./xfwm4/17140154514.desktop $HOME/.config/xfce4/panel/launcher-14/
-			cp ./xfwm4/17140154635.desktop $HOME/.config/xfce4/panel/launcher-15/
-
 			#configure sxhkd config
 			mkdir -p $HOME/.config/sxhkd
 			cp ./config/sxhkdrc $HOME/.config/sxhkd/sxhkdrc
-
-			# remove round corner in xfce4-panel
-			mkdir -p $HOME/.config/gtk-3.0
-			cp ./xfwm4/gtk.css $HOME/.config/gtk-3.0/gtk.css
 
 			# xsession file for login manager
 			sudo mkdir -p /usr/share/xsessions
@@ -311,10 +295,8 @@ function install(){
 
 			# copy my sway and mako configuration
 			#backup_and_create "$HOME/.config/sway"
-			#backup_and_create "$HOME/.config/mako"
 			mkdir -p $HOME/.config/sway
 			cp -r ./swaywm/* $HOME/.config/sway/
-			#cp ./mako/config $HOME/.config/mako/
 
 			# enable autostart sway after TUI login
 			#autostart_wm sway
@@ -333,7 +315,7 @@ function install(){
 				echo -e "Package: *\nPin: release o=LP-PPA-ubuntusway-dev-stable\nPin-Priority: 100" | sudo tee /etc/apt/preferences.d/ubuntusway-dev-stable.pref
 			fi
 			# install labwc and packages
-			install_packages labwc swaybg wlr-randr waybar tofi xdg-desktop-portal-wlr grim wl-clipboard slurp swayidle swaylock wlopm nwg-look
+			install_packages labwc swaybg wlr-randr tofi xdg-desktop-portal-wlr grim wl-clipboard slurp swayidle swaylock wlopm nwg-look
 
 			# enable autostart labwc after TUI login
 			#autostart_wm labwc
@@ -349,18 +331,14 @@ function install(){
 			sed -i 's/lab-sensible-terminal/x-terminal-emulator/g' $HOME/.config/labwc/menu.xml
 			cp ./labwc/* $HOME/.config/labwc/
 
-			# copy sfwbar config
-			#mkdir -p $HOME/.config/sfwbar
-			#cp ./config/sfwbar.config $HOME/.config/sfwbar/
-
 			# tofi theme
 			mkdir -p $HOME/.config/tofi
 			wget https://raw.githubusercontent.com/philj56/tofi/master/themes/fullscreen -O $HOME/.config/tofi/config
 
 			# enable idle inhibit while playing audio and video
 			# https://github.com/labwc/labwc/discussions/1503
-			mkdir -p $HOME/.config/xdg-desktop-portal
-			cp ./config/wlroots-portals.conf $HOME/.config/xdg-desktop-portal
+			#mkdir -p $HOME/.config/xdg-desktop-portal
+			#cp ./config/wlroots-portals.conf $HOME/.config/xdg-desktop-portal
 		;;
 		lubuntu)
 			# install additional packages on Lubuntu
@@ -397,7 +375,7 @@ function install(){
 	 		git clone https://github.com/catppuccin/qterminal /tmp/qterminal-catppuccin
 			sudo cp /tmp/qterminal-catppuccin/src/*.colorscheme /usr/share/qtermwidget5/color-schemes
 		;;
-    esac
+	esac
 
 	# Install standard packages
 	install_packages papirus-icon-theme adwaita-icon-theme xdg-utils xdg-user-dirs rsyslog logrotate nano less gpg curl ca-certificates wget \
@@ -413,7 +391,46 @@ function install(){
 			sudo update-alternatives --set x-terminal-emulator $(which $terminal)
 		fi
 	fi
-	
+
+	# install desktop panel
+	if [[ $desktop_panel != "no" ]]; then
+		install_packages $desktop_panel
+
+		# copy tint2 config
+		if [[ $desktop_panel == "tint2" ]]; then
+			mkdir -p $HOME/.config/tint2
+			#cp ./config/tint2rc $HOME/.config/tint2/tint2rc
+			#wget https://raw.githubusercontent.com/addy-dclxvi/tint2-theme-collections/master/repentance/repentance.tint2rc -O $HOME/.config/tint2/repentance.tint2rc
+			#wget https://raw.githubusercontent.com/dracula/tint2/master/tint2rc -O $HOME/.config/tint2/dracula.tint2rc
+		fi
+
+		# copy xfce4-panel config
+		if [[ $desktop_panel == "xfce4-panel" ]]; then
+			#mkdir -p $HOME/.config/xfce4/panel/launcher-{8,10,14,15}
+			mkdir -p $HOME/.config/xfce4/xfconf/xfce-perchannel-xml
+			cp ./config/xfce4-panel.xml $HOME/.config/xfce4/xfconf/xfce-perchannel-xml/
+			#cp ./xfwm4/xfce4-panel.xml $HOME/.config/xfce4/xfconf/xfce-perchannel-xml/
+			#cp ./xfwm4/17140153922.desktop $HOME/.config/xfce4/panel/launcher-8/
+			#cp ./xfwm4/17140154333.desktop $HOME/.config/xfce4/panel/launcher-10/
+			#cp ./xfwm4/17140154514.desktop $HOME/.config/xfce4/panel/launcher-14/
+			#cp ./xfwm4/17140154635.desktop $HOME/.config/xfce4/panel/launcher-15/
+
+			# change to Debian logo
+			if [[ -n "$(uname -a | grep Debian)" ]]; then
+				sed -i 's/ubuntu/debian/g' $HOME/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml
+			fi
+
+			# change labwc desktop panel startup
+			if [[ $wm == "labwc" ]]; then
+				sed -i 's/waybar/$desktop_panel/g' $HOME/.config/labwc/autostart
+			fi
+
+			# remove round corner in xfce4-panel
+			#mkdir -p $HOME/.config/gtk-3.0
+			#cp ./xfwm4/gtk.css $HOME/.config/gtk-3.0/gtk.css
+		fi
+	fi
+
 	# install packages for Ubuntu based OS except Lubuntu
 	if [[ -n "$(uname -a | grep Ubuntu)" ]]; then
 		if [[ $wm != "lubuntu" ]]; then
@@ -518,7 +535,7 @@ function install(){
 		#wget -P /tmp https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks
 		#cp /tmp/winetricks $HOME/.local/bin/
 		#chmod +x $HOME/.local/bin/winetricks
-		
+
 		# manually add user to gamemode group if not already there
 		# https://bugs.launchpad.net/ubuntu/+source/gamemode/+bug/2076127
 		if [ ! $(getent group gamemode) ]; then
@@ -602,7 +619,7 @@ function install(){
 		mkdir -p $HOME/Pictures/wallpapers
 		cp ./wallpapers/* $HOME/Pictures/wallpapers/
 
-		# install buff icon theme
+		# install buuf icon theme
 		mkdir -p $HOME/.icons
 		wget -P /tmp http://buuficontheme.free.fr/buuf3.46.tar.xz
 		tar -xvf /tmp/buuf*.tar.xz -C $HOME/.icons
@@ -651,7 +668,7 @@ function install(){
 			git clone https://github.com/catppuccin/xfce4-terminal /tmp/xfce4-terminal-catppuccin
 			cp /tmp/xfce4-terminal-catppuccin/themes/*.theme $HOME/.local/share/xfce4/terminal/colorschemes
 		fi
-		
+
 		# install dracula themes
 		mkdir -p $HOME/.icons
 		wget -P /tmp https://github.com/dracula/gtk/releases/download/v4.0.0/Dracula-cursors.tar.xz
@@ -734,11 +751,6 @@ function install(){
 		fi
 		;;
 	esac
-	#if [[ $login_mgr == "lxdm" ]]; then
-		#install_packages lxdm
-	#else
-		#install_packages sddm
-	#fi
 
 	# install firefox deb package
 	# https://support.mozilla.org/en-US/kb/install-firefox-linux#w_install-firefox-deb-package-for-debian-based-and-ubuntu-based-distributions-recommended
@@ -879,6 +891,7 @@ printf "Terminal Emulator       : $terminal\n"
 printf "Pipewire Audio          : $pipewire\n"
 printf "Thunar File Manager     : $thunar\n"
 printf "Login Manager           : $login_mgr\n"
+printf "Desktop Panel           : $desktop_panel\n"
 printf "NetworkManager          : $nm\n"
 printf "Custom theming          : $theming\n"
 printf "Nano's configuration    : $nano_config\n"
