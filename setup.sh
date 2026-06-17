@@ -37,7 +37,7 @@ function remove_packages() {
 		package=$(apt list "$list*" 2>/dev/null | grep installed | awk -F '/' '{print $1}')
 		if [[ $package ]]; then
 			sudo apt-get purge -y $package
-			fi
+		fi
 	done
 }
 
@@ -183,8 +183,6 @@ function install(){
 			#backup_and_create "$HOME/.fluxbox"
 			mkdir -p $HOME/.fluxbox
 			cp -r ./fluxbox/* $HOME/.fluxbox/
-			#sed -i 's/administrator/$USER/g' $HOME/.fluxbox/init
-			#sed -i 's/administrator/$USER/g' $HOME/.fluxbox/startup
 
 			# install extra fluxbox styles
 			mkdir -p $HOME/.fluxbox/styles
@@ -422,7 +420,7 @@ function install(){
 
 			# change labwc desktop panel startup
 			if [[ $wm == "labwc" ]]; then
-				sed -i 's/waybar/$desktop_panel/g' $HOME/.config/labwc/autostart
+				sed -i "s/waybar/${desktop_panel}/g" $HOME/.config/labwc/autostart
 			fi
 
 			# remove round corner in xfce4-panel
@@ -452,7 +450,7 @@ function install(){
 		#backup_and_create "$HOME/.config/dunst/dunstrc" 
 		cp -r /etc/xdg/dunst $HOME/.config/
 		# add more icon themes for dunst
-		sed -i 's/Adwaita/"Adwaita, Papirus"/g' $HOME/.config/dunst/dunstrc
+		sed -i "s/Adwaita/Adwaita, Papirus/g" $HOME/.config/dunst/dunstrc
 		# set max notification icon size
 		sed -i 's/128/32/g' $HOME/.config/dunst/dunstrc
 	fi
@@ -598,7 +596,7 @@ function install(){
 			# custom gtk2 and gtk3 themes
 			mkdir -p $HOME/.config/gtk-3.0
 			cp ./config/gtk2 $HOME/.gtkrc-2.0
-			#sed -i "s/administrator/"$USER"/g" $HOME/.gtkrc-2.0
+			#sed -i "s/administrator/${USER}/g" $HOME/.gtkrc-2.0
 			cp ./config/gtk3 $HOME/.config/gtk-3.0/settings.ini
 			# set global GTK_THEME
 			echo -e 'gtktheme=$(cat $HOME/.config/gtk-3.0/settings.ini | grep gtk-theme-name | cut -d = -f 2)\nexport GTK_THEME=$gtktheme' | \
@@ -778,9 +776,9 @@ function install(){
 			#if [[ $wm == "icewm" ]]; then
 			#	sed -i 's/firefox/firefox-esr/g' $HOME/.icewm/{menu,toolbar}
 			#fi
-			if [[ $wm == "xfwm4" ]]; then
-				sed -i 's/firefox/firefox-esr/g' $HOME/.config/xfce4/panel/launcher-10/17140154333.desktop
-			fi
+			#if [[ $wm == "xfwm4" ]]; then
+			#	sed -i 's/firefox/firefox-esr/g' $HOME/.config/xfce4/panel/launcher-10/17140154333.desktop
+			#fi
 			if [[ $wm == "labwc" ]]; then
 				sed -i 's/firefox/firefox-esr/g' $HOME/.config/labwc/menu.xml
 			fi
