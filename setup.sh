@@ -176,7 +176,7 @@ function install(){
 			# install x server
 			install_xserver
 			# install fluxbox and packages
-			install_packages fluxbox xinit x11-utils lxappearance rofi dex flameshot feh
+			install_packages fluxbox xinit x11-utils rofi dex flameshot feh
 			echo "startfluxbox" > "$HOME/.xinitrc"
 
 			#backup_and_create "$HOME/.fluxbox"
@@ -203,7 +203,7 @@ function install(){
 			# install x server
 			install_xserver
 			# install openbox and packages
-			install_packages openbox xinit x11-utils lxappearance rofi dex flameshot feh
+			install_packages openbox xinit x11-utils rofi dex flameshot feh
 			echo "openbox-session" > "$HOME/.xinitrc"
 
 			# custom openbox configuration
@@ -223,7 +223,7 @@ function install(){
 			# install x server
 			install_xserver
 			# install icewm and packages
-			install_packages icewm xinit x11-utils lxappearance rofi dex flameshot feh
+			install_packages icewm xinit x11-utils rofi dex flameshot feh
 			echo "icewm-session" > "$HOME/.xinitrc"
 
 			# install icewm custom config
@@ -258,7 +258,7 @@ function install(){
 			# install x server
 			install_xserver
 			# install i3wm and other packages
-			install_packages i3 suckless-tools xinit x11-utils feh lxappearance dex rofi flameshot
+			install_packages i3 suckless-tools xinit x11-utils feh dex rofi flameshot
 
 			# custom i3wm config
 			#backup_and_create "$HOME/.config/i3"
@@ -269,14 +269,9 @@ function install(){
 			# install x server
 			install_xserver
 			# install xfwm4 and other packages
-			install_packages xinit xfwm4 sxhkd feh lxappearance dex flameshot rofi
+			install_packages xinit xfwm4 sxhkd feh dex flameshot rofi
 			echo "exec xfwm4" > $HOME/.xinitrc
 			cp ./xfwm4/xsessionrc $HOME/.xsessionrc
-
-			# Allow lxappearance show up in xfce's menu
-			mkdir -p $HOME/.local/share/applications
-			cp /usr/share/applications/lxappearance.desktop $HOME/.local/share/applications/lxappearance.desktop
-			sed -i 's/NotShowIn/#NotShowIn/g' $HOME/.local/share/applications/lxappearance.desktop
 
 			#configure sxhkd config
 			mkdir -p $HOME/.config/sxhkd
@@ -306,13 +301,8 @@ function install(){
 			#echo -e '\n#If running from tty1 start sway\n[ "$(tty)" = "/dev/tty1" ] && exec /usr/local/bin/start_sway.sh' >> $HOME/.bashrc
 		;;
 		labwc)
-			# setup Ubuntu Sway Remix repo for nwg-look as Ubuntu 24.04 do not have nwg-look packaged
-			if [[ $CODENAME == "noble" ]]; then
-				sudo add-apt-repository ppa:ubuntusway-dev/stable -y
-				echo -e "Package: *\nPin: release o=LP-PPA-ubuntusway-dev-stable\nPin-Priority: 100" | sudo tee /etc/apt/preferences.d/ubuntusway-dev-stable.pref
-			fi
 			# install labwc and packages
-			install_packages labwc swaybg wlr-randr tofi xdg-desktop-portal-wlr grim wl-clipboard slurp swayidle swaylock wlopm nwg-look
+			install_packages labwc swaybg wlr-randr tofi xdg-desktop-portal-wlr grim wl-clipboard slurp swayidle swaylock wlopm
 
 			# enable autostart labwc after TUI login
 			#autostart_wm labwc
@@ -386,6 +376,22 @@ function install(){
 			sudo update-alternatives --set x-terminal-emulator /usr/bin/xfce4-terminal.wrapper
 		else
 			sudo update-alternatives --set x-terminal-emulator $(which $terminal)
+		fi
+	fi
+
+	# install nwg-look for gtk themes configuration
+	if [[ $wm != "lubuntu" ]];then
+		# setup Ubuntu Sway Remix repo for nwg-look as Ubuntu 24.04 do not have nwg-look packaged
+		if [[ $CODENAME == "noble" ]]; then
+			sudo add-apt-repository ppa:ubuntusway-dev/stable -y
+			echo -e "Package: *\nPin: release o=LP-PPA-ubuntusway-dev-stable\nPin-Priority: 100" | sudo tee /etc/apt/preferences.d/ubuntusway-dev-stable.pref
+		fi
+		install_packages nwg-look
+		if [[ $wm == "xfwm4" ]];then
+			# Allow nwg-look show up in xfce's menu
+			mkdir -p $HOME/.local/share/applications
+			cp /usr/share/applications/nwg-look.desktop $HOME/.local/share/applications/nwg-look.desktop
+			sed -i 's/NotShowIn/#NotShowIn/g' $HOME/.local/share/applications/nwg-look.desktop
 		fi
 	fi
 
