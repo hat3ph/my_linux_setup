@@ -212,7 +212,7 @@ function install(){
 			cp -a /etc/xdg/openbox/* $HOME/.config/openbox/
 			echo "$desktop_panel &" >> $HOME/.config/openbox/autostart
 			echo "dunst &" >> $HOME/.config/openbox/autostart
-			echo "/usr/libexec/xfce-polkit &" >> $HOME/.config/openbox/autostart
+			echo "lxpolkit &" >> $HOME/.config/openbox/autostart
 			echo "thunar --daemon &" >> $HOME/.config/openbox/autostart
 			echo "xdg-user-dirs-update &" >> $HOME/.config/openbox/autostart
 			echo "pnmixer &" >> $HOME/.config/openbox/autostart
@@ -431,7 +431,7 @@ function install(){
 	# install packages for Ubuntu based OS except Lubuntu
 	if [[ -n "$(uname -a | grep Ubuntu)" ]]; then
 		if [[ $wm != "lubuntu" ]]; then
-			install_packages xfce-polkit software-properties-gtk
+			install_packages lxpolkit software-properties-gtk
 		fi
 	fi
  
@@ -710,7 +710,7 @@ function install(){
 
 	# Install thunar file manager
 	if [[ $thunar == "yes" ]]; then
-		install_packages thunar xfce-polkit gvfs gvfs-backends thunar-archive-plugin thunar-media-tags-plugin avahi-daemon
+		install_packages thunar lxpolkit gvfs gvfs-backends thunar-archive-plugin thunar-media-tags-plugin avahi-daemon
 		# install RARLAB’s Unrar (Proprietary Version)
 		if [[ $ID == "ubuntu" ]]; then
 			install_packages rar unrar

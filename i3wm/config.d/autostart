@@ -18,8 +18,8 @@ exec --no-startup-id nm-applet
 # do not include i3 in the OnlyShowIn entry
 #exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
 
-# or use xfce-polkit for polkit authentication agent
-exec --no-startup-id /usr/libexec/xfce-polkit
+# or use lxpolkit for polkit authentication agent
+exec --no-startup-id /usr/bin/lxpolkit
 
 # autostart dunst notification daemon
 exec --no-startup-id dunst

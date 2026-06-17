@@ -15,8 +15,8 @@
 # start nm-applet
 /usr/bin/sleep 1 && /usr/bin/nm-applet &
 
-# start xfce-polkit
-/usr/bin/sleep 1 && /usr/libexec/xfce-polkit &
+# start lxpolkit
+/usr/bin/sleep 1 && /usr/bin/lxpolkit &
 
 # start battery applet
 /usr/bin/cbatticon -u 20 &

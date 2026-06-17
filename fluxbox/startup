@@ -27,7 +27,7 @@ fi
 /usr/bin/dex -a &
 /usr/bin/pnmixer &
 /usr/bin/thunar --daemon &
-/usr/libexec/xfce-polkit &
+/usr/bin/lxpolkit &
 #feh --bg-fill --randomize $HOME/Pictures/wallpapers/* &
 #fbsetbg -f -r ~/Pictures/wallpapers/ &
 /usr/bin/cbatticon -u 20 &
