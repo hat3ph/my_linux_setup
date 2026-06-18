@@ -366,7 +366,7 @@ function install(){
 
 	# Install standard packages
 	install_packages papirus-icon-theme adwaita-icon-theme xdg-utils xdg-user-dirs rsyslog logrotate nano less gpg curl ca-certificates wget \
-		iputils-ping fonts-noto fonts-font-awesome geany unzip cron
+		iputils-ping fonts-noto fonts-font-awesome geany unzip cron bc
 
 	# install terminal emulator
 	if [[ $terminal != "no" ]]; then
@@ -487,7 +487,7 @@ function install(){
 
 	# install qemu and virt-manager
 	if [[ $qemu == "yes" ]]; then
-		install_packages qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils virt-manager
+		install_packages qemu-system-x86 libvirt-daemon-system libvirt-clients bridge-utils virt-manager
 	fi
 
 	# install wine32/64 and lutris
