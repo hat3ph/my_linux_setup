@@ -366,7 +366,7 @@ function install(){
 
 	# Install standard packages
 	install_packages papirus-icon-theme adwaita-icon-theme xdg-utils xdg-user-dirs rsyslog logrotate nano less gpg curl ca-certificates wget \
-		iputils-ping fonts-noto fonts-font-awesome geany unzip cron bc
+		iputils-ping fonts-noto fonts-font-awesome geany unzip cron bc ristretto
 
 	# install terminal emulator
 	if [[ $terminal != "no" ]]; then
@@ -449,7 +449,7 @@ function install(){
 
 	# install additional packages if not in Lubuntu
 	if [[ $wm != "lubuntu" ]]; then
-		install_packages dunst mirage
+		install_packages dunst
 		# customize dunst config
 		mkdir -p $HOME/.config/dunst
 		#backup_and_create "$HOME/.config/dunst/dunstrc" 
